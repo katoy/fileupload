@@ -1,0 +1,5 @@
+h1= title
+h2 ファイルのアップロード
+form(action='/upload', method='POST', enctype='multipart/form-data')!= partial('partials/file_form')
+  p
+    input(type='submit', value='アップロード')
