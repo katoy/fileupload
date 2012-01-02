@@ -86,6 +86,7 @@ task 'run', "run application", (options) ->
 
 task "setup", "setup node-modules",  ->
   run "npm install"
+  run "mkdir -p public/uploaded/files"
 
 task "spec", "spec", ->
   run "jasmine-node spec --coffee spec"
