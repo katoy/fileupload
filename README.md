@@ -19,18 +19,20 @@ Usage
     Access http://localhost:3000/
 
 
-<a href="./docs/screen-00.png"><img src="./docs/screen-00.png" width="230" height="170"/></a>
-<a href="./docs/screen-01.png"><img src="./docs/screen-01.png" width="230" height="170"/></a>
-<a href="./docs/screen-02.png"><img src="./docs/screen-02.png" width="230" height="170"/></a>
+
+<a href="https://github.com/katoy/fileupload/raw/master/docs/screen-00.png"><img src="https://github.com/katoy/fileupload/raw/master/docs/screen-00.png" width="230" height="170"/></a>
+<a href="https://github.com/katoy/fileupload/raw/master/docs/screen-01.png"><img src="https://github.com/katoy/fileupload/raw/master/docs/screen-01.png" width="230" height="170"/></a>
+<a href="https://github.com/katoy/fileupload/raw/master/docs/screen-02.png"><img src="https://github.com/katoy/fileupload/raw/master/docs/screen-02.png" width="230" height="170"/></a>
 <br/>
-<a href="./docs/screen-03.png"><img src="./docs/screen-03.png" width="230" height="170"/></a>
-<a href="./docs/screen-04.png"><img src="./docs/screen-04.png" width="230" height="170"/></a>
-<a href="./docs/screen-05.png"><img src="./docs/screen-05.png" width="230" height="170"/></a>
+<a href="https://github.com/katoy/fileupload/raw/master/docs/screen-03.png"><img src="https://github.com/katoy/fileupload/raw/master/docs/screen-03.png" width="230" height="170"/></a>
+<a href="https://github.com/katoy/fileupload/raw/master/docs/screen-04.png"><img src="https://github.com/katoy/fileupload/raw/master/docs/screen-04.png" width="230" height="170"/></a>
+<a href="https://github.com/katoy/fileupload/raw/master/docs/screen-05.png"><img src="https://github.com/katoy/fileupload/raw/master/docs/screen-05.png" width="230" height="170"/></a>
 <br/>
-<a href="./docs/screen-06.png"><img src="./docs/screen-06.png" width="230" height="170"/></a>
-<a href="./docs/screen-07.png"><img src="./docs/screen-07.png" width="230" height="170"/></a>
-<a href="./docs/screen-08.png"><img src="./docs/screen-08.png" width="230" height="170"/></a>
-<a href="./docs/screen-09.png"><img src="./docs/screen-09.png" width="230" height="170"/></a>
+<a href="https://github.com/katoy/fileupload/raw/master/docs/screen-06.png"><img src="https://github.com/katoy/fileupload/raw/master/docs/screen-06.png" width="230" height="170"/></a>
+<a href="https://github.com/katoy/fileupload/raw/master/docs/screen-07.png"><img src="https://github.com/katoy/fileupload/raw/master/docs/screen-07.png" width="230" height="170"/></a>
+<br/>
+<a href="https://github.com/katoy/fileupload/raw/master/docs/screen-08.png"><img src="https://github.com/katoy/fileupload/raw/master/docs/screen-08.png" width="230" height="170"/></a>
+<a href="https://github.com/katoy/fileupload/raw/master/docs/screen-09.png"><img src="https://github.com/katoy/fileupload/raw/master/docs/screen-09.png" width="230" height="170"/></a>
 
 
 Description
