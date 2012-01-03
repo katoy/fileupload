@@ -9,6 +9,8 @@
     , "coffee-script": ""
     , "jasmine-node": ""
     , "connect-form": ""
+    , "zipfile": ""
+    , "wrench": ""
   }
 
 }

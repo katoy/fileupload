@@ -4,8 +4,14 @@ a(href='/files/upload') 新規アップロード
 ul
   - each file in files
     li
-      a(href="/delete?name="+file['name'])削除
+      a(href="/delete?name="+file['name']) #{'削除'}
       &nbsp;
+      - if (file['name'].match("\.epub$") == ".epub")
+        a(href="/epubcheck3?name="+file['name']) #{'epub3 チェック'}
+        &nbsp;
+        a(href="/unziped/files/"+file['name']) #{'閲覧'}
+        &nbsp;
+
       a(href=file['path']) #{file['name']}
       &nbsp;
       img(src=file['path'])

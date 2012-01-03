@@ -29,6 +29,8 @@ app.configure ->
   app.use app.router
   app.use express.static(__dirname + '/public')
 
+  app.use express.directory(__dirname + '/public')
+
 app.configure 'development', ->
   app.use express.errorHandler(
     dumpExceptions: true
@@ -54,6 +56,14 @@ app.post '/upload', (req, res) ->
 app.get '/delete', (req, res) ->
   files.remove req.query['name'], ->
     res.redirect '/files'
+
+app.get '/epubcheck3', (req, res) ->
+  res.setHeader('Content-Type', 'text/plain');
+  files.epubcheck3 req.query['name'], req, res
+
+app.get '/unzip', (req, res) ->
+  res.setHeader('Content-Type', 'text/plain');
+  files.unzip req.query['name']
 
 port = argv[0] || process.env.PORT || 3000
 app.listen port

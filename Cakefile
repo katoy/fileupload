@@ -87,7 +87,20 @@ task 'run', "run application", (options) ->
 task "setup", "setup node-modules",  ->
   run "npm install"
   run "mkdir -p public/uploaded/files"
+  run "mkdir -p public/unziped/files"
 
 task "spec", "spec", ->
   run "jasmine-node spec --coffee spec"
 
+task "epubcheck3", "download and unzip epubchekc3", ->
+  console.log "-------------------------------------"
+  console.log "----  Do following operations.   ----"
+  console.log "$ mkdir -p lib/epubcheck3"
+  console.log "$ cd lib/epubcheck3"
+  console.log "$ wget http://epubcheck.googlecode.com/files/epubcheck-3.0b3.zip"
+  console.log "$ unzip epubcheck-3.0b3.zip"
+  console.log "$ rm epubcheck-3.0b3.zip"
+  console.log "--------------------------------------"
+
+task "clean-epubcheck3", "clearn-epubcheck3", ->
+  run "rm -fr lib/epubcheck3"
