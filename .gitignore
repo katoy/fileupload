@@ -8,4 +8,5 @@ tests/*.js
 _site
 vendor
 public/uploaded/files/*
+public/unziped/files/*
 lib/epubcheck3/*
