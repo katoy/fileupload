@@ -1,0 +1,1351 @@
+@charset "utf-8"; 
+@namespace "http://www.w3.org/1999/xhtml";
+/*----------------------------------------------------------
+Vertical Style
+EAST Co.,Ltd. (http://www.est.co.jp/)
+created: 2011-05-09
+modified: 2011-05-31
+generated: 2011-06-10 06:57:17
+------------------------------------------------------------
+プロパティの記述順序:
+ * display
+ * list-style
+ * position
+ * float
+ * clear
+ * width
+ * height
+ * margin
+ * padding
+ * border
+ * background
+ * color
+ * font
+ * text-decoration
+ * text-align
+ * vertical-align
+ * white-space
+ * other text
+ * content
+------------------------------------------------------------
+リセット
+----------------------------------------------------------*/
+
+html, body, div, span, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, big, cite, code, del, dfn, em, img, ins, kbd, q, s, samp, small, strike, strong, sub, sup, tt, var, b, u, i, center, dl, dt, dd, ol, ul, li, input, table, caption, tbody, tfoot, thead, tr, th, td, table, caption, tbody, tfoot, thead, tr, th, td, article, aside, canvas, embed, figure, figcaption, footer, header, hgroup, nav, ruby, section, time, mark, audio, video {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	background:transparent;
+	font-weight: inherit;
+	font-style: inherit;
+	font-size: 100%;
+	font-family: inherit;
+	vertical-align: baseline;
+	}
+article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, section {
+	display: block;
+	}
+body {
+	line-height: 1;
+	}
+table{
+	border-collapse: separate;
+	border-spacing: 0;
+	}
+hr {
+    display: block;
+    height: 1px;
+    border: 0;
+    border-top: 1px solid #CCCCCC;
+    margin: 1em 0;
+    padding: 0;
+	}
+address, caption, cite, code, dfn, em, var, strong, th, td {
+	font-style: normal;
+	font-weight: normal;
+	text-align: left;
+	}
+ins {
+	text-decoration: none;
+	}
+del {
+	text-decoration: none;
+	}
+blockquote:before, blockquote:after, q:before, q:after {
+	content: "";
+	content: none;
+	}
+blockquote, q {
+	quotes: "" "";
+	}
+ol, ul {
+	list-style: none;
+	}
+a img {
+	border: none;
+	}
+
+/*----------------------------------------------------------
+Root element
+ルート要素
+----------------------------------------------------------*/
+html {
+	width: 100%;
+	writing-mode: vertical-rl;
+	-webkit-writing-mode: vertical-rl;
+	-moz-writing-mode: vertical-rl;  /* 未対応 */
+	-o-writing-mode: vertical-rl;  /* 未対応 */
+	-ms-writing-mode: vertical-rl;  /* 未対応 */
+	-epub-writing-mode: vertical-rl;
+}
+
+	
+/*----------------------------------------------------------
+Sections
+セクション
+----------------------------------------------------------*/
+/* 本文 */
+body {
+	display: block;
+	width: 100%;
+	max-height: 40em;
+	margin: auto;
+	padding-top: 1em;
+	padding-bottom: 1em;
+	color: #444444;
+	font-family: "@ＭＳ 明朝", "@MS Mincho", "ヒラギノ明朝 ProN W3", "HiraMinProN-W3", serif, sans-serif;
+	font-size: 1em;
+	line-height: 1.89; /* 行高 */
+}
+
+
+/* セクション */
+section {}
+
+/* ナビゲーション */
+nav {}
+
+/* 記事 */
+article {}
+
+/* 非メインコンテンツ */
+aside {}
+
+/* 見出し1 */
+h1 {
+	margin-top: 1.68em;
+	margin-bottom: 0em;
+	margin-left: 1.32em;
+	margin-right: 2.38em;
+	padding-top: 0.56em;
+	font-size: 1.78em;
+	font-weight: normal;
+	line-height: 1.6;
+	text-align: left;
+	text-indent: -0.56em;
+}
+div.vertical_box h1 {
+	margin-top: 1.68em;
+	margin-bottom: 0em;
+	margin-left: 1.32em;
+	margin-right: 2.38em;
+	padding-top: 0.56em;
+}
+div.horizontal_box h1 {
+	margin-top: 2.38em;
+	margin-bottom: 1.32em;
+	margin-left: 1.68em;
+	margin-right: 0em;
+	padding-left: 0.56em;
+}
+
+
+/* 見出し2 */
+h2 {
+	margin-top: 1.92em;
+	margin-bottom: 0em;
+	margin-left: 1.62em;
+	margin-right: 1.62em;
+	padding-top: 0.64em;
+	font-size: 1.56em;
+	font-weight: normal;
+	line-height: 1.6;
+	text-align: left;
+	text-indent: -0.64em;
+}
+div.vertical_box h2 {
+	margin-top: 1.92em;
+	margin-bottom: 0em;
+	margin-left: 1.62em;
+	margin-right: 1.62em;
+	padding-top: 0.64em;
+}
+div.horizontal_box h2 {
+	margin-top: 1.62em;
+	margin-bottom: 1.62em;
+	margin-left: 1.92em;
+	margin-right: 0em;
+	padding-left: 0.64em;
+}
+
+
+/* 見出し3 */
+h3 {
+	margin-top: 0em;
+	margin-bottom: 0em;
+	margin-left: 0.05em;
+	margin-right: 1.75em;
+	padding-top: 0.9em;
+	font-family: "@ＭＳ ゴシック", "@MS Gothic", "ヒラギノ角ゴ ProN W3", "HiraKakuProN-W3", sans-serif, serif;
+	font-size: 1.11em;
+	font-weight: bolder;
+	line-height: 1.6;
+	text-align: left;
+	text-indent: -0.9em;
+}
+div.vertical_box h3 {
+	margin-top: 0em;
+	margin-bottom: 0em;
+	margin-left: 0.05em;
+	margin-right: 1.75em;
+	padding-top: 0.9em;
+}
+div.horizontal_box h3 {
+	margin-top: 1.75em;
+	margin-bottom: 0.05em;
+	margin-left: 0em;
+	margin-right: 0em;
+	padding-left: 0.9em;
+}
+
+
+/* 見出し4 */
+h4 {
+	margin-top: 0em;
+	margin-bottom: 0em;
+	margin-left: 0em;
+	margin-right: 1.89em;
+	padding-top: 1em;
+	font-family: "@ＭＳ ゴシック", "@MS Gothic", "ヒラギノ角ゴ ProN W3", "HiraKakuProN-W3", sans-serif, serif;
+	font-size: 1em;
+	font-weight: normal;
+	line-height: 1.89;
+	text-align: left;
+	text-indent: -1em;
+}
+div.vertical_box h4 {
+	margin-top: 0em;
+	margin-bottom: 0em;
+	margin-left: 0em;
+	margin-right: 1.89em;
+	padding-top: 1em;
+}
+div.horizontal_box h4 {
+	margin-top: 1.89em;
+	margin-bottom: 0em;
+	margin-left: 0em;
+	margin-right: 0em;
+	padding-left: 1em;
+}
+
+
+/* 見出し5 */
+h5 {
+	margin-top: 0em;
+	margin-bottom: 0em;
+	margin-left: 0.26em;
+	margin-right: 0.26em;
+	padding-top: 1.12em;
+	font-family: "@ＭＳ ゴシック", "@MS Gothic", "ヒラギノ角ゴ ProN W3", "HiraKakuProN-W3", sans-serif, serif;
+	font-size: 0.89em;
+	font-weight: normal;
+	line-height: 1.6;
+	text-align: left;
+	text-indent: -1.12em;
+}
+div.vertical_box h5 {
+	margin-top: 0em;
+	margin-bottom: 0em;
+	margin-left: 0.26em;
+	margin-right: 0.26em;
+	padding-top: 1.12em;
+}
+div.horizontal_box h5 {
+	margin-top: 0.26em;
+	margin-bottom: 0.26em;
+	margin-left: 0em;
+	margin-right: 0em;
+	padding-left: 1.12em;
+}
+
+
+/* 見出し6 */
+h6 {
+	margin-top: 0em;
+	margin-bottom: 0em;
+	margin-left: 0.41em;
+	margin-right: 0.41em;
+	padding-top: 1.28em;
+	font-family: "@ＭＳ ゴシック", "@MS Gothic", "ヒラギノ角ゴ ProN W3", "HiraKakuProN-W3", sans-serif, serif;
+	font-size: 0.78em;
+	font-weight: normal;
+	line-height: 1.6;
+	text-align: left;
+	text-indent: -1.28em;
+}
+div.vertical_box h6 {
+	margin-top: 0em;
+	margin-bottom: 0em;
+	margin-left: 0.41em;
+	margin-right: 0.41em;
+	padding-top: 1.28em;
+}
+div.horizontal_box h6 {
+	margin-top: 0.41em;
+	margin-bottom: 0.41em;
+	margin-left: 0em;
+	margin-right: 0em;
+	padding-left: 1.28em;
+}
+
+
+/* 見出しグループ */
+hgroup {}
+
+/* ヘッダー */
+header {}
+
+/* フッター */
+footer {}
+
+/*  連絡先情報 */
+address {
+	font-style: italic;
+}
+
+/*----------------------------------------------------------
+Grouping content
+グループコンテンツ
+----------------------------------------------------------*/
+/* パラグラフ */
+p {
+	font-size: 1em;
+	font-family: "@ＭＳ 明朝", "@MS Mincho", "ヒラギノ明朝 ProN W3", "HiraMinProN-W3", serif, sans-serif;
+	line-height: 1.89;
+	text-indent: 1em; /* 字下げ */
+}
+
+/* パラグラフの区切り */
+hr {
+	margin-top: auto;
+	margin-bottom: auto;
+	margin-left: 1.89em;
+	margin-right: 1.89em;
+	border: 1px solid transparent;
+}
+div.vertical_box hr {
+	margin-top: auto;
+	margin-bottom: auto;
+	margin-left: 1.89em;
+	margin-right: 1.89em;
+}
+div.horizontal_box hr {
+	margin-top: 1.89em;
+	margin-bottom: 1.89em;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+
+/* 整形済みテキスト */
+pre {
+	margin-top: 0em;
+	margin-bottom: 0em;
+	margin-left: 0em;
+	margin-right: 0em;
+	font-family: monospace;
+	white-space: pre-wrap;
+}
+div.vertical_box pre {
+	margin-top: 0em;
+	margin-bottom: 0em;
+	margin-left: 0em;
+	margin-right: 0em;
+}
+div.horizontal_box pre {
+	margin-top: 0em;
+	margin-bottom: 0em;
+	margin-left: 0em;
+	margin-right: 0em;
+}
+
+	
+/* 引用ブロック */
+blockquote {
+	margin-top: 2em;
+	margin-bottom: 2em;
+	margin-left: 1.89em;
+	margin-right: 1.89em;
+}
+div.vertical_box blockquote {
+	margin-top: 2em;
+	margin-bottom: 2em;
+	margin-left: 1.89em;
+	margin-right: 1.89em;
+}
+div.horizontal_box blockquote {
+	margin-top: 1.89em;
+	margin-bottom: 1.89em;
+	margin-left: 2em;
+	margin-right: 2em;
+}
+
+
+/* リスト 順序あり */
+ol {
+	display: block;
+	list-style-type: decimal;
+	margin-top: 0em;
+	margin-bottom: 0em;
+	margin-left: 1.89em;
+	margin-right: 1.89em;
+	padding-top: 1em;
+}
+div.vertical_box ol {
+	margin-top: 0em;
+	margin-bottom: 0em;
+	margin-left: 1.89em;
+	margin-right: 1.89em;
+	padding-top: 1em;
+}
+div.horizontal_box ol {
+	margin-top: 1.89em;
+	margin-bottom: 1.89em;
+	margin-left: 0em;
+	margin-right: 0em;
+	padding-left: 1em;
+}
+
+
+/* リスト 順序なし */
+ul {
+	display: block;
+	list-style-type: disc;
+	margin-top: 0em;
+	margin-bottom: 0em;
+	margin-left: 1.89em;
+	margin-right: 1.89em;
+	padding-top: 1em;
+}
+div.vertical_box ul {
+	margin-top: 0em;
+	margin-bottom: 0em;
+	margin-left: 1.89em;
+	margin-right: 1.89em;
+	padding-top: 1em;
+}
+div.horizontal_box ul {
+	margin-top: 1.89em;
+	margin-bottom: 1.89em;
+	margin-left: 0em;
+	margin-right: 0em;
+	padding-left: 1em;
+}
+
+
+/* リスト項目 */
+li {
+	display: list-item;
+}
+/* 第2レベルのマーカー */
+ul ul,
+ol ul {
+	list-style-type: circle;
+}
+/* 第3レベルのマーカー */
+ol ol ul,
+ol ul ul,
+ul ol ul,
+ul ul ul {
+	list-style-type: square;
+}
+/* 余白調整 */
+ol ul,
+ul ol,
+ul ul,
+ol ol {
+	margin-left: 0;
+	margin-right: 0;
+}
+div.vertical_box ol ul,
+div.vertical_box ul ol,
+div.vertical_box ul ul,
+div.vertical_box ol ol {
+	margin-left: 0;
+	margin-right: 0;
+}
+div.horizontal_box ol ul,
+div.horizontal_box ul ol,
+div.horizontal_box ul ul,
+div.horizontal_box ol ol {
+	margin-top: 0;
+	margin-bottom: 0;
+}
+li > p {
+	margin-right: auto;
+}
+div.vertical_box li > p {
+	margin-right: auto;
+}
+div.horizontal_box li > p {
+	margin-top: auto;
+}
+li > div {
+	margin-right: auto;
+}
+div.vertical_box li > div {
+	margin-right: auto;
+}
+div.horizontal_box li > div {
+	margin-top: auto;
+}
+
+ol ul,
+ul ol,
+ul ul,
+ol ol {
+	margin-top: 0;
+	margin-bottom: 0;
+}
+li > p {
+	margin-top: auto;
+}
+li > div {
+	margin-top: auto;
+}
+
+/* 記述リスト */
+dl {
+	display: block;
+	margin-top: 0em;
+	margin-bottom: 0em;
+	margin-left: 1.89em;
+	margin-right: 1.89em;
+}
+div.vertical_box dl {
+	margin-top: 0em;
+	margin-bottom: 0em;
+	margin-left: 1.89em;
+	margin-right: 1.89em;
+}
+div.horizontal_box dl {
+	margin-top: 1.89em;
+	margin-bottom: 1.89em;
+	margin-left: 0em;
+	margin-right: 0em;
+}
+
+dt {
+	display: block;
+	font-family: "@ＭＳ ゴシック", "@MS Gothic", "ヒラギノ角ゴ ProN W3", "HiraKakuProN-W3", sans-serif, serif;
+}
+dd {
+	display: block;
+	margin-top: 2em;
+}
+div.vertical_box dd {
+	margin-top: 2em;
+}
+div.horizontal_box dd {
+	margin-left: 2em;
+}
+
+
+/* 図版 */
+div.figure,
+figure {
+	display: table;
+	max-height: 90%;
+	margin-top: 0em;
+	margin-bottom: 0em;
+	margin-left: 1.89em;
+	margin-right: 1.89em;
+	text-align: left;
+	writing-mode: horizontal-tb;
+	-webkit-writing-mode: horizontal-tb;
+	-moz-writing-mode: horizontal-tb;  /* 未対応 */
+	-o-writing-mode: horizontal-tb;  /* 未対応 */
+	-ms-writing-mode: horizontal-tb;  /* 未対応 */
+	-epub-writing-mode: horizontal-tb;
+}
+
+/* 図版のパラグラフ */
+figure p,
+div.figure p {
+	font-size: 0.78em;
+	line-height: 1.6;
+	text-imdent: 0em; /* 字下げなし */
+}
+/* 図版の画像 */
+figure img,
+div.figure img {
+	display: inline;
+	max-width: 80%;
+	max-height: 80%;
+}
+/* 図版のキャプション */
+div.figcaption,
+figcaption {
+	display: table-caption;
+	caption-side: bottom; /* 図版の下に表示 */
+	margin-top: 0.26em;
+	font-family: "@ＭＳ ゴシック", "@MS Gothic", "ヒラギノ角ゴ ProN W3", "HiraKakuProN-W3", sans-serif, serif;
+	font-size: 0.89em;
+	line-height: 1.6;
+	text-align: center;
+}
+
+
+/* ブロック区切り */
+div {}
+
+/*----------------------------------------------------------
+Text-level semantics
+テキストレベルセマンティクス
+----------------------------------------------------------*/
+/* ハイパーリンク */
+a { 
+	color: inherit;
+	text-decoration: none;	
+}
+a:hover { 
+	text-decoration: underline;
+	background: #b4d5fe;
+}
+/* 強調 */
+em {
+	font-style: italic;
+}
+/* 強い強調 */
+strong {
+	font-weight: bolder;
+}
+/* 細目 */
+small {
+	font-size: smaller;
+}
+/* 正確性や関連性を欠くコンテンツ */
+s {
+	text-decoration: line-through;
+}
+/* 作品のタイトル */
+cite {
+	font-style: italic;
+}
+/* 引用フレーズ */
+q {}
+/* 用語定義 */
+dfn {}
+/* 略称 */
+abbr {
+	font-variant: small-caps;
+	letter-spacing: 0.1em;
+}
+/* イニシャル (HTML5では廃止) */
+acronym {
+	font-variant: small-caps;
+	letter-spacing: 0.1em;
+}
+/* 日付、時刻 */
+time {}
+/* コード */
+code {
+	font-family: monospace;
+	white-space: pre-wrap;
+}
+/* 変数 */
+var {
+	font-style: italic;
+}
+/* サンプル出力 */
+samp {
+	font-family: monospace;
+}
+/* キーボード入力 */
+kbd {
+	font-family: monospace;
+}
+/* 下付き文字 */
+sub {
+	vertical-align: sub;
+	font-size: smaller;
+}
+/* 上付き文字 */
+sup {
+	vertical-align: super;
+	font-size: smaller;
+}
+/* オフセットとなる範囲のテキスト 斜体 */
+i {
+	font-style: italic;
+}
+/* オフセットとなる範囲のテキスト 太字 */
+b {
+	font-weight: bolder;
+}
+/* ハイライト */
+mark {
+	background-color: #FFFF00; /* yellow */
+}
+/* ルビの範囲 */
+ruby {}
+/* ルビ文字 */
+rt {
+	font-size: 0.5em; /* 親文字サイズの1/2 */
+}
+/* ルビ非対応ブラウザ向け要素 */
+rp {}
+/* 双方向テキストの範囲 */
+bdi {}
+/* 書字方向の制御要素 */
+bdo {}
+/* インライン区切り */
+span {}
+/* 取り消し (HTML5では廃止) */
+strike {
+	text-decoration: line-through;
+}
+/* 強制改行 */
+br {}
+/* 改行機会 */
+wbr {
+	white-space: normal;
+}
+
+/*----------------------------------------------------------
+Edit
+編集要素
+----------------------------------------------------------*/
+/* 追記 */
+ins {
+	text-decoration: none;
+}
+/* 削除 */
+del {
+	text-decoration: line-through;
+}
+
+/*----------------------------------------------------------
+Table
+表
+----------------------------------------------------------*/
+/* 表 */
+table {
+	display: table;
+	margin-top: 0em;
+	margin-bottom: 0em;
+	margin-left: 1.89em;
+	margin-right: 1.89em;
+	border: solid #000000;
+	border-width: 1px;
+	border-top-width: 2px;
+	border-collapse: collapse;
+	border-spacing: 0;
+	overflow:auto; /* 範囲内に収まらない場合にスクロールさせる */
+	writing-mode: horizontal-tb;
+	-webkit-writing-mode: horizontal-tb;
+	-moz-writing-mode: horizontal-tb;  /* 未対応 */
+	-o-writing-mode: horizontal-tb;  /* 未対応 */
+	-ms-writing-mode: horizontal-tb;  /* 未対応 */
+	-epub-writing-mode: horizontal-tb;
+}
+
+
+/* 表のキャプション */
+caption {
+	display: table-caption;
+	caption-side: top;
+	margin-bottom: 0.26em;
+	font-family: "@ＭＳ ゴシック", "@MS Gothic", "ヒラギノ角ゴ ProN W3", "HiraKakuProN-W3", sans-serif, serif;
+	font-size: 0.89em;
+	font-weight: normal;
+	line-height: 1.6;
+	text-align: center;
+}
+
+/* カラムグループ */
+colgroup {}
+/* カラム */
+col {}
+/* 表のボディ */
+tbody {
+	vertical-align: middle;
+}
+/* 表のヘッダ */
+thead {
+	vertical-align: middle;
+}
+/* 表のフッタ */
+tfoot {
+	vertical-align: middle;
+}
+/* 行 */
+tr {}
+/* 見出しセル */
+th {
+	padding: 0.5em 1em;
+	border: solid #000000;
+	border-width: 1px ;
+	font-family: "@ＭＳ ゴシック", "@MS Gothic", "ヒラギノ角ゴ ProN W3", "HiraKakuProN-W3", sans-serif, serif;
+	font-size: 0.78em;
+	font-weight: bolder;
+	line-height: 1.6;
+	vertical-align: inherit;
+	word-break:break-all;
+}
+/* セル */
+td {
+	padding: 0.5em 1em;
+	border: solid #000000;
+	border-width: 1px ;
+	font-size: 0.78em;
+	line-height: 1.6;
+	vertical-align: inherit;
+	word-break:break-all;
+}
+/* 両側の罫線を消去 */
+table, 
+th:first-child, 
+td:first-child {
+	border-left-width: 0;
+}
+table, 
+th:last-child, 
+td:last-child {
+	border-right-width: 0;
+}
+
+/*----------------------------------------------------------
+汎用クラス
+----------------------------------------------------------*/
+/* 横組ブロック */
+div.horizontal_box {
+	writing-mode: horizontal-tb;
+	-webkit-writing-mode: horizontal-tb;
+	-moz-writing-mode: horizontal-tb; /* 未対応 */
+	-o-writing-mode: horizontal-tb; /* 未対応 */
+	-ms-writing-mode: horizontal-tb; /* 未対応 */
+	-epub-writing-mode: horizontal-tb;
+}
+/* 縦組ブロック */
+div.vertical_box {
+	writing-mode: vertical-rl;
+	-webkit-writing-mode:  vertical-rl;
+	-moz-writing-mode:  vertical-rl; /* 未対応 */
+	-o-writing-mode:  vertical-rl; /* 未対応 */
+	-ms-writing-mode:  vertical-rl; /* 未対応 */
+	-epub-writing-mode:  vertical-rl;
+}
+
+/* 見出しのサブタイトル */
+p.heading_subtitle {
+	font-size: 1em;
+	line-height: 1.89em;
+	text-align: left;
+}
+
+/* 縦中横 */
+.tcy {
+	text-combine: horizontal;
+	-webkit-text-combine: horizontal;
+	-moz-text-combine: horizontal; /* 未対応 */
+	-o-text-combine: horizontal; /* 未対応 */
+	-ms-text-combine: horizontal; /* 未対応 */
+	-epub-text-combine: horizontal;
+}
+/* 圏点 ビュレット/ゴマ点 */
+span.emphasis_dot,
+em.emphasis_dot,
+strong.emphasis_dot {
+	font-style: normal;
+	font-weight: normal;
+	text-emphasis-style: filled;
+	-webkit-text-emphasis-style: filled;
+	-moz-text-emphasis-style: filled; /* 未対応 */
+	-o-text-emphasis-style: filled; /* 未対応 */
+	-ms-text-emphasis-style: filled; /* 未対応 */
+	-epub-text-emphasis-style: filled;
+}
+/* 圏点 ビュレット */
+span.bullet,
+em.bullet,
+strong.bullet {
+	font-style: normal;
+	font-weight: normal;
+	text-emphasis-style: filled dot;
+	-webkit-text-emphasis-style: filled dot;
+	-moz-text-emphasis-style: filled dot; /* 未対応 */
+	-o-text-emphasis-style: filled dot; /* 未対応 */
+	-ms-text-emphasis-style: filled dot; /* 未対応 */
+	-epub-text-emphasis-style: filled dot;
+}
+/* 圏点 白ビュレット */
+span.white_bullet,
+em.white_bullet,
+strong.white_bullet {
+	font-style: normal;
+	font-weight: normal;
+	text-emphasis-style: open dot;
+	-webkit-text-emphasis-style: open dot;
+	-moz-text-emphasis-style: open dot; /* 未対応 */
+	-o-text-emphasis-style: open dot; /* 未対応 */
+	-ms-text-emphasis-style: open dot; /* 未対応 */
+	-epub-text-emphasis-style: open dot;
+}
+/* 圏点 黒マル */
+span.black_circle,
+em.black_circle,
+strong.black_circle {
+	font-style: normal;
+	font-weight: normal;
+	text-emphasis-style: filled circle;
+	-webkit-text-emphasis-style: filled circle;
+	-moz-text-emphasis-style: filled circle; /* 未対応 */
+	-o-text-emphasis-style: filled circle;/* 未対応 */
+	-ms-text-emphasis-style: filled circle; /* 未対応 */
+	-epub-text-emphasis-style: filled circle; 
+}
+/* 圏点 白マル */
+span.white_circle,
+em.white_circle,
+strong.white_circle {
+	font-style: normal;
+	font-weight: normal;
+	text-emphasis-style: open circle;
+	-webkit-text-emphasis-style: open circle;
+	-moz-text-emphasis-style: open circle; /* 未対応 */
+	-o-text-emphasis-style: open circle;/* 未対応 */
+	-ms-text-emphasis-style: open circle; /* 未対応 */
+	-epub-text-emphasis-style: open circle; 
+}
+/* 圏点 蛇の目 */
+span.fisheye,
+em.fisheye,
+strong.fisheye {
+	font-style: normal;
+	font-weight: normal;
+	text-emphasis-style: filled double-circle;
+	-webkit-text-emphasis-style: filled double-circle;
+	-moz-text-emphasis-style: filled double-circle; /* 未対応 */
+	-o-text-emphasis-style: filled double-circle;/* 未対応 */
+	-ms-text-emphasis-style: filled double-circle; /* 未対応 */
+	-epub-text-emphasis-style: filled double-circle; 
+}
+/* 圏点 二重丸 */
+span.bullseye,
+em.bullseye,
+strong.bullseye {
+	font-style: normal;
+	font-weight: normal;
+	text-emphasis-style: open double-circle;
+	-webkit-text-emphasis-style: open double-circle;
+	-moz-text-emphasis-style: open double-circle; /* 未対応 */
+	-o-text-emphasis-style: open double-circle;/* 未対応 */
+	-ms-text-emphasis-style: open double-circle; /* 未対応 */
+	-epub-text-emphasis-style: open double-circle; 
+}
+/* 圏点 黒三角 */
+span.black_up-pointing_triangle,
+em.black_up-pointing_triangle,
+strong.black_up-pointing_triangle {
+	font-style: normal;
+	font-weight: normal;
+	text-emphasis-style: filled triangle;
+	-webkit-text-emphasis-style: filled triangle;
+	-moz-text-emphasis-style: filled triangle; /* 未対応 */
+	-o-text-emphasis-style: filled triangle;/* 未対応 */
+	-ms-text-emphasis-style: filled triangle; /* 未対応 */
+	-epub-text-emphasis-style: filled triangle; 
+}
+/* 圏点 白三角 */
+span.white_up-pointing_triangle,
+em.white_up-pointing_triangle,
+strong.white_up-pointing_triangle {
+	font-style: normal;
+	font-weight: normal;
+	text-emphasis-style: open triangle;
+	-webkit-text-emphasis-style: open triangle;
+	-moz-text-emphasis-style: open triangle; /* 未対応 */
+	-o-text-emphasis-style: open triangle;/* 未対応 */
+	-ms-text-emphasis-style: open triangle; /* 未対応 */
+	-epub-text-emphasis-style: open triangle; 
+}
+/* 圏点 ゴマ点 */
+span.sesame_dot,
+em.sesame_dot,
+strong.sesame_dot {
+	font-style: normal;
+	font-weight: normal;
+	text-emphasis-style: filled sesame;
+	-webkit-text-emphasis-style: filled sesame;
+	-moz-text-emphasis-style: filled sesame; /* 未対応 */
+	-o-text-emphasis-style: filled sesame;/* 未対応 */
+	-ms-text-emphasis-style: filled sesame; /* 未対応 */
+	-epub-text-emphasis-style: filled sesame; 
+}
+/* 圏点 白ゴマ点 */
+span.white_sesame_dot,
+em.white_sesame_dot,
+strong.white_sesame_dot {
+	font-style: normal;
+	font-weight: normal;
+	text-emphasis-style: open sesame;
+	-webkit-text-emphasis-style: open sesame;
+	-moz-text-emphasis-style: open sesame; /* 未対応 */
+	-o-text-emphasis-style: open sesame;/* 未対応 */
+	-ms-text-emphasis-style: open sesame; /* 未対応 */
+	-epub-text-emphasis-style: open sesame; 
+}
+/* 傍線 */
+span.line_solid,
+em.line_solid,
+strong.line_solid {
+	font-style: normal;
+	font-weight: normal;
+	text-decoration: overline;
+	/* text-decoration-style: solid; */
+}
+div.horizontal_box span.line_solid,
+div.horizontal_box em.line_solid,
+div.horizontal_box strong.line_solid {
+	text-decoration: underline;
+}
+div.vertical_box span.line_solid,
+div.vertical_box em.line_solid,
+div.vertical_box strong.line_solid {
+	text-decoration: overline;
+}
+/* 二重傍線 */
+span.line_double,
+em.line_double,
+strong.line_double {
+	font-style: normal;
+	font-weight: normal;
+	text-decoration: overline;
+	/* text-decoration-style: double; */
+}
+div.horizontal_box span.line_double,
+div.horizontal_box em.line_double,
+div.horizontal_box strong.line_double {
+	text-decoration: underline;
+}
+div.vertical_box span.line_double,
+div.vertical_box em.line_double,
+div.vertical_box strong.line_double {
+	text-decoration: overline;
+}
+/* 点線 */
+span.line_dotted,
+em.line_dotted,
+strong.line_dotted {
+	font-style: normal;
+	font-weight: normal;
+	text-decoration: overline;
+	/* text-decoration-style: dotted; */
+}
+div.horizontal_box span.line_dotted,
+div.horizontal_box em.line_dotted,
+div.horizontal_box strong.line_dotted {
+	text-decoration: underline;
+}
+div.vertical_box span.line_dotted,
+div.vertical_box em.line_dotted,
+div.vertical_box strong.line_dotted {
+	text-decoration: overline;
+}
+/* 破線 */
+span.line_dashed,
+em.line_dashed,
+strong.line_dashed {
+	font-style: normal;
+	font-weight: normal;
+	text-decoration: overline;
+	/* text-decoration-style: dashed; */
+}
+div.horizontal_box span.line_dashed,
+div.horizontal_box em.line_dashed,
+div.horizontal_box strong.line_dashed {
+	text-decoration: underline;
+}
+div.vertical_box span.line_dashed,
+div.vertical_box em.line_dashed,
+div.vertical_box strong.line_dashed {
+	text-decoration: overline;
+}
+/* 波線 */
+span.line_wave,
+em.line_wave,
+strong.line_wave {
+	font-style: normal;
+	font-weight: normal;
+	text-decoration: overline;
+	/* text-decoration-style: wave; */
+}
+div.horizontal_box span.line_wave,
+div.horizontal_box em.line_wave,
+div.horizontal_box strong.line_wave {
+	text-decoration: underline;
+}
+div.vertical_box span.line_wave,
+div.vertical_box em.line_wave,
+div.vertical_box strong.line_wave {
+	text-decoration: overline;
+}
+
+
+/*----------------------------------------------------------
+ナビゲーション
+----------------------------------------------------------*/
+/*ナビゲーション  リスト */
+nav ol {
+	margin-top: 1em;
+	margin-bottom: 1em;
+	list-style-type: none;
+}
+
+
+/* 第1レベル */
+nav ol li {
+	margin-left: 0.41em;
+	margin-right: 0.41em;
+	font-size: 1.56em;
+	line-height: 1.6;
+}
+
+nav ol li ol {
+	font-size: 0.64em; /* フォントサイズ調整 */
+}
+
+/* 第2レベル */
+nav ol li ol li {
+	margin-left: 0.9em;
+	margin-right: 0.9em;
+	font-size: 1.11em;
+	line-height: 1.6;
+}
+
+nav ol li ol li ol {
+	font-size: 0.9em; /* フォントサイズ調整 */
+}
+
+/* 第3レベル */
+nav ol li ol li ol li {
+	margin-left: 0.62em;
+	margin-right: 0.62em;
+	font-size: 1em;
+	line-height: 1.6;
+}
+
+nav ol li ol li ol il ol {
+	font-size: 1em; /* フォントサイズ調整 */
+}
+
+/* 第4レベル */
+nav ol li ol li ol li ol li {
+	margin-left: 0.26em;
+	margin-right: 0.26em;
+	font-size: 0.89em;
+	line-height: 1.6;
+}
+
+nav ol li ol li ol il ol li ol {
+	font-size: 1.12em; /* フォントサイズ調整 */
+}
+
+/* 第5レベル */
+nav ol li ol li ol li ol li ol li {
+	margin-left: 0.41em;
+	margin-right: 0.41em;
+	font-size: 0.78em;
+	line-height: 1.6;
+}
+
+nav ol li ol li ol il ol li ol li ol {
+	font-size: 1.28em; /* フォントサイズ調整 */
+}
+
+/* 第6レベル */
+nav ol li ol li ol li ol li ol li ol li {
+	margin-left: 0.41em;
+	margin-right: 0.41em;
+	font-size: 0.78em;
+	line-height: 1.6;
+}
+
+
+/* 折り返し用 */
+nav ol li {
+	padding-top: 1em;
+	text-indent: -1em;
+}
+nav ol li ol {
+ 	margin-left: 0;
+ 	margin-right: 0;
+	padding-top: 0;
+}
+
+/*----------------------------------------------------------
+ページ枠
+----------------------------------------------------------*/
+div.page_box {
+	display: table;
+	width: 100%;
+	height: 100%;
+}
+div.page_container {
+	display: table-cell;
+	vertical-align: middle;
+}
+
+/*----------------------------------------------------------
+カスタマイズ
+----------------------------------------------------------*/
+/*字下げ*/
+p:lang(en),
+p.dialog,
+p.continued_sentence,
+blockquote.haiku p,
+blockquote.poem p,
+blockquote.lyric p {
+	text-indent: 0em;
+}
+
+span.note {
+	font-size: 0.7em;
+	line-height: 2.7;
+}
+
+div.page_container {
+	/*text-align: center;*/
+	width: 100%;
+	height: 100%;
+}
+
+div.pagebreak {
+	page-break-after: always;
+}
+
+section.notice {
+	margin-top: 1.11em;
+	margin-bottom: 1.11em;
+	font-size: 0.9em;
+}
+
+section.notice ul {
+	margin-top: 1em;
+}
+
+section.notice aside {
+	margin: 3em 7.56em 0em 0em;
+	border: 1px solid #000;
+	padding: 1em 1.89em 1em 0;
+}
+
+section.notice aside h2 {
+	margin-top: 1.75em;
+	margin-bottom: 0.05em;
+	margin-left: 0em;
+	margin-right: 0em;
+	padding-left: 0em;
+	font-family: "@ＭＳ ゴシック", "@MS Gothic", "ヒラギノ角ゴ ProN W3", "HiraKakuProN-W3", sans-serif, serif;
+	font-size: 1.11em;
+	font-weight: bolder;
+	line-height: 1.6;
+	text-align: left;
+	text-indent: 0em;
+}
+
+section.author_profile {
+	font-size: 0.9em;
+	text-align: left;
+	width: 100%
+}
+section.author_profile img + p {
+	text-indent: 0em;
+}
+section.author_profile img {
+	display: block;
+	width: 15.12em;
+	margin-right: 0.4em;
+	vertical-align: bottom;
+	margin-bottom: 1em;
+	float: left;
+}
+section.author_profile span.name {
+	font-family: "@ＭＳ ゴシック", "@MS Gothic", "ヒラギノ角ゴ ProN W3", "HiraKakuProN-W3", sans-serif, serif;
+	font-weight: bold;
+}
+p.attribution {
+	padding-bottom: 1em;
+	text-align: right;
+}
+
+
+section.colophon{
+	margin-right: 1.89em;
+	margin-top: 1em;
+	margin-bottom: 1em;
+	margin-left: 1.89em;
+	padding-left: 0.95em;
+	padding-right: 0.95em;
+	font-size: 0.9em;
+	text-align: left;
+}
+
+section.colophon p {
+	margin-top: 1em;	
+}
+section.colophon p.title {
+	margin-top: 1.92em;
+	margin-bottom: 0em;
+	margin-left: 0.66em;
+	margin-right: 0.66em;
+	padding-left: 0em;
+	font-size: 1.78em;
+	font-weight: normal;
+	line-height: 1.6;
+	text-align: left;
+	text-indent: 0em;
+}
+
+section.colophon p.title span {
+	margin-top: 1em;
+	font-size: 0.56em;
+	font-weight: normal;
+	text-align: left;
+	text-indent: 0em;
+}
+
+dl.credit {
+	margin-left: 0.95em;
+	margin-right: 0.95em;
+	padding: 0;
+}
+
+dl.credit dt {
+	display: run-in;
+	padding-bottom: 2em;
+	font-family: "@ＭＳ ゴシック", "@MS Gothic", "ヒラギノ角ゴ ProN W3", "HiraKakuProN-W3", sans-serif, serif;
+	font-size: 0.89em;
+}
+
+em.emphasis-mark {
+	font-style: normal;
+	font-weight: normal;
+	text-emphasis-style: filled;
+	-webkit-text-emphasis-style: filled;
+	-moz-text-emphasis-style: filled; /* 未対応 */
+	-o-text-emphasis-style: filled; /* 未対応 */
+	-ms-text-emphasis-style: filled; /* 未対応 */
+	-epub-text-emphasis-style: filled;
+}

@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ncx xmlns:ncx="http://www.daisy.org/z3986/2005/ncx/"
+    xmlns="http://www.daisy.org/z3986/2005/ncx/"
+    version="2005-1"
+    xml:lang="ja">
+    <head>
+        <meta name="dtb:uid" content="eae22280-0019-43c1-b8cc-8d79bd7d9c36"/>
+        <meta name="dtb:depth" content="1"/>
+        <meta name="dtb:totalPageCount" content="0"/>
+        <meta name="dtb:maxPageNumber" content="0"/>
+    </head>
+    <docTitle>
+        <text/>
+    </docTitle>
+    <navMap>
+        <navPoint id="cover_page" playOrder="1">
+            <navLabel>
+                <text>草枕</text>
+            </navLabel>
+            <content src="Text/cover.xhtml"/>
+        </navPoint>
+        <navPoint id="title_page" playOrder="2">
+            <navLabel>
+                <text>タイトル</text>
+            </navLabel>
+            <content src="Text/titlepage.xhtml"/>
+        </navPoint>
+        <navPoint id="nav" playOrder="3">
+            <navLabel>
+                <text>目次</text>
+            </navLabel>
+            <content src="Text/navigation.xhtml"/>
+        </navPoint>
+        <navPoint id="content001" playOrder="4">
+            <navLabel>
+                <text>一</text>
+            </navLabel>
+            <content src="Text/content001.xhtml"/>
+        </navPoint>
+        <navPoint id="content002" playOrder="5">
+            <navLabel>
+                <text>二</text>
+            </navLabel>
+            <content src="Text/content002.xhtml"/>
+        </navPoint>
+        <navPoint id="content003" playOrder="6">
+            <navLabel>
+                <text>三</text>
+            </navLabel>
+            <content src="Text/content003.xhtml"/>
+        </navPoint>
+        <navPoint id="content004" playOrder="7">
+            <navLabel>
+                <text>四</text>
+            </navLabel>
+            <content src="Text/content004.xhtml"/>
+        </navPoint>
+        <navPoint id="content005" playOrder="8">
+            <navLabel>
+                <text>五</text>
+            </navLabel>
+            <content src="Text/content005.xhtml"/>
+        </navPoint>
+        <navPoint id="content006" playOrder="9">
+            <navLabel>
+                <text>六</text>
+            </navLabel>
+            <content src="Text/content006.xhtml"/>
+        </navPoint>
+        <navPoint id="content007" playOrder="10">
+            <navLabel>
+                <text>七</text>
+            </navLabel>
+            <content src="Text/content007.xhtml"/>
+        </navPoint>
+        <navPoint id="content008" playOrder="11">
+            <navLabel>
+                <text>八</text>
+            </navLabel>
+            <content src="Text/content008.xhtml"/>
+        </navPoint>
+        <navPoint id="content009" playOrder="12">
+            <navLabel>
+                <text>九</text>
+            </navLabel>
+            <content src="Text/content009.xhtml"/>
+        </navPoint>
+        <navPoint id="content010" playOrder="13">
+            <navLabel>
+                <text>十</text>
+            </navLabel>
+            <content src="Text/content010.xhtml"/>
+        </navPoint>
+        <navPoint id="content011" playOrder="14">
+            <navLabel>
+                <text>十一</text>
+            </navLabel>
+            <content src="Text/content011.xhtml"/>
+        </navPoint>
+        <navPoint id="content012" playOrder="15">
+            <navLabel>
+                <text>十二</text>
+            </navLabel>
+            <content src="Text/content012.xhtml"/>
+        </navPoint>
+        <navPoint id="content013" playOrder="16">
+            <navLabel>
+                <text>十三</text>
+            </navLabel>
+            <content src="Text/content013.xhtml"/>
+        </navPoint>
+        <navPoint id="notice" playOrder="17">
+            <navLabel>
+                <text>この本について</text>
+            </navLabel>
+            <content src="Text/notice.xhtml"/>
+        </navPoint>
+        <navPoint id="colophon_page" playOrder="18">
+            <navLabel>
+                <text>奥付</text>
+            </navLabel>
+            <content src="Text/colophon.xhtml"/>
+        </navPoint>
+    </navMap>
+</ncx>
