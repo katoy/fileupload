@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>artistName</key>
+	<string>チャールズ・ディケンズ</string>
+	<key>book-info</key>
+	<dict>
+		<key>cover-image-hash</key>
+		<string>215F875175986CF2C422F48D27138AFF</string>
+		<key>cover-image-path</key>
+		<string>OEBPS/Images/cover.jpg</string>
+		<key>mime-type</key>
+		<string>application/epub+zip</string>
+		<key>package-file-hash</key>
+		<string>AC39D535DF62CBB42263EB3E6358EF2F</string>
+		<key>publisher-unique-id</key>
+		<string>http://tatsu-zine.com/books/cc-katokt</string>
+		<key>unique-id</key>
+		<integer>-5940318020366367761</integer>
+	</dict>
+	<key>itemName</key>
+	<string>クリスマス・キャロル（聖歌）</string>
+	<key>playlistName</key>
+	<string>クリスマス・キャロル（聖歌）</string>
+</dict>
+</plist>
