@@ -6,7 +6,7 @@ express = require 'express'
 form = require 'connect-form'
 fs = require 'fs'
 util = require 'util'
-argv = process.argv.slice(2);
+argv = process.argv.slice(2)
 
 files = require './src/files'
 
@@ -51,18 +51,18 @@ app.get '/files/upload', (req, res) ->
 
 app.post '/upload', (req, res) ->
   files.upload req.files.file, ->
-    res.redirect '/files';
+    res.redirect '/files'
 
 app.get '/delete', (req, res) ->
   files.remove req.query['name'], ->
     res.redirect '/files'
 
 app.get '/epubcheck3', (req, res) ->
-  res.setHeader('Content-Type', 'text/plain');
+  res.setHeader('Content-Type', 'text/plain')
   files.epubcheck3 req.query['name'], req, res
 
 app.get '/unzip', (req, res) ->
-  res.setHeader('Content-Type', 'text/plain');
+  res.setHeader('Content-Type', 'text/plain')
   files.unzip req.query['name']
 
 port = argv[0] || process.env.PORT || 3000
