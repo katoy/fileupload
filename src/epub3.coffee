@@ -20,36 +20,34 @@ merge_hash = (h1, h2) ->
 
 class Epub3
 
-  checkMimetype: (zip, callback) ->
+  checkMimetype: (callback) ->
     hasMimetype = false
-    util.log zip.names
-    for f in zip.names
+    for f in @zf.names
       if f.toLowerCase() == 'mimetype'
         hasMimetype = true
-        zip.readFile f, (err, data) ->
+        @zf.readFile f, (err, data) ->
           throw err if err
           mimetype = data.toString("utf-8").toLowerCase().trim()
           throw "illegal mimetype: #{mimetype}" if mimetype != 'application/epub+zip'
           callback(err, mimetype) if callback
 
-    throw "No mimetype file in #{epub_path}" if !hasMimetype
+    throw "No mimetype file in #{@epub_path}" if !hasMimetype
 
-  checkMimetypeSync: (zip) ->
+  checkMimetypeSync:  ->
     hasMimetype = false
-    util.log zip.names
-    for f in zip.names
+    for f in @zf.names
       if f.toLowerCase() == 'mimetype'
         hasMimetype = true
-        zip.readFile f, (err, data) ->
+        @zf.readFile f, (err, data) ->
           throw err if err
           mimetype = data.toString("utf-8").toLowerCase().trim()
           throw "illegal mimetype: #{mimetype}" if mimetype != 'application/epub+zip'
 
-    throw "No mimetype file in #{epub_path}" if !hasMimetype
+    throw "No mimetype file in #{@epub_path}" if !hasMimetype
     true
 
-  parse_container: (zip) ->
-    data = zip.readFileSync('META-INF/container.xml')
+  parse_container:  ->
+    data = @zf.readFileSync('META-INF/container.xml')
     doc = libxmljs.parseXmlString(data.toString('utf-8'))
     # util.log doc.toString()
 
@@ -67,14 +65,14 @@ class Epub3
 
     container = {}
     container.opf_file = opf_file.trim()
-    console.log container
+    # console.log container
     container
 
-  parse_opf: (zip, opf_file) ->
+  parse_opf: (opf_file) ->
     opf = {}
     opf.package = {}
 
-    data = zip.readFileSync opf_file
+    data = @zf.readFileSync opf_file
     doc = libxmljs.parseXmlString(data.toString('utf-8'))
     # util.log doc.toString()
 
@@ -297,9 +295,9 @@ class Epub3
 
     opf
 
-  parse_ncx : (zip, ncx_file) ->
+  parse_ncx : (ncx_file) ->
     ncx = {}
-    data = zip.readFileSync ncx_file
+    data = @zf.readFileSync ncx_file
     doc = libxmljs.parseXmlString(data.toString('utf-8'))
     # util.log "--------- parse_ncx -------"
     # util.log doc.toString()
@@ -332,7 +330,7 @@ class Epub3
       h.content = nav.get("//xmlns:navPoint[@id='#{id}']/xmlns:content", @namespaces_ncx).attr('src').value()
       ncx.navPoint.push(h)
 
-    # playOrder ¤Ç¡¢¾º½ç¤Ë¥½¡¼¥È¤¹¤ë
+    # playOrder ã§ã€æ˜‡é †ã«ã‚½ãƒ¼ãƒˆã™ã‚‹
     ncx.navPoint = ncx.navPoint.sort((a,b) -> parseInt(a.playOrder) - parseInt(b.playOrder))
 
     ncx
@@ -344,7 +342,7 @@ class Epub3
     throw "file not found #{@epub_path}" if !path.existsSync(@epub_path)
     @zf = new zipfile.ZipFile(epub_path)
 
-    this.checkMimetype @zf, (err, data) ->
+    this.checkMimetype (err, data) ->
       # console.log epub3
       info = epub3.parseSync(epub_path)
       callback(null, info) if callback
@@ -362,12 +360,12 @@ class Epub3
     throw "file not found #{@epub_path}" if !path.existsSync(@epub_path)
     @zf = new zipfile.ZipFile(@epub_path)
 
-    this.checkMimetypeSync(@zf)
-    container = this.parse_container(@zf)
-    opf = this.parse_opf(@zf, container.opf_file)
+    this.checkMimetypeSync()
+    container = this.parse_container()
+    opf = this.parse_opf(container.opf_file)
     @dir = path.dirname(container.opf_file)
     # console.log "#{path.dirname(container.opf_file)}/#{opf.ncx_file}"
-    ncx = this.parse_ncx(@zf, "#{@dir}/#{opf.ncx_file}")
+    ncx = this.parse_ncx("#{@dir}/#{opf.ncx_file}")
 
     @info = {container:container, opf:opf, ncx:ncx}
 

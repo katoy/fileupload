@@ -4,6 +4,7 @@ util = require 'util'
 # file_base = "./public/uploaded/files/cc-katokt.epub"
 file_base = "./public/uploaded/files/kusamakura.epub"
 # file_base = "./public/uploaded/files/alice.epub"
+# file_base = "./spec/README.zip"
 
 show_cont = (info, epub3) ->
   util.log "---------------- container ------"
