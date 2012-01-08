@@ -321,17 +321,39 @@ class Epub3
     ncx.docTitle = docTitle.text()
 
     # navPoint
-    navs = doc.find("//xmlns:navPoint", @namespaces_ncx)
-    for nav in navs
-      h = {}
-      h[a.name()] = a.value() for a in nav.attrs()
-      id = nav.attr('id').value()
-      h.text = nav.get("//xmlns:navPoint[@id='#{id}']/xmlns:navLabel/xmlns:text", @namespaces_ncx).text()
-      h.content = nav.get("//xmlns:navPoint[@id='#{id}']/xmlns:content", @namespaces_ncx).attr('src').value()
-      ncx.navPoint.push(h)
+    #navs = doc.find("//xmlns:navPoint", @namespaces_ncx)
+    #for nav in navs
+    #  h = {}
+    #  h[a.name()] = a.value() for a in nav.attrs()
+    #  id = nav.attr('id').value()
+    #  h.text = nav.get("//xmlns:navPoint[@id='#{id}']/xmlns:navLabel/xmlns:text", @namespaces_ncx).text()
+    #  h.content = nav.get("//xmlns:navPoint[@id='#{id}']/xmlns:content", @namespaces_ncx).attr('src').value()
+    #  ncx.navPoint.push(h)
+
+    children = doc.childNodes();
+    for c in children
+       ncx = this.visit(c, 1, ncx)
 
     # playOrder で、昇順にソートする
     ncx.navPoint = ncx.navPoint.sort((a,b) -> parseInt(a.playOrder) - parseInt(b.playOrder))
+
+    navs = doc.find("//xmlns:navPoint", @namespaces_ncx)
+    ncx
+
+  visit : (elem, level, ncx) ->
+    children = elem.childNodes();
+    level += 1 if elem.name() == 'navPoint'
+    for c in children
+      if c.name() == 'navPoint'
+        h = {}
+        h[a.name()] = a.value() for a in c.attrs()
+        id = c.attr('id').value()
+        h.text = c.get("//xmlns:navPoint[@id='#{id}']/xmlns:navLabel/xmlns:text", @namespaces_ncx).text()
+        h.content = c.get("//xmlns:navPoint[@id='#{id}']/xmlns:content", @namespaces_ncx).attr('src').value()
+        h.level = level
+        ncx.navPoint.push(h)
+
+      ncx = this.visit(c, level, ncx)
 
     ncx
 
