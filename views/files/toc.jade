@@ -1,0 +1,16 @@
+
+// 書籍の目次を表示する。
+
+h1= title
+h2 目次
+ul
+  - each topic in info.ncx.navPoint
+    - lop = topic.level 
+    - for (i = 1; i < lop; i++) {
+        &nbsp;&nbsp;&nbsp;&nbsp;
+    - }
+    a(href="/unziped/files/" + info.epub.epub_name + "/" + info.opf_dir + "/" + topic.content) #{topic.text}
+    br
+a(href="/unziped/files/"+info.epub.epub_name) #{'閲覧'}
+br
+

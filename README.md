@@ -69,6 +69,10 @@ epub3 のサンプル
 
 - [katokt訳・ディケンズ『クリスマス・キャロル』のEPUB3版を作ってみました](http://d.hatena.ne.jp/tatsu-zine/20111222/1324530598)
 
+epub2 のサンプル
 
+- [源氏物語 01 桐壺 - 青空文庫 - ePub形式で青空文庫を配信](http://aozora.wook.jp/detail.html?id=211949)
+
+- [Top 100 - Project Gutenberg](http://www.gutenberg.org/browse/scores/top)
 
 //--- End of File ---
