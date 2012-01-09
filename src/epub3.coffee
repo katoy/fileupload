@@ -167,9 +167,11 @@ class Epub3
     for item in items
       h = {}
       for a in item.attrs()
+        k = a.name()
         v = a.value()
         h[a.name()] = v
-        opf.ncx_file = "#{item.attr('href').value()}"  if (v == 'ncx')
+        opf.ncx_file = "#{item.attr('href').value()}" if (v == 'ncx') && (k == 'id')
+
       opf.item.push(h)
 
     # spine
@@ -269,9 +271,11 @@ class Epub3
     for item in items
       h = {}
       for a in item.attrs()
+        k = a.name()
         v = a.value()
         h[a.name()] = v
-        opf.ncx_file = "#{item.attr('href').value()}" if a.name() == 'media-type' && a.value() == 'application/x-dtbncx+xml'
+        opf.ncx_file = "#{item.attr('href').value()}" if (v == 'ncx') && (k == 'id')
+
       opf.item.push(h)
 
     # spine
@@ -296,7 +300,7 @@ class Epub3
     opf
 
   parse_ncx : (ncx_file) ->
-    ncx = {}
+
     data = @zf.readFileSync ncx_file
     doc = libxmljs.parseXmlString(data.toString('utf-8'))
     # util.log "--------- parse_ncx -------"
@@ -361,7 +365,7 @@ class Epub3
     epub_path = @epub_path
     epub3 = this
 
-    throw "file not found #{@epub_path}" if !path.existsSync(@epub_path)
+    throw "file not found #{epub_path}" if !path.existsSync(epub_path)
     @zf = new zipfile.ZipFile(epub_path)
 
     this.checkMimetype (err, data) ->
@@ -370,6 +374,7 @@ class Epub3
       callback(null, info) if callback
 
   parseSync: (@epub_path) ->
+    epub_path = @epub_path
     @zf = null
     @dir = null
     @info = null
@@ -379,17 +384,26 @@ class Epub3
     ncx = null
 
     # parse META-INF/container.xml
-    throw "file not found #{@epub_path}" if !path.existsSync(@epub_path)
-    @zf = new zipfile.ZipFile(@epub_path)
+    throw "file not found #{epub_path}" if !path.existsSync(epub_path)
+    @zf = new zipfile.ZipFile(epub_path)
 
     this.checkMimetypeSync()
     container = this.parse_container()
     opf = this.parse_opf(container.opf_file)
     @dir = path.dirname(container.opf_file)
     # console.log "#{path.dirname(container.opf_file)}/#{opf.ncx_file}"
-    ncx = this.parse_ncx("#{@dir}/#{opf.ncx_file}")
 
-    @info = {container:container, opf:opf, ncx:ncx}
+    try
+      ncx = this.parse_ncx("#{@dir}/#{opf.ncx_file}")
+    catch err
+      ncx = this.parse_ncx("#{opf.ncx_file}")
+
+    epub = {
+      epub_dir: path.dirname(@epub_path)
+      epub_name: path.basename(@epub_path)
+      opf_dir: path.dirname(container.opf_file)
+    }
+    @info = {container:container, opf:opf, ncx:ncx, epub: epub}
 
   get_content_ids:  ->
     ans = []
@@ -401,15 +415,27 @@ class Epub3
     ans.push item.id for item in @info.opf.item
     ans
 
-  get_content: (path, callback) ->
-    pathpart = path.split '#'
-    @zf.readFile "#{@dir}/#{pathpart[0]}", (err, data) ->
-      return callback(err, null)  if err
-      callback(null, data.toString('utf-8'))  if callback
+  get_content: (file_path, callback) ->
+    pathpart = file_path.split '#'
+    p = "#{@dir}/#{pathpart[0]}"
+    p = path.normalize(p)
+    this.check_in_zip(p)
+    @zf.readFile p, (err, data) ->
+      callback(err, null)  if err
+      callback(null, data.toString('utf-8'))
 
   get_image: (path, callback) ->
-    @zf.readFile "#{@dir}/#{path}", (err, data) ->
-      return callback(err, null)  if err
-      callback(null, data) if callback
+    pathpart = file_path.split '#'
+    p = "#{@dir}/#{pathpart[0]}"
+    p = path.normalize(p)
+    this.check_in_zip(p)
+    @zf.readFile p, (err, data) ->
+      callback(err, null)  if err
+      callback(null, data)
+
+  check_in_zip: (c_path) ->
+    for f in @zf.names
+      return true if f == c_path
+    throw "zip has not #{c_path}"
 
 module.exports = Epub3

@@ -179,4 +179,19 @@ describe 'kusamakura', ->
     expect(@info.ncx.navPoint[16]).toEqual({ id: 'notice',    playOrder: '17', text: 'この本について', content: 'Text/notice.xhtml', level: 1 })
     expect(@info.ncx.navPoint[17]).toEqual({ id: 'colophon_page', playOrder: '18', text: '奥付', content: 'Text/colophon.xhtml', level: 1 } )
 
+  # ==========================
+  it 'get_content OK', ->
+    @epub3.get_content 'Text/content001.xhtml', (err, data) ->
+      expect(err).toEqual(null)
+      expect(data.substr(0,38)).toEqual('<?xml version="1.0" encoding="utf-8"?>')
+      jasmine.asyncSpecDone()
+
+    jasmine.asyncSpecWait()
+
+  it 'get_content NG', ->
+    try
+      @epub3.get_content 'Text/no-exist.xhtml', (err, data) ->
+    catch err
+      expect(err).toEqual("zip has not OEBPS/Text/no-exist.xhtml")
+
 #--- End of File ---

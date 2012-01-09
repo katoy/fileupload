@@ -46,6 +46,10 @@ app.get '/files', (req, res) ->
   files.list (err, file_list) ->
     res.render 'files/index', locals: files: file_list, title: 'Express'
 
+app.get '/toc', (req, res) ->
+  files.toc req.query['name'], (err, info) ->
+    res.render 'files/toc', locals: info: info, title: 'Express'
+
 app.get '/files/upload', (req, res) ->
   res.render 'files/upload', locals: title: 'Express'
 

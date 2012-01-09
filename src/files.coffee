@@ -6,6 +6,7 @@ util = require 'util'
 zip = require 'zipfile'
 path = require 'path'
 wrench = require 'wrench'
+epub3 = require '../src/epub3'
 
 uploaded_path = "#{__dirname}/../public/uploaded/files/"
 uploaded_url = "/uploaded/files/"
@@ -20,9 +21,30 @@ module.exports.list = (callback) ->
 
     if files
       files.forEach (file) ->
-        ret_files.push {path: "#{uploaded_url}#{file}", name: file}
+        attr = {path: "#{uploaded_url}#{file}", name: file}
+        if is_epub(file)
+          try
+            info = (new epub3()).parseSync("#{uploaded_path}#{file}")
+            attr.info = info
+          catch err
+            util.log err
+
+        ret_files.push attr
 
     callback err, ret_files
+
+module.exports.toc = (name, callback) ->
+  file_path = "#{uploaded_path}#{name}"
+  info = {}
+  if is_epub(name)
+    try
+      info = (new epub3()).parseSync("#{uploaded_path}#{name}")
+      info.opf_dir = path.dirname(info.container.opf_file)
+      util.log("----------- info.opf_dir=" + info.opf_dir)
+    catch err
+      util.log err
+
+  callback null, info
 
 module.exports.upload = (file, callback) ->
   new_path = "#{uploaded_path}#{file['name']}"

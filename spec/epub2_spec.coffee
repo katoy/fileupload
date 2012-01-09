@@ -150,4 +150,20 @@ describe 'alice', ->
     expect(@info.ncx.navPoint[12]).toEqual({ id: 'np-13', playOrder: '55', text: 'IX—WHO STOLE THE TARTS?',content: 'www.gutenberg.org@files@19033@19033-h@19033-h-0.htm#pgepubid00054', level: 2})
     expect(@info.ncx.navPoint[13]).toEqual({ id: 'np-14', playOrder: '59', text: 'X—ALICE\'S EVIDENCE',content: 'www.gutenberg.org@files@19033@19033-h@19033-h-0.htm#pgepubid00058', level: 2 })
 
+
+  # ==========================
+  it 'get_content OK', ->
+    @epub3.get_content 'www.gutenberg.org@files@19033@19033-h@19033-h-0.htm#pgepubid00000', (err, data) ->
+      expect(err).toEqual(null)
+      expect(data.substr(0,38)).toEqual("<?xml version='1.0' encoding='UTF-8'?>")
+      jasmine.asyncSpecDone()
+
+    jasmine.asyncSpecWait()
+
+  it 'get_content NG', ->
+    try
+      @epub3.get_content 'Text/no-exist.xhtml', (err, data) ->
+    catch err
+      expect(err).toEqual("zip has not 19033/Text/no-exist.xhtml")
+
 #--- End of File ---

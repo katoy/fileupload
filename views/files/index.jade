@@ -7,13 +7,20 @@ ul
       a(href="/delete?name="+file['name']) #{'削除'}
       &nbsp;
       - if (file['name'].match("\.epub$") == ".epub")
+        a(href="/toc?name="+file['name']) #{'目次'}
+        &nbsp;
+        #{file.info.opf.dc.title}
+        &nbsp;(
+        #{file.info.opf.dc.creator}
+        )
+      a(href=file['path']) #{file['name']}
+      &nbsp;
+      - if (file['name'].match("\.epub$") == ".epub")
         a(href="/epubcheck3?name="+file['name']) #{'epub3 チェック'}
         &nbsp;
         a(href="/unziped/files/"+file['name']) #{'閲覧'}
         &nbsp;
 
-      a(href=file['path']) #{file['name']}
-      &nbsp;
       img(src=file['path'])
 
 
