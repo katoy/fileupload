@@ -50,6 +50,32 @@ app.get '/toc', (req, res) ->
   files.toc req.query['name'], (err, info) ->
     res.render 'files/toc', locals: info: info, title: 'Express'
 
+get_parent = (toc, level) ->
+  p = toc[0]
+  i = 1
+  while( i < level)
+    len = p.child.length
+    p = p.child[len - 1]
+    i += 1
+    null
+
+  return p
+
+app.get '/toc.json', (req, res) ->
+  files.toc req.query['name'], (err, info) ->
+    res.contentType('application/json');
+
+    toc = [ {label:"root", child: []} ]
+    for nav in info.ncx.navPoint
+      node = { label: nav.text, href: nav.content, id: nav.id, child: []}
+      level = nav.level
+      parent = get_parent(toc, level)
+      parent.child.push(node)
+
+    data = JSON.stringify(toc);
+    console.log(data)
+    res.send(data);
+
 app.get '/files/upload', (req, res) ->
   res.render 'files/upload', locals: title: 'Express'
 
