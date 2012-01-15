@@ -3,9 +3,20 @@ html
   head
     meta(charset='utf-8')
     title= title
+    script(src='http://code.jquery.com/jquery-1.6.4.min.js')
+    script(src='/javascripts/jquery.textarearesizer.js')
+    script(src='/javascripts/jquery.splitter-0.3-modify.js')
+    script(src='/javascripts/jquery.iframe-auto-height.plugin.1.6.0-modify.js')
+
     link(rel='stylesheet', href='/stylesheets/style.css')
+    link(rel='stylesheet', href='/stylesheets/style2.css')
+    link(rel='stylesheet', href='/stylesheets/jquery.splitter.css')
     link(rel='stylesheet', href='/stylesheets/trontastic/jquery-ui-1.8.16.custom.css')
-  body!= body
+
+  body
+    header
+      h1= title
+    #container!= body
     footer
       Copyright &copy; 2011 - 2012 &nbsp;
       a(href="https://github.com/katoy") katoy

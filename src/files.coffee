@@ -12,6 +12,7 @@ uploaded_path = "#{__dirname}/../public/uploaded/files/"
 uploaded_url = "/uploaded/files/"
 
 is_epub = (name) ->
+  return false if (!name)
   ans = name.match('\.epub$')
   return ans && ans[0] == '.epub'
 
@@ -40,7 +41,7 @@ module.exports.toc = (name, callback) ->
     try
       info = (new epub3()).parseSync("#{uploaded_path}#{name}")
       info.opf_dir = path.dirname(info.container.opf_file)
-      util.log("----------- info.opf_dir=" + info.opf_dir)
+      # util.log("----------- info.opf_dir=" + info.opf_dir)
     catch err
       util.log err
 
