@@ -6,7 +6,6 @@ express = require 'express'
 form = require 'connect-form'
 fs = require 'fs'
 util = require 'util'
-argv = process.argv.slice(2)
 
 files = require './src/files'
 
@@ -95,7 +94,6 @@ app.get '/unzip', (req, res) ->
   res.setHeader('Content-Type', 'text/plain')
   files.unzip req.query['name']
 
-port = argv[0] || process.env.PORT || 3000
-app.listen port
-console.log "Express server listening on port #{app.address().port} in #{app.settings.env} mode"
-
+module.exports.start = (port) ->
+  app.listen port
+  console.log "Express server listening on port #{app.address().port} in #{app.settings.env} mode"

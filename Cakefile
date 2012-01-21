@@ -82,7 +82,7 @@ option '-p', '--port [ENVIRONMENT_NAME]', 'set the port for `task:run` (default=
 task 'run', "run application", (options) ->
   options.environment or= 'development'
   options.port or= 3000
-  run "NODE_ENV=#{options.environment} coffee app.coffee #{options.port}"
+  run "NODE_ENV=#{options.environment} coffee server.coffee #{options.port}"
 
 task "setup", "setup node-modules",  ->
   run "npm install"
@@ -91,6 +91,7 @@ task "setup", "setup node-modules",  ->
 
 task "spec", "spec", ->
   run "jasmine-node spec --coffee spec"
+  run "vows test/list_test.coffee"
 
 task "epubcheck3", "download and unzip epubchekc3", ->
   console.log "-------------------------------------"
