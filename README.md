@@ -11,10 +11,12 @@ Usage
     
     $ cake epubcheck3
     //  示された手順に従って、epub3 の checker を lib/epubcheck3 に配置する。
-    
+
+    $ npm start
+    or    
     $ cake run
-    or
-    $ cake -p=3000 -e=production run
+    or    
+    $ cake -p 3000 -e production run
     
     Access http://localhost:3000/
 

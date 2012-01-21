@@ -3,16 +3,22 @@
   , "version": "0.0.1"
   , "private": true
   , "dependencies": {
-      "express": "2.5.2"
-    , "stylus": ">= 0.22.4"
-    , "jade": ">= 0.20.0"
-    , "coffee-script": ">=1.2.0"
-    , "jasmine-node": ">=1.0.13"
+      "coffee-script": ">=1.2.0"
     , "connect-form": ">=0.2.1"
-    , "zipfile": ">=0.3.0"
-    , "wrench": ">=1.3.3"
+    , "express": "2.5.2"
+    , "jade": ">= 0.20.0"
+    , "jasmine-node": ">=1.0.19"
     , "libxmljs": ">=0.5.0"
+    , "stylus": ">= 0.22.6"
+    , "zipfile": ">=0.3.0"
+    , "wrench": ">=1.3.5"
     , "jasmine-node": ">=1.0.17"
   }
-
+  , "engines" : { 
+       "node" : ">=0.6.7"
+  }
+  , "scripts": {
+      "test": "cake spec"
+    , "start": "cake run"
+  }
 }
