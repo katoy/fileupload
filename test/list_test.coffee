@@ -20,4 +20,13 @@ vows.describe("a sample vow")
       'Can see link to list' : (err, browser, status) ->
         assert.equal(status, 200)
 
+    "access list page":
+      topic: () ->
+        browser = new zombie.Browser({ debug: false })
+        browser.runScripts = true
+        browser.visit(baseUrl + "/files", this.callback)
+
+      'Can see link to list' : (err, browser, status) ->
+        assert.equal(status, 200)
+
 .export module

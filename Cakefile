@@ -91,7 +91,15 @@ task "setup", "setup node-modules",  ->
 
 task "spec", "spec", ->
   run "jasmine-node spec --coffee spec"
-  run "vows test/list_test.coffee"
+  run "vows test/list_test.coffee --cover-html"
+
+task "inst", "inst", ->
+  run "rm -fr src-inst"
+  run "mkdir src-inst"
+  run "jscoverage src src-inst"
+  for file, index in jsFiles then do (file, index) ->
+    util.log "\t#{file}"
+    run "cp #{file} src"
 
 task "epubcheck3", "download and unzip epubchekc3", ->
   console.log "-------------------------------------"
@@ -104,4 +112,4 @@ task "epubcheck3", "download and unzip epubchekc3", ->
   console.log "--------------------------------------"
 
 task "clean-epubcheck3", "clearn-epubcheck3", ->
-  run "rm -fr lib/epubcheck3"
+  run "\\rm -fr lib/epubcheck3"

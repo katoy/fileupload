@@ -10,5 +10,6 @@ vendor
 public/uploaded/files/*
 public/unziped/files/*
 lib/epubcheck3/*
-lib-cov
+src-inst
+coverage.html
 *.log
