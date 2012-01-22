@@ -104,15 +104,16 @@ task "test", "test and overage", ->
   console.log "------------------------------------"
   console.log "   After finished, See ./coverage.html for coverage."
   console.log "------------------------------------"
-  run "vows test/list_test.coffee --cover-html"
+  run "vows --spec --cover-html"
 
 task "inst", "inst", ->
-  runSync "rm -fr src-inst"
-  runSync "mkdir src-inst"
-  runSync "cake compile; jscoverage src src-inst"
-  for file, index in jsFiles then do (file, index) ->
-    util.log "\t#{file}"
-    run "cp #{file} src"
+  runSync "rm -fr src-inst", () ->
+    run "mkdir src-inst"
+
+  runSync "cake compile; jscoverage src src-inst", () ->
+    for file, index in jsFiles then do (file, index) ->
+      util.log "\t#{file}"
+      run "cp #{file} src"
 
 task "epubcheck3", "download and unzip epubchekc3", ->
   console.log "-------------------------------------"

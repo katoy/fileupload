@@ -15,6 +15,7 @@
 
     , "jasmine-node": ">=1.0.17"
     , "vows": ">=0.6.1"
+    , "webdriverjs": ">=0.5.8"
     , "zombie": ">=0.12.13"
   }
   , "engines" : { 
