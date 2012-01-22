@@ -20,7 +20,8 @@ Usage
     
     Access http://localhost:3000/
 
-
+    $ cake test
+    // vows と zombie  で brouser からのアクセスでテストを行い、coverge計測も行う。
 
 <a href="https://github.com/katoy/fileupload/raw/master/docs/screen-00.png"><img src="https://github.com/katoy/fileupload/raw/master/docs/screen-00.png" width="230" height="170"/></a>
 <a href="https://github.com/katoy/fileupload/raw/master/docs/screen-01.png"><img src="https://github.com/katoy/fileupload/raw/master/docs/screen-01.png" width="230" height="170"/></a>

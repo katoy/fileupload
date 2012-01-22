@@ -1,4 +1,5 @@
-{spawn, exec} = require 'child_process'
+spawn = require('child_process').spawn
+exec = require('child_process').exec
 
 fs = require 'fs'
 util = require 'util'
@@ -50,6 +51,13 @@ run = (args...) ->
   process.on 'SIGHUP', -> cmd.kill()
   cmd.on 'exit', (code) -> callback() if callback? and code is 0
 
+runSync = (str, callback) ->
+  exec str, (err, stdout, stderr) ->
+    console.log err  if err != null
+    console.log stderr if stderr != null
+    console.log stdout if !stdout != null
+    callback() if callback != null
+
 task 'count', 'how much files (*.coffee, *.js, *~)', ->
   finds([SRC_DIR, ROUTES_DIR, SPEC_DIR])
   util.log "#{appFiles.length} coffee files found."
@@ -85,18 +93,23 @@ task 'run', "run application", (options) ->
   run "NODE_ENV=#{options.environment} coffee server.coffee #{options.port}"
 
 task "setup", "setup node-modules",  ->
-  run "npm install"
-  run "mkdir -p public/uploaded/files"
-  run "mkdir -p public/unziped/files"
+  runSync "npm install", ->
+    run "mkdir -p public/uploaded/files"
+    run "mkdir -p public/unziped/files"
 
 task "spec", "spec", ->
   run "jasmine-node spec --coffee spec"
+
+task "test", "test and overage", ->
+  console.log "------------------------------------"
+  console.log "   After finished, See ./coverage.html for coverage."
+  console.log "------------------------------------"
   run "vows test/list_test.coffee --cover-html"
 
 task "inst", "inst", ->
-  run "rm -fr src-inst"
-  run "mkdir src-inst"
-  run "jscoverage src src-inst"
+  runSync "rm -fr src-inst"
+  runSync "mkdir src-inst"
+  runSync "cake compile; jscoverage src src-inst"
   for file, index in jsFiles then do (file, index) ->
     util.log "\t#{file}"
     run "cp #{file} src"
@@ -112,4 +125,4 @@ task "epubcheck3", "download and unzip epubchekc3", ->
   console.log "--------------------------------------"
 
 task "clean-epubcheck3", "clearn-epubcheck3", ->
-  run "\\rm -fr lib/epubcheck3"
+  run "rm -fr lib/epubcheck3"
