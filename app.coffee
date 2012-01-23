@@ -6,6 +6,7 @@ express = require 'express'
 form = require 'connect-form'
 fs = require 'fs'
 util = require 'util'
+logger = require 'express-logger'
 
 files = require './src/files'
 
@@ -27,8 +28,9 @@ app.configure ->
   app.use require('stylus').middleware(src: __dirname + '/public')
   app.use app.router
   app.use express.static(__dirname + '/public')
-
   app.use express.directory(__dirname + '/public')
+
+  app.use logger({path: "./logs/log.txt"})
 
 app.configure 'development', ->
   app.use express.errorHandler(
@@ -42,6 +44,7 @@ app.configure 'production', ->
 app.get '/', routes.index
 
 app.get '/files', (req, res) ->
+
   files.list (err, file_list) ->
     res.render 'files/index', locals: files: file_list, title: 'Express'
 
@@ -95,5 +98,6 @@ app.get '/unzip', (req, res) ->
   files.unzip req.query['name']
 
 module.exports.start = (port) ->
+  console.log "---------------- #{port} ------"
   app.listen port
-  console.log "Express server listening on port #{app.address().port} in #{app.settings.env} mode"
+  console.log "Express server listening on port #{port} in #{app.settings.env} mode"

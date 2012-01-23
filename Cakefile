@@ -111,9 +111,7 @@ task "inst", "inst", ->
     run "mkdir src-inst"
 
   runSync "cake compile; jscoverage src src-inst", () ->
-    for file, index in jsFiles then do (file, index) ->
-      util.log "\t#{file}"
-      run "cp #{file} src"
+    run "mv src-inst/*.js src"
 
 task "epubcheck3", "download and unzip epubchekc3", ->
   console.log "-------------------------------------"

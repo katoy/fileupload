@@ -6,6 +6,7 @@
       "coffee-script": ">=1.2.0"
     , "connect-form": ">=0.2.1"
     , "express": "2.5.2"
+    , "express-logger": ">=0.0.2"
     , "jade": ">= 0.20.0"
     , "jasmine-node": ">=1.0.19"
     , "libxmljs": ">=0.5.0"
