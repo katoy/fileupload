@@ -6,7 +6,8 @@ express = require 'express'
 form = require 'connect-form'
 fs = require 'fs'
 util = require 'util'
-logger = require 'express-logger'
+#logger = require 'express-logger'
+logger = express.logger
 
 files = require './src/files'
 
@@ -22,6 +23,9 @@ app = module.exports = express.createServer(form {keepExtensions: true})
 app.configure ->
   app.set 'views', __dirname + '/views'
   app.set 'view engine', 'jade'
+
+  app.use logger({path: './logs/log.txt',format: ':remote-addr - [:date] :method :url HTTP/:http-version :status :res[content-length] - :response-time ms'})
+
   app.use express.bodyParser()
   app.use express.methodOverride()
 
@@ -30,16 +34,16 @@ app.configure ->
   app.use express.static(__dirname + '/public')
   app.use express.directory(__dirname + '/public')
 
-  app.use logger({path: "./logs/log.txt"})
-
 app.configure 'development', ->
   app.use express.errorHandler(
     dumpExceptions: true
     showStack: true
   )
+  app.use express.logger()
 
 app.configure 'production', ->
   app.use express.errorHandler()
+  app.use express.logger()
 
 app.get '/', routes.index
 
@@ -98,6 +102,6 @@ app.get '/unzip', (req, res) ->
   files.unzip req.query['name']
 
 module.exports.start = (port) ->
-  console.log "---------------- #{port} ------"
   app.listen port
   console.log "Express server listening on port #{port} in #{app.settings.env} mode"
+  console.log "        See logs/log.txt"

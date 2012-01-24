@@ -97,9 +97,8 @@ vows.describe("a sample vow")
         browser.visit(baseUrl + "/files", this.callback)
 
       'Can see link to epubcheck' : (err, browser, status) ->
-        # link = browser.link('epub3 チェック')
-        # console.log link
-        # assert.notEqual(link, null)
-        # browser.clickLink 'epub3 チェック', (e, browser, status) ->
-        #  assert.equal(status, 200)
+        link = browser.link('epub3 チェック')
+        assert.notEqual(link, null)
+        browser.clickLink 'epub3 チェック', (e, browser, status) ->
+        assert.equal(status, 200)
 .export module
