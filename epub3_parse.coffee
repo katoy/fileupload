@@ -21,17 +21,17 @@ show_cont = (info, epub3) ->
   c_path = info.ncx.navPoint[0].content
   util.log c_path
   epub3.get_content c_path, (err, data) ->
-    util.log "---------------- get content ------"
+    util.log '---------------- get content ------'
     # throw err if err
     if err
       console.log err
     else
       util.log data.substr(0, 512) if data
 
-  util.log "---------------- get content_ids ------"
+  util.log '---------------- get content_ids ------'
   util.log id for id in epub3.get_content_ids()
 
-  util.log "---------------- get item_ids ------"
+  util.log '---------------- get item_ids ------'
   util.log id for id in epub3.get_item_ids()
 
 

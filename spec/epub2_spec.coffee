@@ -163,7 +163,8 @@ describe 'alice', ->
   it 'get_content NG', ->
     try
       @epub3.get_content 'Text/no-exist.xhtml', (err, data) ->
+        expect('NG').toEqual("zip has not 19033/Text/no-exist.xhtml")
     catch err
-      expect(err).toEqual("zip has not 19033/Text/no-exist.xhtml")
+      expect(err.message).toEqual("zip has not 19033/Text/no-exist.xhtml")
 
 #--- End of File ---

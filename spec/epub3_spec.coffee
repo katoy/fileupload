@@ -15,14 +15,14 @@ describe 'no-exist-file', ->
       @epub3.parseSync('no-exist-file.epub')
       expect(false).toEqual('file not found no-exist-file.epub')
     catch err
-      expect(err).toEqual('file not found no-exist-file.epub')
+      expect(err.message).toEqual('file not found no-exist-file.epub')
 
   it 'bad-file', ->
     try
       @epub3.parseSync('spec/README.zip')
       expect(false).toEqual('bad-file')
     catch err
-      expect(err).toEqual('No mimetype file in spec/README.zip')
+      expect(err.message).toEqual('No mimetype file in spec/README.zip')
 
 describe 'kusamakura', ->
 
@@ -191,7 +191,8 @@ describe 'kusamakura', ->
   it 'get_content NG', ->
     try
       @epub3.get_content 'Text/no-exist.xhtml', (err, data) ->
+        expect('NG').toEqual('zip has not OEBPS/Text/no-exist.xhtml')
     catch err
-      expect(err).toEqual("zip has not OEBPS/Text/no-exist.xhtml")
+      expect(err.message).toEqual('zip has not OEBPS/Text/no-exist.xhtml')
 
 #--- End of File ---

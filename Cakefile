@@ -5,6 +5,7 @@ fs = require 'fs'
 util = require 'util'
 
 SRC_DIR = 'src'
+SRC_INST_DIR = 'src-inst'
 ROUTES_DIR = 'routes'
 SPEC_DIR = 'spec'
 TOP_DIR = '.'
@@ -93,9 +94,9 @@ task 'run', "run application", (options) ->
   run "NODE_ENV=#{options.environment} coffee server.coffee #{options.port}"
 
 task "setup", "setup node-modules",  ->
-  runSync "npm install", ->
-    run "mkdir -p public/uploaded/files"
-    run "mkdir -p public/unziped/files"
+  run "mkdir -p public/uploaded/files"
+  run "mkdir -p public/unziped/files"
+  run "npm install"
 
 task "spec", "spec", ->
   run "jasmine-node spec --coffee spec"
@@ -107,11 +108,11 @@ task "test", "test and overage", ->
   run "vows --spec --cover-html"
 
 task "inst", "inst", ->
-  runSync "rm -fr src-inst", () ->
-    run "mkdir src-inst"
+  runSync "rm -fr #{SRC_INST_DIR}", () ->
+    run "mkdir #{SRC_INST_DIR}"
 
-  runSync "cake compile; jscoverage src src-inst", () ->
-    run "mv src-inst/*.js src"
+  runSync "cake compile; jscoverage #{SRC_DIR} #{SRC_INST_DIR}", () ->
+    run "mv #{SRC_INST_DIR}/*.js #{SRC_DIR}"
 
 task "epubcheck3", "download and unzip epubchekc3", ->
   console.log "-------------------------------------"
@@ -125,3 +126,6 @@ task "epubcheck3", "download and unzip epubchekc3", ->
 
 task "clean-epubcheck3", "clearn-epubcheck3", ->
   run "rm -fr lib/epubcheck3"
+
+task "lint", "lint", ->
+  run "coffeelint *.coffee */*.coffee"

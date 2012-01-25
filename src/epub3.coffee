@@ -28,10 +28,10 @@ class Epub3
         @zf.readFile f, (err, data) ->
           throw err if err
           mimetype = data.toString("utf-8").toLowerCase().trim()
-          throw "illegal mimetype: #{mimetype}" if mimetype != 'application/epub+zip'
+          throw new Error("illegal mimetype: #{mimetype}") if mimetype != 'application/epub+zip'
           callback(err, mimetype) if callback
 
-    throw "No mimetype file in #{@epub_path}" if !hasMimetype
+    throw new Error("No mimetype file in #{@epub_path}") if !hasMimetype
 
   checkMimetypeSync:  ->
     hasMimetype = false
@@ -41,9 +41,9 @@ class Epub3
         @zf.readFile f, (err, data) ->
           throw err if err
           mimetype = data.toString("utf-8").toLowerCase().trim()
-          throw "illegal mimetype: #{mimetype}" if mimetype != 'application/epub+zip'
+          throw new Error("illegal mimetype: #{mimetype}") if mimetype != 'application/epub+zip'
 
-    throw "No mimetype file in #{@epub_path}" if !hasMimetype
+    throw new Error("No mimetype file in #{@epub_path}") if !hasMimetype
     true
 
   parse_container:  ->
@@ -52,16 +52,16 @@ class Epub3
     # util.log doc.toString()
 
     rootfiles = doc.get("//xmlns:rootfiles", 'urn:oasis:names:tc:opendocument:xmlns:container')
-    throw " 'META-INF/container.xml has no rootfiles" if !rootfiles
+    throw new Error(" 'META-INF/container.xml has no rootfiles") if !rootfiles
 
     rootfile = doc.get("//xmlns:rootfiles/xmlns:rootfile", 'urn:oasis:names:tc:opendocument:xmlns:container')
-    throw " 'META-INF/container.xml has no rootfiles/rootfile" if !rootfile
+    throw new Error(" 'META-INF/container.xml has no rootfiles/rootfile") if !rootfile
 
     mediatype = rootfile.attr('media-type').value()
-    throw " 'META-INF/container.xml rootfile is not 'application/oebps-package+xml'" if mediatype != 'application/oebps-package+xml'
+    throw new Error(" 'META-INF/container.xml rootfile is not 'application/oebps-package+xml'") if mediatype != 'application/oebps-package+xml'
 
     opf_file = rootfile.attr('full-path').value()
-    throw " 'META-INF/container.xml has no 'full-path'" if !opf_file
+    throw new Error(" 'META-INF/container.xml has no 'full-path'") if !opf_file
 
     container = {}
     container.opf_file = opf_file.trim()
@@ -336,7 +336,7 @@ class Epub3
 
     children = doc.childNodes();
     for c in children
-       ncx = this.visit(c, 1, ncx)
+      ncx = this.visit(c, 1, ncx)
 
     # playOrder で、昇順にソートする
     ncx.navPoint = ncx.navPoint.sort((a,b) -> parseInt(a.playOrder) - parseInt(b.playOrder))
@@ -345,7 +345,7 @@ class Epub3
     ncx
 
   visit : (elem, level, ncx) ->
-    children = elem.childNodes();
+    children = elem.childNodes()
     level += 1 if elem.name() == 'navPoint'
     for c in children
       if c.name() == 'navPoint'
@@ -365,7 +365,7 @@ class Epub3
     epub_path = @epub_path
     epub3 = this
 
-    throw "file not found #{epub_path}" if !path.existsSync(epub_path)
+    throw new Error("file not found #{epub_path}") if !path.existsSync(epub_path)
     @zf = new zipfile.ZipFile(epub_path)
 
     this.checkMimetype (err, data) ->
@@ -384,7 +384,7 @@ class Epub3
     ncx = null
 
     # parse META-INF/container.xml
-    throw "file not found #{epub_path}" if !path.existsSync(epub_path)
+    throw new Error("file not found #{epub_path}") if !path.existsSync(epub_path)
     @zf = new zipfile.ZipFile(epub_path)
 
     this.checkMimetypeSync()
@@ -436,6 +436,6 @@ class Epub3
   check_in_zip: (c_path) ->
     for f in @zf.names
       return true if f == c_path
-    throw "zip has not #{c_path}"
+    throw new Error("zip has not #{c_path}")
 
 module.exports = Epub3

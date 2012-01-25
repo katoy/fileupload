@@ -18,6 +18,8 @@
     , "vows": ">=0.6.1"
     , "webdriverjs": ">=0.5.8"
     , "zombie": ">=0.12.13"
+
+    , "coffeelint": ""
   }
   , "engines" : { 
        "node" : ">=0.6.7"
