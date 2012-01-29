@@ -7,7 +7,9 @@ Usage
     
     $ cake 
     
-    $ cake setup clean compile
+    $ cake setup 
+    $ cake clean
+    $ cake compile
     
     $ cake epubcheck3
     //  示された手順に従って、epub3 の checker を lib/epubcheck3 に配置する。
