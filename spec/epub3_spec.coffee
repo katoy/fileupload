@@ -36,7 +36,7 @@ describe 'kusamakura', ->
 
   # ==========================
   it 'opf.dc', ->
-    expect(@info.opf.package).toEqual({ 'unique-identifier': 'pub-id', lang: 'ja', version: '3.0' })
+    expect(@info.opf.package_info).toEqual({ 'unique-identifier': 'pub-id', lang: 'ja', version: '3.0' })
 
   it 'opf.dc', ->
     expect(@info.opf.dc.identifier).toEqual('urn:uuid:eae22280-0019-43c1-b8cc-8d79bd7d9c36')

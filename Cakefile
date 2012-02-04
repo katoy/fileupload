@@ -128,4 +128,4 @@ task "clean-epubcheck3", "clearn-epubcheck3", ->
   run "rm -fr lib/epubcheck3"
 
 task "lint", "lint", ->
-  run "coffeelint *.coffee */*.coffee"
+  run "coffee --lint *.coffee #{SRC_DIR}/*.coffee #{SPEC_DIR}/*.coffee"

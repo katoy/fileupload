@@ -5,6 +5,10 @@ Usage
     $ git clone *********
     $ cd fileupload
     
+    $ npm install -g express
+    $ npm install -g jasmine-node
+    $ npm install -g vows
+    
     $ cake 
     
     $ cake setup 

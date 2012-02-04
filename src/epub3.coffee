@@ -70,7 +70,7 @@ class Epub3
 
   parse_opf: (opf_file) ->
     opf = {}
-    opf.package = {}
+    opf.package_info = {}
 
     data = @zf.readFileSync opf_file
     doc = libxmljs.parseXmlString(data.toString('utf-8'))
@@ -83,10 +83,10 @@ class Epub3
 
     # package
     package = doc.get("//xmlns:package", @namespaces_opf)
-    opf.package[a.name()] = a.value() for a in package.attrs()
+    opf.package_info[a.name()] = a.value() for a in package.attrs()
 
-    opf = merge_hash(opf, this.parse_opf3(doc)) if opf.package.version == "3.0"
-    opf = merge_hash(opf, this.parse_opf2(doc))  if opf.package.version == "2.0"
+    opf = merge_hash(opf, this.parse_opf3(doc)) if opf.package_info.version == "3.0"
+    opf = merge_hash(opf, this.parse_opf2(doc))  if opf.package_info.version == "2.0"
 
     opf
 

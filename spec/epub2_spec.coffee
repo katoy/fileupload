@@ -20,8 +20,8 @@ describe 'alice', ->
     expect(@info.container.opf_file).toEqual('19033/content.opf')
 
   # ==========================
-  it 'opf.package', ->
-    expect(@info.opf.package).toEqual({ version: '2.0', 'unique-identifier': 'id' })
+  it 'opf.package_info', ->
+    expect(@info.opf.package_info).toEqual({ version: '2.0', 'unique-identifier': 'id' })
 
   it 'opf.dc', ->
     expect(@info.opf.dc.identifier).toEqual('http://www.gutenberg.org/ebooks/19033')
