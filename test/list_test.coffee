@@ -16,6 +16,7 @@ vows.describe("a sample vow")
     topic: () ->
       browser = new zombie.Browser({ debug: false })
       browser.runScripts = true
+      browser.waitFor = 3000
       browser.visit(baseUrl, @callback)
 
     'Can see link to list' : (err, browser, status) ->
@@ -31,6 +32,7 @@ vows.describe("a sample vow")
     topic: () ->
       browser = new zombie.Browser({ debug: false })
       browser.runScripts = true
+      browser.waitFor = 3000
       browser.visit(baseUrl + "/files", @callback)
 
     'Can see link to upload' : (err, browser, status) ->
@@ -46,6 +48,7 @@ vows.describe("a sample vow")
     topic: () ->
       browser = new zombie.Browser({ debug: false })
       browser.runScripts = true
+      browser.waitFor = 3000
       browser.visit(baseUrl + "/files/upload", @callback)
 
     'Can see link to form' : (err, browser, status) ->
@@ -64,6 +67,7 @@ vows.describe("a sample vow")
     topic: () ->
       browser = new zombie.Browser({ debug: false })
       browser.runScripts = true
+      browser.waitFor = 3000
       browser.visit(baseUrl + "/files", @callback)
 
     'Can see link to toc' : (err, browser, status) ->
@@ -89,6 +93,7 @@ vows.describe("a sample vow")
     topic: () ->
       browser = new zombie.Browser({ debug: false })
       browser.runScripts = true
+      browser.waitFor = 3000
       browser.visit(baseUrl + "/toc?name=211949.epub", @callback)
 
     'Can see link to contents' : (err, browser, status) ->
