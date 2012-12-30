@@ -1,4 +1,16 @@
-h2 ファイルのアップロード
-form(action='/upload', method='POST', enctype='multipart/form-data')!= partial('partials/file_form')
-  p
-    input(id="submit", type='submit', name='submit', value='アップロード')
+extends ../layout
+
+block content
+
+  div(class='center') 
+    h3 #{'新規に epub ファイルをアップロード'}
+    br
+    br
+    div
+      form(action="/upload", method="POST", enctype="multipart/form-data")
+        p
+          label(for="file")
+        p
+          input(id="file", type="file", name="file", required="true")
+        p
+          input(id="submit", type="submit", name="submit", value="アップロード")

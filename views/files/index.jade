@@ -1,26 +1,43 @@
-h2 アップロード済みのファイル: 
-a(href='/files/upload') 新規アップロード
-ul
-  - each file in files
-    li
-      a(href="/delete?name="+file['name']) #{'削除'}
-      &nbsp;
-      - if (file['name'].match("\.epub$") == ".epub")
-        a(href="/toc?name="+file['name']) #{'目次'}
-        &nbsp;
-        #{file.info.opf.dc.title}
-        &nbsp;(
-        #{file.info.opf.dc.creator}
-        )
-      a(href=file['path']) #{file['name']}
-      &nbsp;
-      - if (file['name'].match("\.epub$") == ".epub")
-        a(href="/epubcheck3?name="+file['name']) #{'epub3 チェック'}
-        &nbsp;
-        a(href="/unziped/files/"+file['name']) #{'閲覧'}
-        &nbsp;
+extends ../layout
 
-      img(src=file['path'])
+block content
 
-
-
+  div(class="centered")
+    a(href="/files/upload", class="btn btn-info") #{"新規に epub ファイルをアップロード"}
+    br
+    br
+    #epub-list
+      table(class="table table-bordered table-striped table-condensed")
+        thead
+          th(colspan="3", class="middled", id="epub-form")
+            form(class="form-search centered", id="epub-search")
+              span(class="icon-search")
+              input(tyep="text", class="search search-query", placeholder="検索", rel="tooltip", title="2文字以上の入力で、インクリメンタルに絞り込みをします。" )
+          th
+            spawn(class="sort", data-sort="epub-title", rel="tooltip", title="クリックするとタイトルでソートします。")  #{"タイトル"}
+            br
+            spawn(class="sort", data-sort="epub-creator", rel="tooltip", title="クリックすると作者でソートします。" ) #{"作者"}
+          th(id="epub-name", class="sort", data-sort="epub-name", rel="tooltip", title="クリックすると名前でソートします。" ) #{"名前"}
+        tbody(class="list")
+          - each file in files
+            tr
+              td(class="centered")
+                a(href="/delete?name="+file["name"], class="btn btn-primary my_btn") #{"削除"}
+              - if (file["name"].match("\.epub$") == ".epub")
+                td(class="centered")
+                  a(href="/epubcheck3?name="+file["name"], class="btn btn-primary my_btn", onclick="waiting();return true;") #{"epub3のチェック"}
+                  a(href="/unziped/files/"+file["name"], class="btn btn-primary my_btn") #{"内部ファイル閲覧"}
+                td(class="centered")
+                  a(href="/toc?name="+file["name"], class="btn btn-primary my_btn") #{"目次"}
+                td
+                  span(class="epub-title") #{file.info.opf.dc.title}
+                  br
+                  span(class="epub-creator") #{file.info.opf.dc.creator}
+              - else
+                td
+                td
+                td
+              td
+                a(href=file["path"]) 
+                  span(class="epub-name") #{file["name"]}
+  br

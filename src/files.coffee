@@ -119,7 +119,7 @@ unzip = (file_name) ->
     dirname = path.dirname(uncompressed)
     try
       util.log "------- mkdir #{dirname}"
-      wrench.mkdirSyncRecursive(dirname, 0755)
+      wrench.mkdirSyncRecursive(dirname, 0o0755)
     catch err
       throw err if (err and not err.code.match(/^EEXIST/))
 

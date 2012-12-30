@@ -1,12 +1,16 @@
+
+# epub ãƒ•ã‚¡ã‚¤ãƒ«ã®ãƒ‘ãƒ¼ã‚¹ä¾‹ã€‚
+
 epub3 = require './src/epub3'
 util = require 'util'
 
 # file_base = "./public/uploaded/files/cc-katokt.epub"
 # file_base = "./public/uploaded/files/kusamakura.epub"
-file_base = "./public/uploaded/files/alice.epub"
+# file_base = "./public/uploaded/files/alice.epub"
 # file_base = "./public/uploaded/files/211949.epub"
 # file_base = "./spec/README.zip"
 # file_base = "./spec/README.zipXXXXX"
+file_base = "/Users/youichikato/work/Books/coffee/Programming\ in\ CoffeeScript/Programming.in.CoffeeScript.May.2012.epub"
 
 show_cont = (info, epub3) ->
   util.log "---------------- container ------"
@@ -37,11 +41,11 @@ show_cont = (info, epub3) ->
 
 epub3 = new epub3()
 
-# Æ±´ü½èÍý
+# åŒæœŸå‡¦ç†
 info = epub3.parseSync(file_base)
 show_cont(info, epub3)
 
-# ÈóÆ±´ü½èÍý
-epub3.parse file_base, (err, data) ->
-  throw err if err
-  show_cont(data, epub3)
+# éžåŒæœŸå‡¦ç†
+# epub3.parse file_base, (err, data) ->
+#   throw err if err
+#   show_cont(data, epub3)

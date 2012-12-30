@@ -1,4 +1,6 @@
 
+tarvis : [![Build Status](https://secure.travis-ci.org/katoy/fileupload.png)](http://travis-ci.org/katoy/fileupload)  
+
 Usage
 =====
 

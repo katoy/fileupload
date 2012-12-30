@@ -1,9 +1,12 @@
+
+# ファイル解凍するコマンドラインアプリケーション。
+
 zip = require 'zipfile'
 fs = require 'fs'
 path = require 'path'
 util = require 'util'
 
-usage = 'usage: unzip.js <zipfile>'
+usage = 'usage: $ node unzip.js <zipfile>'
 
 file = process.argv[2]
 out_dir = '.'
@@ -16,7 +19,7 @@ zf = new zip.ZipFile(file)
 zf.names.forEach (name) ->
   uncompressed = path.join(out_dir, name)
   dirname = path.dirname(uncompressed)
-  fs.mkdir dirname, 0755, (err) ->
+  fs.mkdir dirname, 0o0755, (err) ->
     throw err  if err and not err.code.match(/^EEXIST/)
 
     if path.extname(name)

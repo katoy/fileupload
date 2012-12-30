@@ -82,8 +82,8 @@ class Epub3
     @namespaces_opf =  {xmlns: 'http://www.idpf.org/2007/opf', dc: "http://purl.org/dc/elements/1.1/"}
 
     # package
-    package = doc.get("//xmlns:package", @namespaces_opf)
-    opf.package_info[a.name()] = a.value() for a in package.attrs()
+    package_ = doc.get("//xmlns:package", @namespaces_opf)
+    opf.package_info[a.name()] = a.value() for a in package_.attrs()
 
     opf = merge_hash(opf, this.parse_opf3(doc)) if opf.package_info.version == "3.0"
     opf = merge_hash(opf, this.parse_opf2(doc))  if opf.package_info.version == "2.0"
@@ -153,6 +153,7 @@ class Epub3
 
     # link
     links = doc.find("//xmlns:link", @namespaces_opf)
+
     for link in links
       h = {}
       h[a.name()] = a.value() for a in link.attrs()
@@ -256,7 +257,7 @@ class Epub3
 
     # meta
     metas = doc.find("//xmlns:meta", @namespaces_opf)
-
+    metas = doc.find("//meta") if metas.length == 0
     for m in metas
       h = {}
       h[a.name()] = a.value() for a in m.attrs()
@@ -268,6 +269,7 @@ class Epub3
 
     # item
     items = doc.find("//xmlns:item", @namespaces_opf)
+    items = doc.find("//item") if items.length == 0
     for item in items
       h = {}
       for a in item.attrs()
@@ -275,15 +277,18 @@ class Epub3
         v = a.value()
         h[a.name()] = v
         opf.ncx_file = "#{item.attr('href').value()}" if (v == 'ncx') && (k == 'id')
+        opf.ncx_file = "#{item.attr('href').value()}" if (v == 'ncxtoc') && (k == 'id')
 
       opf.item.push(h)
 
     # spine
     spine = doc.get("//xmlns:spine", @namespaces_opf)
+    spine = doc.get("//spine") if spine.length == 0
     opf.spine[a.name()] = a.value() for a in spine.attrs()
 
     # itemref
     itemrefs = doc.find("//xmlns:itemref", @namespaces_opf)
+    itemrefs = doc.find("//itemref") if itemrefs.length == 0
     for itemref in itemrefs
       h = {}
       h[a.name()] = a.value() for a in itemref.attrs()
@@ -292,6 +297,7 @@ class Epub3
     # guide
     # reference
     refs = doc.find("//xmlns:reference", @namespaces_opf)
+    refs = doc.find("//reference") if refs.length == 0
     for ref in refs
       h = {}
       h[a.name()] = a.value() for a in ref.attrs()
@@ -315,6 +321,7 @@ class Epub3
 
     # meta
     metas = doc.find("//xmlns:meta", @namespaces_ncx)
+    metas = doc.find("//meta") if metas.length == 0
     for m in metas
       h = {}
       h[a.name()] = a.value() for a in m.attrs()
@@ -339,9 +346,10 @@ class Epub3
       ncx = this.visit(c, 1, ncx)
 
     # playOrder で、昇順にソートする
-    ncx.navPoint = ncx.navPoint.sort((a,b) -> parseInt(a.playOrder) - parseInt(b.playOrder))
+    ncx.navPoint = ncx.navPoint.sort((a,b) -> parseInt(a.playOrder, 10) - parseInt(b.playOrder, 10))
 
     navs = doc.find("//xmlns:navPoint", @namespaces_ncx)
+    navs = doc.find("//navPoint") if navs.length == 0
     ncx
 
   visit : (elem, level, ncx) ->

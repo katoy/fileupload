@@ -8,6 +8,7 @@ SRC_DIR = 'src'
 SRC_INST_DIR = 'src-inst'
 ROUTES_DIR = 'routes'
 SPEC_DIR = 'spec'
+TEST_DIR = 'test'
 TOP_DIR = '.'
 
 appFiles = []
@@ -27,12 +28,12 @@ finds = (folders) ->
          stats = fs.statSync(currentFile)
          if stats.isFile() and currentFile.match(coffee_re) and not ~appFiles.indexOf( currentFile )
            appFiles.push currentFile
-         else if stats.isFile() and currentFile.match(js_re) and not ~appFiles.indexOf( currentFile )
+         else if stats.isFile() and currentFile.match(js_re) and not ~jsFiles.indexOf( currentFile )
            jsFiles.push currentFile
-         else if stats.isFile() and currentFile.match(back_re) and not ~appFiles.indexOf( currentFile )
+         else if stats.isFile() and currentFile.match(back_re) and not ~backFiles.indexOf( currentFile )
            backFiles.push currentFile
          else if stats.isDirectory() and currentFile.indexOf('node_modules') < 0
-             traverseFileSystem currentFile
+           traverseFileSystem currentFile
   for folder in folders
     traverseFileSystem folder
 
@@ -60,7 +61,7 @@ runSync = (str, callback) ->
     callback() if callback != null
 
 task 'count', 'how much files (*.coffee, *.js, *~)', ->
-  finds([SRC_DIR, ROUTES_DIR, SPEC_DIR])
+  finds([SRC_DIR, ROUTES_DIR, SPEC_DIR, TEST_DIR])
   util.log "#{appFiles.length} coffee files found."
   util.log "#{jsFiles.length} js files found."
   util.log "#{backFiles.length} *~ files found."
@@ -73,11 +74,13 @@ task 'compile', 'Compile *.coffee', ->
     run "coffee -c #{file}"
 
 task 'clean', 'Clean compiled *.js *~', ->
-  finds([SRC_DIR, ROUTES_DIR, SPEC_DIR])
+  finds([SRC_DIR, ROUTES_DIR, SPEC_DIR, TEST_DIR])
   util.log "removing #{jsFiles.length}  files (*.js) ..."
   for file, index in jsFiles then do (file, index) ->
     util.log "\t#{file}"
     run "rm #{file}"
+
+  run "rm *.js"
 
   finds([TOP_DIR])
   util.log "removing #{backFiles.length}  files (*.*~) ..."
@@ -119,9 +122,9 @@ task "epubcheck3", "download and unzip epubchekc3", ->
   console.log "----  Do following operations.   ----"
   console.log "$ mkdir -p lib/epubcheck3"
   console.log "$ cd lib/epubcheck3"
-  console.log "$ wget http://epubcheck.googlecode.com/files/epubcheck-3.0b4.zip"
-  console.log "$ unzip epubcheck-3.0b4.zip"
-  console.log "$ rm epubcheck-3.0b4.zip"
+  console.log "$ wget http://epubcheck.googlecode.com/files/epubcheck-3.0.zip"
+  console.log "$ unzip epubcheckzip"
+  console.log "$ rm epubcheck.zip"
   console.log "--------------------------------------"
 
 task "clean-epubcheck3", "clearn-epubcheck3", ->

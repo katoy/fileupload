@@ -1,95 +1,99 @@
-nav
-  ul
+extends ../layout
+
+block content
+
+  nav
     ul
-      li
-        a(href="", id="history_back") <<
-      li
-        a(href="", history="history_next") >>
-      li
-        a(href="/files") 一覧へ
-      li
-        #{"目次"}
-
-#cont
-  aside
-    div
-      #{info.opf.dc.title}　
-      a(href="/unziped/files/"+info.epub.epub_name) #{'Direcoty 閲覧'}
-      br
-      a(class="page_prev")◀
-      #{"　"}
-      a(class="page_next")▶
-
-      h2(class="center") 目次　
       ul
-        - pos = 0
-        - each topic in info.ncx.navPoint
-          - lop = topic.level 
-          - for (i = 1; i < lop; i++) {
-              &nbsp;&nbsp;
-          - }
-          a(class="toc_item", src='', pos=pos) #{topic.text}
-          - pos += 1
-          br
-  iframe(id="myframe", class="resizable", width="100%", height="400")
-    ご利用のブラウザでは対応しておりません。
+        li
+          a(href="", id="history_back") <<
+        li
+          a(href="", history="history_next") >>
+        li
+          a(href="/files") 一覧へ
+        li
+          #{"目次"}
 
-!= "<script type='text/javascript'>"
-!= "var toc = [];"
-- each topic in info.ncx.navPoint
-  - url = "/unziped/files/" + info.epub.epub_name + "/" + info.opf_dir + "/" + topic.content;
-  != "toc.push('" + url + "');"
-!= "</script>"
+  #cont
+    aside
+      div
+        #{info.opf.dc.title}　
+        a(href="/unziped/files/"+info.epub.epub_name) #{"Direcoty 閲覧"}
+        br
+        a(class="page_prev")◀
+        #{"　"}
+        a(class="page_next")▶
 
-script(type='text/javascript')  
-  var cur_pos = 0;
+        h2(class="center") 目次　
+        ul
+          - pos = 0
+          - each topic in info.ncx.navPoint
+            - lop = topic.level 
+            - for (i = 1; i < lop; i++) {
+                &nbsp;&nbsp;
+            - }
+            a(class="toc_item", src="", pos=pos) #{topic.text}
+            - pos += 1
+            br
+    iframe(id="myframe", class="resizable", width="100%", height="400")
+      ご利用のブラウザでは対応しておりません。
 
-  $(function() {
+  != "<script type='text/javascript'>"
+  != "var toc = [];"
+  - each topic in info.ncx.navPoint
+    - url = "/unziped/files/" + info.epub.epub_name + "/" + info.opf_dir + "/" + topic.content;
+    != "toc.push('" + url + "');"
+  != "</script>"
 
-    function load_page(pos, move) {
+  script(type="text/javascript")
+    var cur_pos = 0;
 
-      var to_pos = parseInt(pos)
-      if (move) { to_pos += parseInt(move); }
-      if (to_pos < 0) { to_pos = 0; }
-      if (to_pos > toc.length - 1) { to_pos = toc.length - 1; }
-      cur_pos = to_pos;
+    $(function() {
 
-      $('#myframe').attr("src", toc[to_pos]);
+      function load_page(pos, move) {
 
-      $('.red_item').removeClass('red_item');
-      $('.toc_item').each(  function() {
-        if ($(this).attr('pos') == to_pos) {
-          $(this).addClass('red_item');
-        }
+        var to_pos = parseInt(pos)
+        if (move) { to_pos += parseInt(move); }
+        if (to_pos < 0) { to_pos = 0; }
+        if (to_pos > toc.length - 1) { to_pos = toc.length - 1; }
+        cur_pos = to_pos;
+
+        $('#myframe').attr("src", toc[to_pos]);
+
+        $('.red_item').removeClass("red_item");
+        $('.toc_item').each(  function() {
+          if ($(this).attr("pos") == to_pos) {
+            $(this).addClass("red_item");
+          }
+        });
+      };
+
+      $(".toc_item").click(function() {
+        var pos = $(this).attr("pos");
+        load_page(pos, 0);
       });
-    };
 
-    $(".toc_item").click(function() {
-      var pos = $(this).attr("pos");
-      load_page(pos, 0);
+      $(".page_prev").click(function() {
+        load_page(cur_pos, -1);
+      });
+
+      $(".page_next").click(function() {
+        load_page(cur_pos, 1);
+      });
+
+      $(".history_prev").click(function() {
+        hisory.back();
+      });
+
+      $(".history_next").click(function() {
+        hisory.go();
+      });
+
+      load_page(0, 0);
+
+      $("iframe.resizable:not(.processed)").TextAreaResizer();
+
+      var height = window.innerHeight - 150;
+      $("#cont").css({width: "100%", height:height}).split({orientation: "vertical", limit: 100, position:300});
+
     });
-
-    $(".page_prev").click(function() {
-      load_page(cur_pos, -1);
-    });
-
-    $(".page_next").click(function() {
-      load_page(cur_pos, 1);
-    });
-
-    $(".history_prev").click(function() {
-      hisory.back();
-    });
-
-    $(".history_next").click(function() {
-      hisory.go();
-    });
-
-    load_page(0, 0);
-
-    $('iframe.resizable:not(.processed)').TextAreaResizer();
-
-    var height = window.innerHeight - 150;
-    $("#cont").css({width: '100%', height:height}).split({orientation: 'vertical', limit: 100, position:300});
-
-  });
