@@ -1,7 +1,7 @@
 body {
   padding: 10px;
   background: url("../images/main_bg.jpg") repeat scroll 0 0 transparent;
-  font: 14px 14px/18px "�ҥ饮�γѥ� Pro W3", "�ᥤ�ꥪ", Meiryo, "�ͣ� �Х����å�", "Lucida Grande", "Lucida Sans Unicode", "Hiragino Kaku Gothic Pro", Helvetica, Arial, Verdana, sans-serif;
+  font: 14px 14px/18px "ヒラギノ角ゴ Pro W3", "メイリオ", Meiryo, "ＭＳ Ｐゴシック", "Lucida Grande", "Lucida Sans Unicode", "Hiragino Kaku Gothic Pro", Helvetica, Arial, Verdana, sans-serif;
 }
 footer {
   margin: 1em auto;
@@ -13,4 +13,25 @@ img {
   border-width: 1px;
   padding: 3px;
   margin: 3px;
+}
+.btn {
+  margin: 5px;
+  white-space: nowrap;
+}
+.centered {
+  text-align: center;
+}
+.table th.centered,
+.table td.centered {
+  text-align: center;
+}
+.middled {
+  vertical-align: middle;
+}
+#epub-name,
+#epub-form {
+  vertical-align: middle;
+}
+#epub-search {
+  margin: 0;
 }
