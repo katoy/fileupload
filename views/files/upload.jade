@@ -2,10 +2,20 @@ extends ../layout
 
 block content
 
-  div(class='center') 
-    h3 #{'新規に epub ファイルをアップロード'}
-    br
-    br
+  .navbar.navbar-fixed-top.navbar-inverse
+    .navbar-inner
+      .container-fluid
+        a.brand(href='#') #{"Express ePub Viewer"}
+        .navbar-content
+          ul.nav.nav-pills
+            li
+              a(href='/files') #{'一覧'}
+            li.active
+              a(href='/files/upload') #{'登録'}
+            li
+              a(href='/help') #{'ヘルプ'}
+
+  .center
     div
       form(action="/upload", method="POST", enctype="multipart/form-data")
         p
@@ -13,4 +23,28 @@ block content
         p
           input(id="file", type="file", name="file", required="true")
         p
-          input(id="submit", type="submit", name="submit", value="アップロード")
+          .controls
+          button.btn.btn-info(id="submit", type="submit", name="submit") #{"ローカルファイルをアップロード"}
+    div
+      form(action="/upload/url", method="GET")
+        p
+          input(id="q", type="text", name="q", required="true", placeholder="http://")
+        p
+          button(id="submit_url", class="btn btn-info", type="submit", name="submit_url", value="") #{"URL からアップロード"}
+
+    div
+      strong #{"参考サイト"}
+      br
+      a(href="http://aozora.wook.jp/", target="_blank") #{"青空文庫 ePub形式配信"}
+      br
+      a(href="http://www.gutenberg.org/", target="_blank") #{"プロジェクト グーテンベルク"}
+      br
+      a(href="http://www.oreilly.co.jp/ebook/#all_titles", target="_blank") #{"オライリー ebook"}
+      br
+      a(href="http://shop.oreilly.com/category/ebooks.do#all_titles", target="_blank") #{"O'Reilly ebook"}
+      br
+      a(href="http://www.techsupportalert.com/content/free-epub-books-online.htm", target="_blank") #{"Free ePub Books Online"}
+      br
+      a(href="http://www.epubread.com/en/ebooks.php", target="_blank") #{"epubreader"}
+      br
+      a(href="http://archive.org/index.php", target="_blank") #{"archive.org"}

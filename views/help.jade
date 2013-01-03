@@ -1,0 +1,19 @@
+extends layout
+
+block content
+
+  .navbar.navbar-fixed-top.navbar-inverse
+    .navbar-inner
+      .container-fluid
+        a.brand(href='#') #{"Express ePub Viewer"}
+        .navbar-content
+          ul.nav.nav-pills
+            li
+              a(href='/files') #{'一覧'}
+            li
+              a(href='/files/upload') #{'登録'}
+            li.active
+              a(href='/help') #{'ヘルプ'}
+
+  .center
+    p ヘルプ

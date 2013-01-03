@@ -2,40 +2,44 @@ extends ../layout
 
 block content
 
-  nav
-    ul
-      ul
-        li
-          a(href="", id="history_back") <<
-        li
-          a(href="", history="history_next") >>
-        li
-          a(href="/files") 一覧へ
-        li
-          #{"目次"}
+
+  .navbar.navbar-fixed-top.navbar-inverse
+    .navbar-inner
+      .container-fluid
+        a.brand(href='#') #{"Express ePub Viewer"}
+        .navbar-content
+          ul.nav.nav-pills
+            li.active
+              a(href='/files') #{'一覧'}
+            li
+              a(href='/files/upload') #{'登録'}
+            li
+              a(href='/help') #{'ヘルプ'}
 
   #cont
     aside
-      div
-        #{info.opf.dc.title}　
-        a(href="/unziped/files/"+info.epub.epub_name) #{"Direcoty 閲覧"}
+      div.centered#index_label
+        span #{info.opf.dc.title}
         br
-        a(class="page_prev")◀
-        #{"　"}
-        a(class="page_next")▶
-
-        h2(class="center") 目次　
-        ul
-          - pos = 0
-          - each topic in info.ncx.navPoint
-            - lop = topic.level 
-            - for (i = 1; i < lop; i++) {
-                &nbsp;&nbsp;
-            - }
-            a(class="toc_item", src="", pos=pos) #{topic.text}
-            - pos += 1
-            br
-    iframe(id="myframe", class="resizable", width="100%", height="400")
+        a.page_prev(rel="tooltip", title="目次 前へ") #{" ◀  "}
+        span #{"　目次　"}
+        a.page_next(rel="tooltip", title="目次 次へ") #{" ▶  "}
+        a(href="/unziped/files/"+info.epub.epub_name, rel="tooltip", title="内部ファイルを閲覧します。")#unzipped_files
+          img(src="images/logo-extractor.png", width="24", height="24")
+      div
+        h2.center
+        div#index_list(style="overflow:scroll;")
+          ul
+            - pos = 0
+            - each topic in info.ncx.navPoint
+              - lop = topic.level 
+              - for (i = 1; i < lop; i++) {
+                  &nbsp;&nbsp;
+              - }
+              a.toc_item(src="", pos=pos) #{topic.text}
+              - pos += 1
+              br
+    iframe(id="myframe")
       ご利用のブラウザでは対応しておりません。
 
   != "<script type='text/javascript'>"
@@ -93,7 +97,17 @@ block content
 
       $("iframe.resizable:not(.processed)").TextAreaResizer();
 
-      var height = window.innerHeight - 150;
-      $("#cont").css({width: "100%", height:height}).split({orientation: "vertical", limit: 100, position:300});
+      var height1 = $(".navbar").height();
+      var height2 = $("footer").height();
+      var height = $(window).height() - height1 - height2 - 72;
 
+      $("#cont").css({height:height}).split({orientation: "vertical", limit: 100, position:"30%"});
+      var height_iframe = $(".right_panel").height() - 20;
+      var width_iframe = $(".right_panel").width() - 20;
+
+      $("#myframe").css({height:height_iframe}).css({width:width_iframe});
+
+      var height3 = $("#index_lable").height();
+      height = height - height3 -72;
+      $("#index_list").css({height:height});
     });

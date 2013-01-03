@@ -1,6 +1,3 @@
-body {
-  margin: 5px;
-}
 ul {
   margin: 0;
 }
@@ -61,12 +58,6 @@ article {
   padding: 4px;
   width: 600px;
 }
-aside {
-  border: 1px solid #ccc;
-  float: right;
-  padding: 4px;
-  width: 300px;
-}
 footer {
   clear: both;
   text-align: center;
@@ -81,7 +72,7 @@ a:hover {
   color: #f00;
 }
 .red_item {
-  background-color: #6a6;
+  background-color: #aaa;
 }
 div.grippie {
   background: #eee url("../images/grippie.png") no-repeat scroll center 2px;
