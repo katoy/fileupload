@@ -1,7 +1,5 @@
 
-
-tarvis : [![Build Status](https://secure.travis-ci.org/katoy/fileupload.png)](http://travis-ci.org/katoy/fileupload)  
-
+tarvis : [![Build Status](https://travis-ci.org/katoy/fileupload.png?branch=master)](https://travis-ci.org/katoy/fileupload)
 
 Usage
 =====
