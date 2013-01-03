@@ -5,11 +5,13 @@ zip = require 'zipfile'
 fs = require 'fs'
 path = require 'path'
 util = require 'util'
+mkdirp = require 'mkdirp'
 
-usage = 'usage: $ node unzip.js <zipfile>'
+usage = 'usage: $ node unzip.js zipfile [out_dir]'
 
 file = process.argv[2]
 out_dir = '.'
+out_dir = process.argv[3] if process.argv.length > 3
 
 unless file
   console.log usage
@@ -19,7 +21,7 @@ zf = new zip.ZipFile(file)
 zf.names.forEach (name) ->
   uncompressed = path.join(out_dir, name)
   dirname = path.dirname(uncompressed)
-  fs.mkdir dirname, 0o0755, (err) ->
+  mkdirp.mkdirp dirname, 0o0755, (err) ->
     throw err  if err and not err.code.match(/^EEXIST/)
 
     if path.extname(name)

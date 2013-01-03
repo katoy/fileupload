@@ -72,6 +72,7 @@ task 'compile', 'Compile *.coffee', ->
   for file, index in appFiles then do (file, index) ->
     util.log "\t#{file}"
     run "coffee -c #{file}"
+  run "rm ./coverage.html"
 
 task 'clean', 'Clean compiled *.js *~', ->
   finds([SRC_DIR, ROUTES_DIR, SPEC_DIR, TEST_DIR])
@@ -108,13 +109,22 @@ task "test", "test and overage", ->
   console.log "------------------------------------"
   console.log "   After finished, See ./coverage.html for coverage."
   console.log "------------------------------------"
-  run "vows --spec --cover-html"
+  unless fs.existsSync 'public/uploaded/files/kusamakura.epub'
+    # copy  to public/uploaded
+    fs.createReadStream('spec/kusamakura.epub').pipe(fs.createWriteStream('public/uploaded/files/kusamakura.epub'))
+
+  unless fs.existsSync 'public/unziped/files/kusamakura.epub'
+    # unzip to public/unziped
+    runSync 'coffee unzip.coffee spec/kusamakura.epub kusamakura.epub', ->
+      fs.renameSync 'kusamakura.epub', 'public/unziped/files/kusamakura.epub'
+
+  run "vows --spec --cover-html test/list_test.coffee"
 
 task "inst", "inst", ->
-  runSync "rm -fr #{SRC_INST_DIR}", () ->
+  runSync "rm -fr #{SRC_INST_DIR}", ->
     run "mkdir #{SRC_INST_DIR}"
 
-  runSync "cake compile; jscoverage #{SRC_DIR} #{SRC_INST_DIR}", () ->
+  runSync "cake compile; jscoverage #{SRC_DIR} #{SRC_INST_DIR}", ->
     run "mv #{SRC_INST_DIR}/*.js #{SRC_DIR}"
 
 task "epubcheck3", "download and unzip epubchekc3", ->

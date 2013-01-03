@@ -1,12 +1,13 @@
 # ファイル操作
 #
 {spawn, exec} = require 'child_process'
-fs = require("fs")
+fs = require 'fs'
 util = require 'util'
 zip = require 'zipfile'
 path = require 'path'
 wrench = require 'wrench'
-epub3 = require '../src/epub3'
+epub3 = require './epub3'
+wget = require "./wget"
 
 uploaded_path = "#{__dirname}/../public/uploaded/files/"
 uploaded_url = "/uploaded/files/"
@@ -47,16 +48,42 @@ module.exports.toc = (name, callback) ->
 
   callback null, info
 
+local_to_lib = (f_path, f_name, callback) ->
+
+  # util.log "local_to_lib:" + fs.existsSync(f_path) + ", " + fs.statSync(f_path).size
+  unless fs.existsSync(f_path)
+    callback("file is not exist", f_path)
+  else if fs.statSync(f_path).size == 0
+    callback("file is empty.", f_path)
+  else
+    lib_path = "#{uploaded_path}#{f_name}"
+    fs.rename f_path, lib_path, (err) ->
+      if err
+        util.log "-- Error Rename #{f_path} - > #{lib_path}: err=" + err
+        callback(err)
+      else
+        util.log "-- Rename #{f_path} - > #{lib_path}"
+
+        # epub なら 解凍もする。
+        unzip(f_name) if is_epub(f_name)
+
+        callback(null)
+
 module.exports.upload = (file, callback) ->
-  new_path = "#{uploaded_path}#{file['name']}"
-  fs.rename file['path'], new_path, (data, error) ->
-    throw error if error
-    util.log "-- Rename #{file['path']} - > #{new_path}"
+  f_name = file['name']
+  f_path = file['path']
+  local_to_lib(f_path, f_name, callback)
 
-    # epub なら 解凍もする。
-    unzip(file['name']) if is_epub(file['name'])
-
-    callback()
+module.exports.upload_url = (url, callback) ->
+  wget.wget url, "./tmp", null, (err, dest) ->
+    if err
+      util.log "upload_url: err=" + err
+      callback(err, dest)
+    else
+      util.log "Downloaded. " + dest
+      f_name = path.basename(dest)
+      local_to_lib dest, f_name, (err) ->
+        callback(err, dest)
 
 module.exports.remove = (name, callback) ->
   file_path = "#{uploaded_path}#{name}"
@@ -68,7 +95,7 @@ module.exports.remove = (name, callback) ->
   if (is_epub(name))
     unziped_dir = "#{__dirname}/../public/unziped/files/#{name}"
     if path.existsSync(unziped_dir)
-      wrench.rmdirSyncRecursive unziped_dir
+      wrench.rmdirSyncRecursive  unziped_dir
       util.log "-- Delete dir #{unziped_dir}"
 
   callback()

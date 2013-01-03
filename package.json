@@ -11,7 +11,9 @@
     , "libxmljs": ">=0.6.1"
     , "stylus": ">= 0.31.0"
     , "zipfile": ">=0.3.3"
-    , "wrench": ">=1.4.4"
+    , "wrench": ">=1.4.4 "
+    , "mkdirp": ">=0.3.4"
+    , "request": ">=2.10.0"
 
     , "vows": ">=0.7.0"
     , "webdriverjs": ">=0.6.9"

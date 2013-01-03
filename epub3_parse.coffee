@@ -10,7 +10,10 @@ util = require 'util'
 # file_base = "./public/uploaded/files/211949.epub"
 # file_base = "./spec/README.zip"
 # file_base = "./spec/README.zipXXXXX"
-file_base = "/Users/youichikato/work/Books/coffee/Programming\ in\ CoffeeScript/Programming.in.CoffeeScript.May.2012.epub"
+# file_base = "/Users/youichikato/work/Books/coffee/Programming\ in\ CoffeeScript/Programming.in.CoffeeScript.May.2012.epub"
+# file_base = "./public/uploaded/files/211672.epub"
+
+file_base = process.argv[2]
 
 show_cont = (info, epub3) ->
   util.log "---------------- container ------"

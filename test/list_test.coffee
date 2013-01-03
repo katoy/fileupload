@@ -21,13 +21,30 @@ vows.describe("a sample vow")
 
     'Can see link to list' : (err, browser, status) ->
       assert.equal(status, 200)
-      link = browser.link('ファイル一覧')
+      link = browser.link('一覧')
       assert.notEqual(link, null)
-
-      browser.clickLink 'ファイル一覧', (e, browser, status) ->
+      browser.clickLink '一覧', (e, browser, status) ->
         assert.equal(status, 200)
+        assert.equal(browser.location, "/files")
+        browser.back ->
 
-  # 'ファイル一覧'
+    'Can see link to upload' : (err, browser, status) ->
+      link = browser.link('登録')
+      assert.notEqual(link, null)
+      browser.clickLink '登録', (e, browser, status) ->
+        assert.equal(status, 200)
+        assert.equal(browser.location, "files/upload")
+        browser.back ->
+
+    'Can see link to help' : (err, browser, status) ->
+      link = browser.link('ヘルプ')
+      assert.notEqual(link, null)
+      browser.clickLink 'ヘルプ', (e, browser, status) ->
+        assert.equal(status, 200)
+        assert.equal(browser.location, "/help")
+        browser.back  ->
+
+  # '一覧' のページ
   "access list page":
     topic: () ->
       browser = new zombie.Browser({ debug: false })
@@ -37,13 +54,13 @@ vows.describe("a sample vow")
 
     'Can see link to upload' : (err, browser, status) ->
       assert.equal(status, 200)
-      link = browser.link('新規アップロード')
+      link = browser.link('登録')
       assert.notEqual(link, null)
 
-      browser.clickLink '新規アップロード', (e, browser, status) ->
+      browser.clickLink '登録', (e, browser, status) ->
         assert.equal(status, 200)
 
-  # 'ファイルアップロード'
+  # '登録' のページ
   "access upload page":
     topic: () ->
       browser = new zombie.Browser({ debug: false })
@@ -53,16 +70,18 @@ vows.describe("a sample vow")
 
     'Can see link to form' : (err, browser, status) ->
       assert.equal(status, 200)
-      client = webdriverjs.remote()
-      client
-      .init()
-      .url baseUrl + "/upload", (res) ->
-        console.log "--------- #{res} -------"
-      .setValue("#file", "./spec/alice.epub")
-      .click("#submit")
-      .end()
+#      client = webdriverjs.remote()
+#      client
+#      .init()
+#      .url(baseUrl + "/files/upload")
+#      .waitFor("#file", 5000)
+#      .setValue("#file", "./spec/alice.epub")
+#      .submitForm("#submit")
+#      .saveScreenshot "1.png", (result) ->
+#        console.log "*********************************************** " + result
+#      .end()
 
-  # 'ファイル一覧'
+  # '一覧'
   "access files":
     topic: () ->
       browser = new zombie.Browser({ debug: false })
@@ -72,21 +91,11 @@ vows.describe("a sample vow")
 
     'Can see link to toc' : (err, browser, status) ->
       assert.equal(status, 200)
-      link = browser.link('目次')
+      link = browser.link('草枕')
       assert.notEqual(link, null)
-      browser.clickLink '目次', (e, browser, status) ->
+      browser.clickLink '草枕', (e, browser, status) ->
         assert.equal(status, 200)
-        link = browser.link('一覧へ')
-        assert.notEqual(link, null)
-        browser.clickLink '一覧へ', (e, browser, status) ->
-          assert.equal(status, 200)
-          # assert.equal(browser.location, "")
-
-        link = browser.link('Direcoty 閲覧')
-        assert.notEqual(link, null)
-        browser.clickLink 'Direcoty 閲覧', (e, browser, status) ->
-          assert.equal(status, 200)
-          # assert.equal(browser.location, "")
+        assert.equal(browser.location, baseUrl + "/toc?name=kusamakura.epub")
 
   # '目次'
   "access toc":
@@ -94,15 +103,22 @@ vows.describe("a sample vow")
       browser = new zombie.Browser({ debug: false })
       browser.runScripts = true
       browser.waitFor = 3000
-      browser.visit(baseUrl + "/toc?name=211949.epub", @callback)
+
+      browser.visit(baseUrl + "/toc?name=kusamakura.epub", @callback)
 
     'Can see link to contents' : (err, browser, status) ->
       assert.equal(status, 200)
+      link = browser.link('◀')
+      assert.notEqual(link, null)
+
+      assert.equal(status, 200)
       link = browser.link('▶')
       assert.notEqual(link, null)
-      link = browser.link('Direcoty 閲覧')
+
+      link = browser.link('#unzipped_files')
       assert.notEqual(link, null)
-      link = browser.link('源氏物語 桐壺')
+
+      link = browser.link('草枕')
       assert.notEqual(link, null)
 
 .export module

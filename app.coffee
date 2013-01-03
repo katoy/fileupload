@@ -36,7 +36,11 @@ app.configure ->
   app.use require('stylus').middleware(src: __dirname + '/public')
   app.use app.router
   app.use express.static(path.join(__dirname, 'public'))
-  app.use express.directory(path.join(__dirname, 'public'))
+  app.use express.directory(path.join(__dirname, 'public'), icons:true)
+
+  app.use (req, res, next) ->
+    res.status(404)
+    res.render '404', {message: "お探しのページは存在しません。"}
 
 app.configure 'development', ->
   app.use express.errorHandler(
@@ -51,7 +55,11 @@ app.configure 'production', ->
 
 app.locals title: 'Express ePub Reader', pretty: true
 
-app.get '/', routes.index
+app.get '/help', (req, res) ->
+    res.render 'help'
+
+app.get '/', (req, res) ->
+  res.redirect '/files'
 
 app.get '/files', (req, res) ->
 
@@ -92,8 +100,20 @@ app.get '/files/upload', (req, res) ->
   res.render 'files/upload'
 
 app.post '/upload', (req, res) ->
-  files.upload req.files.file, ->
-    res.redirect '/files'
+  files.upload req.files.file, (err) ->
+    if err
+      res.render 'err', {message: err}
+    else
+      res.redirect '/files'
+
+app.get '/upload/url', (req, res) ->
+  url = req.param("q");
+  console.log url
+  files.upload_url url, (err) ->
+    if err
+      res.render 'err', {message: err}
+    else
+      res.redirect '/files'
 
 app.get '/delete', (req, res) ->
   files.remove req.query['name'], ->
