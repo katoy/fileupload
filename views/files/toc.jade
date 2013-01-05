@@ -2,7 +2,6 @@ extends ../layout
 
 block content
 
-
   .navbar.navbar-fixed-top.navbar-inverse
     .navbar-inner
       .container-fluid
@@ -17,6 +16,7 @@ block content
               a(href='/help') #{'ヘルプ'}
 
   #cont
+
     aside
       div.centered#index_label
         span #{info.opf.dc.title}
@@ -27,7 +27,6 @@ block content
         a(href="/unziped/files/"+info.epub.epub_name, rel="tooltip", title="内部ファイルを閲覧します。")#unzipped_files
           img(src="images/logo-extractor.png", width="24", height="24")
       div
-        h2.center
         div#index_list(style="overflow:scroll;")
           ul
             - pos = 0
@@ -39,8 +38,8 @@ block content
               a.toc_item(src="", pos=pos) #{topic.text}
               - pos += 1
               br
-    iframe(id="myframe")
-      ご利用のブラウザでは対応しておりません。
+    div
+      iframe(id="myframe")
 
   != "<script type='text/javascript'>"
   != "var toc = [];"
@@ -50,17 +49,70 @@ block content
   != "</script>"
 
   script(type="text/javascript")
-    var cur_pos = 0;
+    var cur_pos;
+    var right_panel_x;
+
+    function set_index(flag) {
+      if (flag === "true") {
+        show_index();
+      } else {
+        // Hide index
+        var pos = $(".right_panel").position();
+        right_panel_x = pos.left;
+
+        hide_index();
+      }
+    };
+
+    function show_index() {
+      var height_cont = $("#cont").height();
+      var height_label = $("#index_label").height();
+      var height_list = height_cont - height_label;
+
+      $("aside").css({height:height_cont}).css({overflow:"hidden"});
+      $(".vspliter").css({height:height_cont});
+      $("#index_list").css({height:height_list});
+
+      var width_right = $(cont).width() - right_panel_x - 6;     // 6: width of vspliter
+
+      $(".right_panel").css({width:width_right}).css({left:right_panel_x}).css({overflow:"hidden"});
+
+      var height_iframe = $(".right_panel").height() - 10;
+      var width_iframe = width_right - 6;
+      $("#myframe").css({width:width_iframe}).css({height:height_iframe});
+
+      $("#show-index").hide();
+      $("#hide-index").show();
+    }
+
+    function hide_index() {
+      $("aside").css({height:0});
+      $(".vspliter").css({height: 0});
+
+      var width_right = $("#cont").width() - 4;
+      $(".right_panel").css({width:width_right}).css({left:0});
+
+      var width_iframe = $("#cont").width() - 12;
+      var height_iframe = $("#cont").height() - 10;
+      $("#myframe").css({width:width_iframe}).css({height:height_iframe});
+
+      $("#show-index").show();
+      $("#hide-index").hide();
+    }
 
     $(function() {
 
       function load_page(pos, move) {
 
-        var to_pos = parseInt(pos)
-        if (move) { to_pos += parseInt(move); }
+        var to_pos = 0;
+        if (pos) { 
+          to_pos = parseInt(pos, 10);
+        }
+        if (move) { to_pos += parseInt(move, 10); }
         if (to_pos < 0) { to_pos = 0; }
         if (to_pos > toc.length - 1) { to_pos = toc.length - 1; }
         cur_pos = to_pos;
+        $.cookie("" + document.location, cur_pos, { expires: 7 });
 
         $('#myframe').attr("src", toc[to_pos]);
 
@@ -93,21 +145,26 @@ block content
         hisory.go();
       });
 
-      load_page(0, 0);
 
-      $("iframe.resizable:not(.processed)").TextAreaResizer();
+      var isShow_index = "true";
+      if ($.cookie('show-index') === "true") {
+        isShow_index = "true";
+      } else {
+        isShow_index = "false";
+      } 
 
       var height1 = $(".navbar").height();
       var height2 = $("footer").height();
-      var height = $(window).height() - height1 - height2 - 72;
-
+      var height = $(window).height() - height1 - height2 - 42;
       $("#cont").css({height:height}).split({orientation: "vertical", limit: 100, position:"30%"});
-      var height_iframe = $(".right_panel").height() - 20;
-      var width_iframe = $(".right_panel").width() - 20;
 
-      $("#myframe").css({height:height_iframe}).css({width:width_iframe});
+      var pos = $(".right_panel").position();
+      right_panel_x = pos.left;
+      set_index(isShow_index);
 
-      var height3 = $("#index_lable").height();
-      height = height - height3 -72;
-      $("#index_list").css({height:height});
+      var pos = 0;
+      if ($.cookie("" + document.location)) {
+        pos = parseInt($.cookie("" + document.location), 10);
+      }
+      load_page(pos, 0);
     });

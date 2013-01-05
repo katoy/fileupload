@@ -15,22 +15,23 @@ block content
             li
               a(href='/help') #{'ヘルプ'}
 
-  .center
+  center
     div
       form(action="/upload", method="POST", enctype="multipart/form-data")
-        p
-          label(for="file")
-        p
-          input(id="file", type="file", name="file", required="true")
-        p
+        .control-group
+          label.control-label(for="file")
           .controls
-          button.btn.btn-info(id="submit", type="submit", name="submit") #{"ローカルファイルをアップロード"}
+            input(id="file", type="file", name="file", required="true")
+          .controls
+            button.btn.btn-info#submit(type="submit", name="submit") #{"ローカルファイルをアップロード"}
+
     div
       form(action="/upload/url", method="GET")
-        p
-          input(id="q", type="text", name="q", required="true", placeholder="http://")
-        p
-          button(id="submit_url", class="btn btn-info", type="submit", name="submit_url", value="") #{"URL からアップロード"}
+        .control-group
+          .controls
+            input#q(type="text", name="q", required="true", placeholder="http://")
+          .controls
+            button.btn.btn-info#submit_url(type="submit", name="submit_url", value="") #{"URL からアップロード"}
 
     div
       strong #{"参考サイト"}
@@ -45,6 +46,8 @@ block content
       br
       a(href="http://www.techsupportalert.com/content/free-epub-books-online.htm", target="_blank") #{"Free ePub Books Online"}
       br
-      a(href="http://www.epubread.com/en/ebooks.php", target="_blank") #{"epubreader"}
+      a(href="http://www.epubread.com/en/ebooks.php", target="_blank") #{"epubreader.com"}
       br
       a(href="http://archive.org/index.php", target="_blank") #{"archive.org"}
+      br
+  

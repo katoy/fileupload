@@ -58,12 +58,6 @@ article {
   padding: 4px;
   width: 600px;
 }
-footer {
-  clear: both;
-  text-align: center;
-  padding: 5px;
-  font-size: 80%;
-}
 a {
   color: #f90;
   text-decoration: underline;
@@ -83,22 +77,37 @@ div.grippie {
   height: 9px;
   overflow: hidden;
 }
-.resizable-textarea textarea {
-  display: block;
-  margin-bottom: 0pt;
-  width: 95%;
-  height: 20%;
-}
-#footer {
-  background-color: #000;
-  color: #ddd;
-  text-align: center;
-  height: 40px;
-  padding-top: 10px;
-  margin: -50px auto 0 auto;
-}
 .center {
   margin: 0 auto;
   padding: 0;
   text-align: center;
+}
+footer {
+  padding: 0;
+  margin-top: 10px;
+  text-align: center;
+}
+/* Portrait tablet to landscape and desktop */
+@media (min-width: 980px) and (max-width: 2000px) {
+  body {
+    padding-top: 60px;
+    padding-bottom: 0;
+  }
+}
+/* Portrait tablet to landscape and desktop */
+@media (min-width: 768px) and (max-width: 979px) {
+  body {
+    padding-top: 0;
+    padding-bottom: 0;
+  }
+}
+/* Landscape phone to portrait tablet */
+@media (max-width: 767px) {
+  body {
+    padding-top: 0;
+    padding-bottom: 0;
+  }
+  .carousel-caption {
+    position: absolute;
+  }
 }

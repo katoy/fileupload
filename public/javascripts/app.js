@@ -19,4 +19,15 @@ $(function() {
     // fpr tooltip, popover
     $('a[rel=tooltip]').tooltip();
     $('a[rel=popover]').popover();
+
+    $("#show-index").click(function() {
+      $.cookie('show-index', 'true', { expires: 7 });
+      set_index("true");
+    });
+
+    $("#hide-index").click(function() {
+      $.cookie('show-index', 'false', { expires: 7 });
+      set_index("false");
+    });
+
 });
