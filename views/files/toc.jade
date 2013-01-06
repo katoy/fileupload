@@ -148,6 +148,10 @@ block content
       };
 
       function set_index_pos(pos) {
+
+        $(".chap-prev").show();
+        $(".chap-next").show();
+
         $('.red-item').removeClass("red-item");
         $('.toc-item').each(  function() {
           if ($(this).attr("pos") == pos) {
@@ -193,7 +197,6 @@ block content
       $(".history-next").click(function() {
         hisory.go();
       });
-
 
       var isShow_index = "true";
       if ($.cookie('show-index') === "true") {

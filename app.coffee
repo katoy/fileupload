@@ -75,7 +75,7 @@ app.get '/toc', (req, res) ->
     if !info or !info.opf or !info.opf.itemref
       res.render 'err', {message: "epub3 解析エラー" + "<br/>" + req.url}
       return
- 
+
     for v in info.opf.itemref
       idref = v.idref
       href = ""
@@ -84,7 +84,7 @@ app.get '/toc', (req, res) ->
           href = p.href
           break
       chap.push href
-	
+
     ch = 0
     for v in info.ncx.navPoint
       cont = v.content
@@ -162,6 +162,16 @@ app.get '/epubcheck3', (req, res) ->
 app.get '/unzip', (req, res) ->
   res.setHeader('Content-Type', 'text/plain')
   files.unzip req.query['name']
+
+app.get '/meta', (req, res) ->
+  name = req.query['name']
+  files.toc name, (err, info) ->
+    res.contentType('text/plain')
+    ans = "<center>" + name + "<table border='1'>"
+    for key, val of info.opf.dc
+      ans += "<tr><td align='right' style='padding:4px;'>" + key + "</td><td align='left' style='padding:4px;'>" + val + "</td></tr>"  if val
+    ans += "</table></center>"
+    res.send ans
 
 module.exports.start = (port) ->
   http.createServer(app).listen port, ->
