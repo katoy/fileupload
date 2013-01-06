@@ -108,12 +108,6 @@ vows.describe("a sample vow")
 
     'Can see link to contents' : (err, browser, status) ->
       assert.equal(status, 200)
-      link = browser.link('◀')
-      assert.notEqual(link, null)
-
-      assert.equal(status, 200)
-      link = browser.link('▶')
-      assert.notEqual(link, null)
 
       link = browser.link('#unzipped_files')
       assert.notEqual(link, null)
