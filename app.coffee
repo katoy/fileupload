@@ -40,7 +40,7 @@ app.configure ->
 
   app.use (req, res, next) ->
     res.status(404)
-    res.render '404', {message: "お探しのページは存在しません。"}
+    res.render '404', {message: "お探しのページは存在しません。" + req.url}
 
 app.configure 'development', ->
   app.use express.errorHandler(
@@ -68,7 +68,44 @@ app.get '/files', (req, res) ->
 
 app.get '/toc', (req, res) ->
   files.toc req.query['name'], (err, info) ->
-    res.render 'files/toc', info: info
+    chap = []
+    pos2chap = []
+    chap2pos = []
+
+    if !info or !info.opf or !info.opf.itemref
+      res.render 'err', {message: "epub3 解析エラー" + "<br/>" + req.url}
+      return
+ 
+    for v in info.opf.itemref
+      idref = v.idref
+      href = ""
+      for p in info.opf.item
+        if  p.id == idref
+          href = p.href
+          break
+      chap.push href
+	
+    ch = 0
+    for v in info.ncx.navPoint
+      cont = v.content
+      idref = ""
+      for item in info.opf.item
+        idref = item.id  if item.href == cont
+      for ref, idx in info.opf.itemref
+        ch = idx if ref.idref == idref
+      pos2chap.push ch
+
+    pos = 0
+    for v in info.opf.itemref
+      idref = v.idref
+      href = ""
+      for item in info.opf.item
+        href = item.href if item.id == idref
+      for p, idx in info.ncx.navPoint
+        pos = idx if p.content == href
+      chap2pos.push pos
+
+    res.render 'files/toc', {info: info, chap: chap, pos2chap: pos2chap, chap2pos: chap2pos}
 
 get_parent = (toc, level) ->
   p = toc[0]
@@ -77,7 +114,6 @@ get_parent = (toc, level) ->
     len = p.child.length
     p = p.child[len - 1]
     i += 1
-    null
 
   return p
 

@@ -21,22 +21,22 @@ block content
       div.centered#index_label
         span #{info.opf.dc.title}
         br
-        a.page_prev(rel="tooltip", title="目次 前へ") #{" ◀  "}
-        span #{"　目次　"}
-        a.page_next(rel="tooltip", title="目次 次へ") #{" ▶  "}
+        .btn.btn-info.pos-prev(rel="tooltip", title="目次 前へ") #{"◀ "}
+        span #{" 目次"}
+        .btn.btn-info.pos-next(rel="tooltip", title="目次 次へ") #{"▶"}
         a(href="/unziped/files/"+info.epub.epub_name, rel="tooltip", title="内部ファイルを閲覧します。")#unzipped_files
           img(src="images/logo-extractor.png", width="24", height="24")
       div
         div#index_list(style="overflow:scroll;")
           ul
-            - pos = 0
+            - pos = 0;
             - each topic in info.ncx.navPoint
-              - lop = topic.level 
+              - lop = topic.level;
               - for (i = 1; i < lop; i++) {
                   &nbsp;&nbsp;
               - }
-              a.toc_item(src="", pos=pos) #{topic.text}
-              - pos += 1
+              a.toc-item(pos=pos, chap=chap[topic.content]) #{topic.text}
+              - pos += 1;
               br
     div
       iframe(id="myframe")
@@ -46,10 +46,21 @@ block content
   - each topic in info.ncx.navPoint
     - url = "/unziped/files/" + info.epub.epub_name + "/" + info.opf_dir + "/" + topic.content;
     != "toc.push('" + url + "');"
+  != "var chap = [];"
+  - each topic in chap
+    - url = "/unziped/files/" + info.epub.epub_name + "/" + info.opf_dir + "/" + topic;
+    != "chap.push('" + url + "');"
+  != "var pos2chap = [];"
+  - each v in pos2chap
+    != "pos2chap.push(" + v + ");"
+  != "var chap2pos = [];"
+  - each v in chap2pos
+    != "chap2pos.push(" + v + ");"
   != "</script>"
 
   script(type="text/javascript")
     var cur_pos;
+    var cur_chap_pos;
     var right_panel_x;
 
     function set_index(flag) {
@@ -81,8 +92,8 @@ block content
       var width_iframe = width_right - 6;
       $("#myframe").css({width:width_iframe}).css({height:height_iframe});
 
-      $("#show-index").hide();
-      $("#hide-index").show();
+      $(".show-index").hide();
+      $(".hide-index").show();
     }
 
     function hide_index() {
@@ -96,13 +107,29 @@ block content
       var height_iframe = $("#cont").height() - 10;
       $("#myframe").css({width:width_iframe}).css({height:height_iframe});
 
-      $("#show-index").show();
-      $("#hide-index").hide();
+      $(".show-index").show();
+      $(".hide-index").hide();
     }
 
     $(function() {
 
-      function load_page(pos, move) {
+      function load_chap(chap_pos, move) {
+        var to_chap_pos = 0;
+        if (chap_pos) { 
+          to_chap_pos = parseInt(chap_pos, 10);
+        }
+        if (move) { to_chap_pos += parseInt(move, 10); }
+        if (to_chap_pos < 0) { to_chap_pos = 0; }
+        if (to_chap_pos > chap.length - 1) { to_chap_pos = chap.length - 1; }
+        cur_chap_pos = to_chap_pos;
+        cur_pos = chap2pos[cur_chap_pos];
+        $.cookie("chap:" + document.location, cur_chap_pos, { expires: 7 });
+
+        $('#myframe').attr("src", chap[to_chap_pos]);
+        set_index_pos(cur_pos);
+      }
+
+      function load_pos(pos, move) {
 
         var to_pos = 0;
         if (pos) { 
@@ -112,36 +139,58 @@ block content
         if (to_pos < 0) { to_pos = 0; }
         if (to_pos > toc.length - 1) { to_pos = toc.length - 1; }
         cur_pos = to_pos;
-        $.cookie("" + document.location, cur_pos, { expires: 7 });
+        cur_chap_pos = pos2chap[cur_pos]; 
+        $.cookie("pos:" + document.location, cur_pos, { expires: 7 });
 
         $('#myframe').attr("src", toc[to_pos]);
 
-        $('.red_item').removeClass("red_item");
-        $('.toc_item').each(  function() {
-          if ($(this).attr("pos") == to_pos) {
-            $(this).addClass("red_item");
-          }
-        });
+        set_index_pos(cur_pos);
       };
 
-      $(".toc_item").click(function() {
+      function set_index_pos(pos) {
+        $('.red-item').removeClass("red-item");
+        $('.toc-item').each(  function() {
+          if ($(this).attr("pos") == pos) {
+            $(this).addClass("red-item");
+          }
+        });
+
+        if (cur_chap_pos == 0) {
+          $(".chap-prev").attr("disabled", true);
+          $(".chap-next").removeAttr("disabled");
+        }
+        if (cur_chap_pos == chap.length - 1) {
+          $(".chap-prev").removeAttr("disabled");
+          $(".chap-next").attr("disabled", true);
+        }
+      }
+
+      $(".toc-item").click(function() {
         var pos = $(this).attr("pos");
-        load_page(pos, 0);
+        load_pos(pos, 0);
       });
 
-      $(".page_prev").click(function() {
-        load_page(cur_pos, -1);
+      $(".pos-prev").click(function() {
+        load_pos(cur_pos, -1);
       });
 
-      $(".page_next").click(function() {
-        load_page(cur_pos, 1);
+      $(".pos-next").click(function() {
+        load_pos(cur_pos, 1);
       });
 
-      $(".history_prev").click(function() {
+      $(".chap-prev").click(function() {
+        load_chap(cur_chap_pos, -1);
+      });
+
+      $(".chap-next").click(function() {
+        load_chap(cur_chap_pos, 1);
+      });
+
+      $(".history-prev").click(function() {
         hisory.back();
       });
 
-      $(".history_next").click(function() {
+      $(".history-next").click(function() {
         hisory.go();
       });
 
@@ -163,8 +212,8 @@ block content
       set_index(isShow_index);
 
       var pos = 0;
-      if ($.cookie("" + document.location)) {
-        pos = parseInt($.cookie("" + document.location), 10);
+      if ($.cookie("pos:" + document.location)) {
+        pos = parseInt($.cookie("pos:" + document.location), 10);
       }
-      load_page(pos, 0);
+      load_pos(pos, 0);
     });

@@ -59,14 +59,14 @@ article {
   width: 600px;
 }
 a {
-  color: #f90;
+  color: #d81;
   text-decoration: underline;
 }
 a:hover {
   color: #f00;
 }
-.red_item {
-  background-color: #aaa;
+.red-item {
+  background-color: #8cf;
 }
 div.grippie {
   background: #eee url("../images/grippie.png") no-repeat scroll center 2px;
