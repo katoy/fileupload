@@ -86,14 +86,15 @@ app.get '/toc', (req, res) ->
       chap.push href
 
     ch = 0
-    for v in info.ncx.navPoint
-      cont = v.content
-      idref = ""
-      for item in info.opf.item
-        idref = item.id  if item.href == cont
-      for ref, idx in info.opf.itemref
-        ch = idx if ref.idref == idref
-      pos2chap.push ch
+    if info.ncx and info.ncx.navPoint
+      for v in info.ncx.navPoint
+        cont = v.content
+        idref = ""
+        for item in info.opf.item
+          idref = item.id  if item.href == cont
+        for ref, idx in info.opf.itemref
+          ch = idx if ref.idref == idref
+        pos2chap.push ch
 
     pos = 0
     for v in info.opf.itemref
@@ -101,9 +102,10 @@ app.get '/toc', (req, res) ->
       href = ""
       for item in info.opf.item
         href = item.href if item.id == idref
-      for p, idx in info.ncx.navPoint
-        pos = idx if p.content == href
-      chap2pos.push pos
+      if info.ncx and info.ncx.navPoint
+        for p, idx in info.ncx.navPoint
+          pos = idx if p.content == href
+        chap2pos.push pos
 
     res.render 'files/toc', {info: info, chap: chap, pos2chap: pos2chap, chap2pos: chap2pos}
 
@@ -122,11 +124,12 @@ app.get '/toc.json', (req, res) ->
     res.contentType('application/json')
 
     toc = [ {label:"root", child: []} ]
-    for nav in info.ncx.navPoint
-      node = { label: nav.text, href: nav.content, id: nav.id, child: []}
-      level = nav.level
-      parent = get_parent(toc, level)
-      parent.child.push(node)
+    if info.ncx and info.ncx.navPoint
+      for nav in info.ncx.navPoint
+        node = { label: nav.text, href: nav.content, id: nav.id, child: []}
+        level = nav.level
+        parent = get_parent(toc, level)
+        parent.child.push(node)
 
     data = JSON.stringify(toc)
     console.log(data)
@@ -136,7 +139,7 @@ app.get '/files/upload', (req, res) ->
   res.render 'files/upload'
 
 app.post '/upload', (req, res) ->
-  files.upload req.files.file, (err) ->
+  files.upload req.files.file, (err, dest) ->
     if err
       res.render 'err', {message: err}
     else
@@ -145,14 +148,14 @@ app.post '/upload', (req, res) ->
 app.get '/upload/url', (req, res) ->
   url = req.param("q");
   console.log url
-  files.upload_url url, (err) ->
+  files.upload_url url, (err, dest) ->
     if err
       res.render 'err', {message: err}
     else
       res.redirect '/files'
 
 app.get '/delete', (req, res) ->
-  files.remove req.query['name'], ->
+  files.remove req.query['name'], (err) ->
     res.redirect '/files'
 
 app.get '/epubcheck3', (req, res) ->
@@ -163,13 +166,16 @@ app.get '/unzip', (req, res) ->
   res.setHeader('Content-Type', 'text/plain')
   files.unzip req.query['name']
 
-app.get '/meta', (req, res) ->
-  name = req.query['name']
-  files.toc name, (err, info) ->
+app.get '/meta/:name', (req, res) ->
+  name = req.params.name
+  files.meta name, (err, attr) ->
+    console.log "--------- /meta/:name"
+    console.log util.inspect(attr, false, null)
     res.contentType('text/plain')
     ans = "<center>" + name + "<table border='1'>"
-    for key, val of info.opf.dc
+    for key, val of attr.info.opf.dc
       ans += "<tr><td align='right' style='padding:4px;'>" + key + "</td><td align='left' style='padding:4px;'>" + val + "</td></tr>"  if val
+    ans += "<tr><td align='right' style='padding:4px;'>" + "version" + "</td><td align='left' style='padding:4px;'>" + attr.info.opf.package_info.version + "</td></tr>"
     ans += "</table></center>"
     res.send ans
 

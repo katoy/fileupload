@@ -13,3 +13,6 @@ lib/epubcheck3/*
 src-inst
 coverage.html
 logs
+database.sqlite
+database-test.sqlite
+config/runtime.json

@@ -1,0 +1,6 @@
+
+(default.yaml):
+
+db:
+  database: database.sqlite
+

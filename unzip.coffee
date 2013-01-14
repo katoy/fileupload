@@ -1,32 +1,29 @@
 
 # ファイル解凍するコマンドラインアプリケーション。
 
-zip = require 'zipfile'
+unzip = require 'unzip'
 fs = require 'fs'
-path = require 'path'
-util = require 'util'
+fstream = require 'fstream'
 mkdirp = require 'mkdirp'
 
-usage = 'usage: $ node unzip.js zipfile [out_dir]'
+usage = 'usage: $ coffee unzip.coffee zipfile [out_dir]'
 
-file = process.argv[2]
+file = null
+file = process.argv[2] if process.argv.length > 2
 out_dir = '.'
 out_dir = process.argv[3] if process.argv.length > 3
 
-unless file
+if file is null
   console.log usage
   process.exit 1
 
-zf = new zip.ZipFile(file)
-zf.names.forEach (name) ->
-  uncompressed = path.join(out_dir, name)
-  dirname = path.dirname(uncompressed)
-  mkdirp.mkdirp dirname, 0o0755, (err) ->
-    throw err  if err and not err.code.match(/^EEXIST/)
+unless fs.existsSync(file)
+  console.log "No exists: #{file}"
+  process.exit 1
 
-    if path.extname(name)
-      buffer = zf.readFileSync(name)
-      fd = fs.openSync(uncompressed, 'w')
-      util.log "unzipping: #{name}"
-      fs.writeSync fd, buffer, 0, buffer.length, null
-      fs.closeSync fd
+mkdirp.sync(out_dir) unless fs.existsSync(out_dir)
+
+readStream = fs.createReadStream(file)
+writeStream = fstream.Writer(out_dir)
+
+readStream.pipe(unzip.Parse()).pipe writeStream

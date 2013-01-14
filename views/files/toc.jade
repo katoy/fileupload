@@ -24,29 +24,31 @@ block content
         .btn.btn-info.pos-prev(rel="tooltip", title="目次 前へ") #{"◀"}
         span #{" 目次"}
         .btn.btn-info.pos-next(rel="tooltip", title="目次 次へ") #{"▶"}
-        a(href="/unziped/files/"+info.epub.epub_name, rel="tooltip", title="内部ファイルを閲覧します。")#unzipped_files
+        a(href="/unziped/files/"+info.epub.epub_name, rel="tooltip", title="内部ファイルを閲覧します。", target="_blank")#unzipped_files
           img(src="images/logo-extractor.png", width="24", height="24")
       div
         div#index_list(style="overflow:scroll;")
           ul
             - pos = 0;
-            - each topic in info.ncx.navPoint
-              - lop = topic.level;
-              - for (i = 1; i < lop; i++) {
-                  &nbsp;&nbsp;
-              - }
-              a.toc-item(pos=pos, chap=chap[topic.content]) #{topic.text}
-              - pos += 1;
-              br
+            - if (info.ncx != null)
+              - each topic in info.ncx.navPoint
+                - lop = topic.level;
+                - for (i = 1; i < lop; i++) {
+                    &nbsp;&nbsp;
+                - }
+                a.toc-item(pos=pos, chap=chap[topic.content]) #{topic.text}
+                - pos += 1;
+                br
     div
       iframe(id="myframe")
 
   != "<script type='text/javascript'>"
   != "var toc = [];"
-  - each topic in info.ncx.navPoint
-    - url = "/unziped/files/" + info.epub.epub_name + "/" + info.opf_dir + "/" + topic.content;
-    != "toc.push('" + url + "');"
-  != "var chap = [];"
+  - if (info.ncx != null)
+    - each topic in info.ncx.navPoint
+      - url = "/unziped/files/" + info.epub.epub_name + "/" + info.opf_dir + "/" + topic.content;
+      != "toc.push('" + url + "');"
+    != "var chap = [];"
   - each topic in chap
     - url = "/unziped/files/" + info.epub.epub_name + "/" + info.opf_dir + "/" + topic;
     != "chap.push('" + url + "');"

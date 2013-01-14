@@ -1,10 +1,10 @@
-zipfile = require "zipfile"
+
+zip = require 'node-zip'
 libxmljs = require 'libxmljs'
 assert = require 'assert'
 fs = require 'fs'
 path = require 'path'
 util = require 'util'
-
 
 get_text =  (node) ->
   return node if !node
@@ -22,32 +22,31 @@ class Epub3
 
   checkMimetype: (callback) ->
     hasMimetype = false
-    for f in @zf.names
-      if f.toLowerCase() == 'mimetype'
-        hasMimetype = true
-        @zf.readFile f, (err, data) ->
-          throw err if err
-          mimetype = data.toString("utf-8").toLowerCase().trim()
-          throw new Error("illegal mimetype: #{mimetype}") if mimetype != 'application/epub+zip'
-          callback(err, mimetype) if callback
+    err = null
 
-    throw new Error("No mimetype file in #{@epub_path}") if !hasMimetype
+    if @zf.file('mimetype')
+      mimetype = @zf.file('mimetype').asText().toLowerCase().trim()
+      if mimetype != 'application/epub+zip'
+        err = new Error("illegal mimetype: #{mimetype}")
+      else
+        hasMimetype = true
+
+    err = new Error("No mimetype file in #{@epub_path}") unless hasMimetype
+    callback(err, mimetype) if callback
 
   checkMimetypeSync:  ->
     hasMimetype = false
-    for f in @zf.names
-      if f.toLowerCase() == 'mimetype'
-        hasMimetype = true
-        @zf.readFile f, (err, data) ->
-          throw err if err
-          mimetype = data.toString("utf-8").toLowerCase().trim()
-          throw new Error("illegal mimetype: #{mimetype}") if mimetype != 'application/epub+zip'
+
+    if @zf.file('mimetype')
+      mimetype = @zf.file('mimetype').asText().toLowerCase().trim()
+      throw new Error("illegal mimetype: #{mimetype}") if mimetype != 'application/epub+zip'
+      hasMimetype = true
 
     throw new Error("No mimetype file in #{@epub_path}") if !hasMimetype
     true
 
   parse_container:  ->
-    data = @zf.readFileSync('META-INF/container.xml')
+    data = @zf.file('META-INF/container.xml').asText()
     doc = libxmljs.parseXmlString(data.toString('utf-8'))
     # util.log doc.toString()
 
@@ -72,7 +71,7 @@ class Epub3
     opf = {}
     opf.package_info = {}
 
-    data = @zf.readFileSync opf_file
+    data = @zf.file(opf_file).asText()
     doc = libxmljs.parseXmlString(data.toString('utf-8'))
     # util.log doc.toString()
 
@@ -306,8 +305,7 @@ class Epub3
     opf
 
   parse_ncx : (ncx_file) ->
-
-    data = @zf.readFileSync ncx_file
+    data = @zf.file(ncx_file).asText()
     doc = libxmljs.parseXmlString(data.toString('utf-8'))
     # util.log "--------- parse_ncx -------"
     # util.log doc.toString()
@@ -370,18 +368,42 @@ class Epub3
     ncx
 
   parse: (@epub_path, callback) ->
+    # util.log "------- Start parse  " + @epub_path
+
     epub_path = @epub_path
     epub3 = this
 
-    throw new Error("file not found #{epub_path}") if !path.existsSync(epub_path)
-    @zf = new zipfile.ZipFile(epub_path)
+    @zf = null
+    @dir = null
+    @info = null
+
+    container = null
+    opf = null
+    ncx = null
+
+    # parse META-INF/container.xml
+    # util.log "------- Start parse 001"
+    unless fs.existsSync(epub_path)
+      err = new Error("file not found #{epub_path}")
+      callback(err, null) if callback
+      return
+
+    data = fs.readFileSync(@epub_path, "binary")
+    @zf = new zip(data, { base64: false, checkCRC32: true} )
+
+    unless fs.existsSync(epub_path)
+      err =  new Error("file not found #{epub_path}")
+      callback(err, null) if callback
+      return
 
     this.checkMimetype (err, data) ->
       # console.log epub3
       info = epub3.parseSync(epub_path)
+      # util.log "------- End parse  " + @epub_path
       callback(null, info) if callback
 
   parseSync: (@epub_path) ->
+    # util.log "------- Start parseSync  " + @epub_path
     epub_path = @epub_path
     @zf = null
     @dir = null
@@ -392,8 +414,10 @@ class Epub3
     ncx = null
 
     # parse META-INF/container.xml
-    throw new Error("file not found #{epub_path}") if !path.existsSync(epub_path)
-    @zf = new zipfile.ZipFile(epub_path)
+    throw new Error("file not found #{epub_path}") unless fs.existsSync(epub_path)
+
+    data = fs.readFileSync(@epub_path, "binary")
+    @zf = new zip(data, { base64: false, checkCRC32: true} )
 
     this.checkMimetypeSync()
     container = this.parse_container()
@@ -404,23 +428,28 @@ class Epub3
     try
       ncx = this.parse_ncx("#{@dir}/#{opf.ncx_file}")
     catch err
-      ncx = this.parse_ncx("#{opf.ncx_file}")
+      try
+        ncx = this.parse_ncx("#{opf.ncx_file}")
+      catch err
 
     epub = {
       epub_dir: path.dirname(@epub_path)
       epub_name: path.basename(@epub_path)
       opf_dir: path.dirname(container.opf_file)
     }
+
+    # util.log "------- End parseSync  " + @epub_path
     @info = {container:container, opf:opf, ncx:ncx, epub: epub}
 
   get_content_ids:  ->
     ans = []
-    ans.push nav.id for nav in @info.ncx.navPoint
+    if @info.ncx and @info.ncx.navPoint
+      ans.push(nav.id) for nav in @info.ncx.navPoint
     ans
 
   get_item_ids:  ->
     ans = []
-    ans.push item.id for item in @info.opf.item
+    ans.push(item.id) for item in @info.opf.item
     ans
 
   get_content: (file_path, callback) ->
@@ -428,22 +457,24 @@ class Epub3
     p = "#{@dir}/#{pathpart[0]}"
     p = path.normalize(p)
     this.check_in_zip(p)
-    @zf.readFile p, (err, data) ->
-      callback(err, null)  if err
-      callback(null, data.toString('utf-8'))
-
-  get_image: (path, callback) ->
-    pathpart = file_path.split '#'
-    p = "#{@dir}/#{pathpart[0]}"
-    p = path.normalize(p)
-    this.check_in_zip(p)
-    @zf.readFile p, (err, data) ->
-      callback(err, null)  if err
+    try
+      data = @zf.flle(p).asText()
       callback(null, data)
+    catch err
+      callback(err, null)
+
+  #get_image: (path, callback) ->
+  #  pathpart = file_path.split '#'
+  #  p = "#{@dir}/#{pathpart[0]}"
+  #  p = path.normalize(p)
+  #  this.check_in_zip(p)
+  #
+  #  callback(err, null)  unless @fz.file[p]
+  #  callback(null, @zf.file(p).asText())
 
   check_in_zip: (c_path) ->
-    for f in @zf.names
-      return true if f == c_path
+    for entry of @zf.files
+      return true if entry == c_path
     throw new Error("zip has not #{c_path}")
 
 module.exports = Epub3

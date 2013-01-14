@@ -17,7 +17,7 @@ block content
 
   .center
 
-    div.modal.hide#myModal
+    div.modal.hide#myModal(tabindex="-1", role="dialog", ria-hidden="true")
       div.modal-header
         button.close(data-dismiss="modal") #{"x"}
         h3 #{"Modal Sample"}
@@ -27,43 +27,51 @@ block content
        a.btn(href="#", data-dismiss="modal") #{"Close"}
 
     #epub-list
-      table.table.table-striped.table-bordered.table-condensed.table-hover
-        thead
-          th.middled(id="epub-form", nowrap="true")
-            form#epub-search.form-search.centered
-              span.icon-search
-              input.search.search-query#epub-search-input(tyep="text", placeholder="絞込み", rel="tooltip",
-                title="2文字以上の入力で、タイトル、作者、名前をインクリメンタルに絞り込みをします。" )
-          th.sort(data-sort="epub-title", rel="tooltip", title="クリックするとタイトルでソートします。") #{"タイトル"}
-          th.sort(data-sort="epub-creator", rel="tooltip", title="クリックすると作者でソートします。") #{"作者"}
-          th.sort(idata-sort="epub-name", rel="tooltip", title="クリックすると名前でソートします。") #{"名前"}
+      - if (files.length == 0)
+        H2 #{"登録されている書籍はありません。"}
+        br
+        . #{"ページ上部ツールバーにある[登録] をクリックすると ePbub を登録できます。"}
+      - else
+        table.table.table-striped.table-bordered.table-condensed.table-hover
+          thead
+            th.middled#epub-form(nowrap="true")
+              form#epub-search.form-search.centered
+                span.icon-search
+                input.search.search-query#epub-search-input(tyep="text", placeholder="絞込み", rel="tooltip",
+                  title="2文字以上の入力で、タイトル、作者、名前をインクリメンタルに絞り込みをします。" )
+            th.sort(data-sort="epub-title", title="クリックするとタイトルでソートします。") #{"タイトル"}
+            th.sort(data-sort="epub-creator", title="クリックすると作者でソートします。") #{"作者"}
+            th.sort(data-sort="epub-name", title="クリックすると名前でソートします。") #{"名前"}
 
-        tbody.list
-          - each file in files
-            tr
-              - if (file["name"].match("\.epub$") == ".epub")
-                td.centered
-                  a(href="/epubcheck3?name="+file["name"], onclick="waiting();return true;", rel="tooltip", title="epub3チェックを実行します。")
-                    img(src="images/logo-epub.png", width="32", height="32")
-                  a(href="/unziped/files/" + file["name"], rel="tooltip", title="内部ファイルを閲覧します。")
-                    img(src="images/logo-extractor.png", width="32", height="32")
-                  a(href="/delete?name=" + file["name"], rel="tooltip", title="削除します。")
-                    img(src="images/delete.png", width="32", height="32")
-                  a(data-toggle="modal", role="button", href="#myModal", data-remote="/meta?name=" + file["name"], data-keyboard="true")
-                    img(src="images/details.png", width="32", height="32", rel="tooltip", title="詳細情報を表示します。")
+          tbody.list
+            - each file in files
+              tr
+                - if (file["name"].match("\.epub$") == ".epub")
+                  td.centered(nowrap="true")
+                    a(href="/epubcheck3?name="+file["name"], onclick="waiting();return true;", rel="tooltip", title="epub3チェックを実行します。", target="_blank")
+                      img(src="images/logo-epub.png", width="32", height="32")
+                    a(href="/unziped/files/" + file["name"], rel="tooltip", title="内部ファイルを閲覧します。", target="_blank")
+                      img(src="images/logo-extractor.png", width="32", height="32")
+                    a(href="/delete?name=" + file["name"], rel="tooltip", title="削除します。")
+                      img(src="images/delete.png", width="32", height="32")
+                    a(data-toggle="modal", role="button", href="#myModal", rel="tooltip", title="詳細情報を表示します。", data-remote="/meta/" + file["name"])
+                      img(src="images/details.png", width="32", height="32")
 
-                td
-                  a(href="/toc?name="+file["name"], rel="tooltip", title="ePbubを開きます。")
-                    span.epub-title  #{file.info.opf.dc.title}
-                td
-                  a(href="/toc?name="+file["name"], rel="tooltip", title="ePbubを開きます。")
-                    span.epub-creator #{file.info.opf.dc.creator}
-              - else
-                td
-                td
-                td
-                td
-              td
-                a(href=file["path"], rel="tooltip", title="ファイルをダウンロードします。") 
-                  span.epub-name #{file["name"]}
+                  td
+                    a(href="/toc?name="+file["name"], rel="tooltip", title="ePbubを開きます。")
+                      span.epub-title  #{file.info.opf.dc.title}
+                  td
+                    a(href="/toc?name="+file["name"], rel="tooltip", title="ePbubを開きます。")
+                      span.epub-creator #{file.info.opf.dc.creator}
+                  td
+                    a(href="/toc?name="+file["name"], rel="tooltip", title="ePbubを開きます。")
+                      span.epub-name #{file.name}
+                - else
+                  td
+                  td
+                  td
+                  td
+                  td
+                    a(href=file["path"], rel="tooltip", title="ファイルをダウンロードします。") 
+                      span.epub-name #{file["name"]}
   br

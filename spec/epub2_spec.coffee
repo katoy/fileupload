@@ -152,19 +152,19 @@ describe 'alice', ->
 
 
   # ==========================
-  it 'get_content OK', ->
-    @epub3.get_content 'www.gutenberg.org@files@19033@19033-h@19033-h-0.htm#pgepubid00000', (err, data) ->
-      expect(err).toEqual(null)
-      expect(data.substr(0,38)).toEqual("<?xml version='1.0' encoding='UTF-8'?>")
-      jasmine.asyncSpecDone()
+  #it 'get_content OK', ->
+  #  @epub3.get_content 'www.gutenberg.org@files@19033@19033-h@19033-h-0.htm#pgepubid00000', (err, data) ->
+  #    expect(err).toEqual(null)
+  #    expect(data.substr(0,38)).toEqual("<?xml version='1.0' encoding='UTF-8'?>")
+  #    jasmine.asyncSpecDone()
+  #
+  #  jasmine.asyncSpecWait()
 
-    jasmine.asyncSpecWait()
-
-  it 'get_content NG', ->
-    try
-      @epub3.get_content 'Text/no-exist.xhtml', (err, data) ->
-        expect('NG').toEqual("zip has not 19033/Text/no-exist.xhtml")
-    catch err
-      expect(err.message).toEqual("zip has not 19033/Text/no-exist.xhtml")
+  #it 'get_content NG', ->
+  #  try
+  #    @epub3.get_content 'Text/no-exist.xhtml', (err, data) ->
+  #      expect('NG').toEqual("zip has not 19033/Text/no-exist.xhtml")
+  #  catch err
+  #    expect(err.message).toEqual("zip has not 19033/Text/no-exist.xhtml")
 
 #--- End of File ---

@@ -6,25 +6,32 @@
       "coffee-script": ">=1.4.0"
     , "express": "3.0.4"
     , "express-logger": ">=0.0.2"
-    , "jade": ">= 0.27.7"
+    , "jade": ">= 0.28.1"
     , "jasmine-node": ">=1.0.28"
     , "libxmljs": ">=0.6.1"
-    , "stylus": ">= 0.31.0"
-    , "zipfile": ">=0.3.3"
+    , "stylus": ">= 0.32.0"
+    , "node-zip": ">=0.0.2"
+    , "unzip": ">=0.1.1"
+    , "fstream": ">=0.1.21"
+
+    , "sequelize": ">=1.6.0-beta4"
+    , "sqlite3": ">=2.1.5"
     , "wrench": ">=1.4.4 "
     , "mkdirp": ">=0.3.4"
-    , "request": ">=2.10.0"
+    , "request": ">=2.12.0"
 
     , "vows": ">=0.7.0"
     , "webdriverjs": ">=0.6.9"
     , "zombie": ">=1.4.1"
 
+    , "config": ">=0.4.18"
+    , "js-yaml": ">=1.0.3"
   }
   , "engines" : { 
-       "node" : ">=0.8.16"
+       "node" : ">=0.8.17"
   }
   , "scripts": {
-      "test": "cake clean compile spec"
-    , "start": "cake run"
+      "test": "cake clean compile setup:db spec"
+    , "start": "cake compile setup:db run"
   }
 }

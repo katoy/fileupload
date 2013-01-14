@@ -37,6 +37,8 @@ finds = (folders) ->
   for folder in folders
     traverseFileSystem folder
 
+  appFiles.push "public/javascripts/app.coffee"
+
 run = (args...) ->
   for a in args
     switch typeof a
@@ -66,20 +68,21 @@ task 'count', 'how much files (*.coffee, *.js, *~)', ->
   util.log "#{jsFiles.length} js files found."
   util.log "#{backFiles.length} *~ files found."
 
-task 'compile', 'Compile *.coffee', ->
+task 'compile', 'Compile **/*.coffee', ->
   invoke 'count'
   util.log "compileing #{appFiles.length} files (*.coffee) ..."
   for file, index in appFiles then do (file, index) ->
     util.log "\t#{file}"
     run "coffee -c #{file}"
-  run "rm ./coverage.html"
+  fs.unlinkSync "./coverage.html" if fs.existsSync "./coverage.html"
 
 task 'clean', 'Clean compiled *.js *~', ->
   finds([SRC_DIR, ROUTES_DIR, SPEC_DIR, TEST_DIR])
   util.log "removing #{jsFiles.length}  files (*.js) ..."
   for file, index in jsFiles then do (file, index) ->
-    util.log "\t#{file}"
-    run "rm #{file}"
+    if fs.existsSync "#{file}"
+      util.log "\t#{file}"
+      fs.unlinkSync "#{file}"
 
   run "rm *.js"
 
@@ -87,7 +90,7 @@ task 'clean', 'Clean compiled *.js *~', ->
   util.log "removing #{backFiles.length}  files (*.*~) ..."
   for file, index in backFiles then do (file, index) ->
     util.log "\t#{file}"
-    run "rm #{file}"
+    fs.unlinkSync "#{file}"  if fs.existsSync "#{file}"
 
 # cake -e "development"
 option '-e', '--environment [ENVIRONMENT_NAME]', 'set the environment for `task:run` (production|development, default=development)'
@@ -102,8 +105,12 @@ task "setup", "setup node-modules",  ->
   run "mkdir -p public/unziped/files"
   run "npm install"
 
+task "setup:db", "setup emtpy databaese if nessesary",  ->
+  unless fs.exists('database.sqlite')
+    run "coffee createdb.coffee"
+
 task "spec", "spec", ->
-  run "jasmine-node spec --coffee spec"
+  run "NODE_ENV=test jasmine-node spec --coffee spec"
 
 task "test", "test and overage", ->
   console.log "------------------------------------"
@@ -118,7 +125,13 @@ task "test", "test and overage", ->
     runSync 'coffee unzip.coffee spec/kusamakura.epub kusamakura.epub', ->
       fs.renameSync 'kusamakura.epub', 'public/unziped/files/kusamakura.epub'
 
-  run "vows --spec --cover-html test/list_test.coffee"
+  process.env.NODE_ENV='test'
+  CONFIG = require('config').db
+
+  database = CONFIG.database
+  fs.unlinkSync(database) if fs.existsSync(database)
+  run "NODE_ENV=test coffee add_epub.coffee"
+  run "NODE_ENV=test vows --spec --cover-html test/list_test.coffee"
 
 task "inst", "inst", ->
   runSync "rm -fr #{SRC_INST_DIR}", ->
@@ -138,7 +151,7 @@ task "epubcheck3", "download and unzip epubchekc3", ->
   console.log "--------------------------------------"
 
 task "clean-epubcheck3", "clearn-epubcheck3", ->
-  run "rm -fr lib/epubcheck3"
+  run "rm -fr lib/epubcheck-3.0"
 
 task "lint", "lint", ->
   run "coffee --lint *.coffee #{SRC_DIR}/*.coffee #{SPEC_DIR}/*.coffee"
