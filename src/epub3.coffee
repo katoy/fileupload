@@ -7,7 +7,7 @@ path = require 'path'
 util = require 'util'
 
 get_text =  (node) ->
-  return node if !node
+  return node unless node
   node.text()
 
 merge_hash = (h1, h2) ->
@@ -31,36 +31,36 @@ class Epub3
       else
         hasMimetype = true
 
-    err = new Error("No mimetype file in #{@epub_path}") unless hasMimetype
+    err = new Error("No mimetype in #{@epub_path}") unless hasMimetype
     callback(err, mimetype) if callback
 
   checkMimetypeSync:  ->
-    hasMimetype = false
-
     if @zf.file('mimetype')
       mimetype = @zf.file('mimetype').asText().toLowerCase().trim()
       throw new Error("illegal mimetype: #{mimetype}") if mimetype != 'application/epub+zip'
-      hasMimetype = true
-
-    throw new Error("No mimetype file in #{@epub_path}") if !hasMimetype
+    else
+      throw new Error("No mimetype in #{@epub_path}")
     true
 
   parse_container:  ->
-    data = @zf.file('META-INF/container.xml').asText()
-    doc = libxmljs.parseXmlString(data.toString('utf-8'))
-    # util.log doc.toString()
+    if @zf.file('META-INF/container.xml')
+      data = @zf.file('META-INF/container.xml').asText()
+      doc = libxmljs.parseXmlString(data.toString('utf-8'))
+      # util.log doc.toString()
+    else
+      throw new Error("No 'META-INF/container.xml in #{@epub_path}")
 
     rootfiles = doc.get("//xmlns:rootfiles", 'urn:oasis:names:tc:opendocument:xmlns:container')
-    throw new Error(" 'META-INF/container.xml has no rootfiles") if !rootfiles
+    throw new Error(" 'META-INF/container.xml has no rootfiles") unless rootfiles
 
     rootfile = doc.get("//xmlns:rootfiles/xmlns:rootfile", 'urn:oasis:names:tc:opendocument:xmlns:container')
-    throw new Error(" 'META-INF/container.xml has no rootfiles/rootfile") if !rootfile
+    throw new Error(" 'META-INF/container.xml has no rootfiles/rootfile") unless rootfile
 
     mediatype = rootfile.attr('media-type').value()
     throw new Error(" 'META-INF/container.xml rootfile is not 'application/oebps-package+xml'") if mediatype != 'application/oebps-package+xml'
 
     opf_file = rootfile.attr('full-path').value()
-    throw new Error(" 'META-INF/container.xml has no 'full-path'") if !opf_file
+    throw new Error(" 'META-INF/container.xml has no 'full-path'") unless opf_file
 
     container = {}
     container.opf_file = opf_file.trim()
@@ -396,11 +396,12 @@ class Epub3
       callback(err, null) if callback
       return
 
-    this.checkMimetype (err, data) ->
-      # console.log epub3
+    try
       info = epub3.parseSync(epub_path)
       # util.log "------- End parse  " + @epub_path
       callback(null, info) if callback
+    catch err
+      callback(err, null) if callback
 
   parseSync: (@epub_path) ->
     # util.log "------- Start parseSync  " + @epub_path
@@ -459,9 +460,9 @@ class Epub3
     this.check_in_zip(p)
     try
       data = @zf.flle(p).asText()
-      callback(null, data)
+      callback(null, data) if callback
     catch err
-      callback(err, null)
+      callback(err, null) if callback
 
   #get_image: (path, callback) ->
   #  pathpart = file_path.split '#'

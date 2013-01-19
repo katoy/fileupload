@@ -30,7 +30,7 @@ block content
       - if (files.length == 0)
         H2 #{"登録されている書籍はありません。"}
         br
-        . #{"ページ上部ツールバーにある[登録] をクリックすると ePbub を登録できます。"}
+        . #{"ページ上部ツールバーにある[登録] をクリックすると ePub を登録できます。"}
       - else
         table.table.table-striped.table-bordered.table-condensed.table-hover
           thead
@@ -64,14 +64,14 @@ block content
                     a(href="/toc?name="+file["name"], rel="tooltip", title="ePbubを開きます。")
                       span.epub-creator #{file.info.opf.dc.creator}
                   td
-                    a(href="/toc?name="+file["name"], rel="tooltip", title="ePbubを開きます。")
-                      span.epub-name #{file.name}
+                    a(href="/uploaded/files/" + file['name'], rel="tooltip", title="ファイルをダウンロードします。") 
+                      span.epub-name #{file['name']}
                 - else
                   td
                   td
                   td
                   td
                   td
-                    a(href=file["path"], rel="tooltip", title="ファイルをダウンロードします。") 
+                    a(href="/uploaded/files/" + file['name'], rel="tooltip", title="ファイルをダウンロードします。") 
                       span.epub-name #{file["name"]}
   br

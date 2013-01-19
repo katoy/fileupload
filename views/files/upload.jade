@@ -26,7 +26,7 @@ block content
             button.btn.btn-info#submit(type="submit", name="submit") #{"ローカルファイルをアップロード"}
 
     div
-      form(action="/upload/url", method="GET")
+      form(action="/upload/url", method="POST")
         .control-group
           .controls
             input#q(type="text", name="q", required="true", placeholder="http://")

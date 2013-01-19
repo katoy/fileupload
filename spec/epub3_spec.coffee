@@ -22,7 +22,7 @@ describe 'no-exist-file', ->
       @epub3.parseSync('spec/README.zip')
       expect(false).toEqual('bad-file')
     catch err
-      expect(err.message).toEqual('No mimetype file in spec/README.zip')
+      expect(err.message).toEqual('No mimetype in spec/README.zip')
 
 describe 'kusamakura', ->
 

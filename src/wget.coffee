@@ -3,7 +3,7 @@ request = require 'request'
 url = require 'url'
 path = require 'path'
 fs = require 'fs'
-wrench = require 'wrench'
+mkdirp = require 'mkdirp'
 
 wget = (urlStr, dest_folder, dest_name, callback) ->
 
@@ -14,7 +14,7 @@ wget = (urlStr, dest_folder, dest_name, callback) ->
   dest_folder = '.' if dest_folder == null or dest_folder == ""
   dest = path.join(dest_folder, dest_name)
 
-  wrench.mkdirSyncRecursive(dest_folder, 0o0755) unless path.existsSync(dest_folder)
+  mkdirp.sync(dest_folder, 0o0755) unless path.existsSync(dest_folder)
 
   request urlStr, (err, res, body) ->
     callback(err, dest)

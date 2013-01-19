@@ -4,7 +4,7 @@ path = require 'path'
 CONFIG = require('config').db
 
 trace = (m) ->
-  console.log "# **** TRACE #{m}"
+  util.log "# **** TRACE #{m}"
 
 class Books
   constructor: (callback) ->
@@ -130,6 +130,6 @@ class Books
   show_books: (books_ary) ->
     ans = []
     ans.push "#{b.id}, #{b.file}. #{b.title}, #{b.author}" for b in books_ary
-    console.log ans
+    util.log ans
 
 module.exports = Books

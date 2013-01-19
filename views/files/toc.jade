@@ -28,17 +28,16 @@ block content
           img(src="images/logo-extractor.png", width="24", height="24")
       div
         div#index_list(style="overflow:scroll;")
-          ul
-            - pos = 0;
-            - if (info.ncx != null)
-              - each topic in info.ncx.navPoint
-                - lop = topic.level;
-                - for (i = 1; i < lop; i++) {
-                    &nbsp;&nbsp;
-                - }
+          - pos = 0;
+          - if (info.ncx != null)
+            - each topic in info.ncx.navPoint
+              - lop = topic.level;
+              - for (i = 1; i < lop; i++) {
+                &nbsp;&nbsp;
+              - }
                 a.toc-item(pos=pos, chap=chap[topic.content]) #{topic.text}
-                - pos += 1;
                 br
+              - pos += 1;
     div
       iframe(id="myframe")
 
@@ -48,7 +47,11 @@ block content
     - each topic in info.ncx.navPoint
       - url = "/unziped/files/" + info.epub.epub_name + "/" + info.opf_dir + "/" + topic.content;
       != "toc.push('" + url + "');"
-    != "var chap = [];"
+  - else
+    - each topic in chap
+      - url = "/unziped/files/" + info.epub.epub_name + "/" + info.opf_dir + "/" + topic;
+      != "toc.push('" + url + "');"
+  != "var chap = [];"
   - each topic in chap
     - url = "/unziped/files/" + info.epub.epub_name + "/" + info.opf_dir + "/" + topic;
     != "chap.push('" + url + "');"

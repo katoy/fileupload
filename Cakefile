@@ -2,6 +2,7 @@ spawn = require('child_process').spawn
 exec = require('child_process').exec
 
 fs = require 'fs'
+path = require 'path'
 util = require 'util'
 
 SRC_DIR = 'src'
@@ -27,7 +28,7 @@ finds = (folders) ->
          currentFile = currentPath + '/' + file
          stats = fs.statSync(currentFile)
          if stats.isFile() and currentFile.match(coffee_re) and not ~appFiles.indexOf( currentFile )
-           appFiles.push currentFile
+           appFiles.push currentFile unless path.dirname(currentFile) == SPEC_DIR
          else if stats.isFile() and currentFile.match(js_re) and not ~jsFiles.indexOf( currentFile )
            jsFiles.push currentFile
          else if stats.isFile() and currentFile.match(back_re) and not ~backFiles.indexOf( currentFile )
@@ -132,6 +133,12 @@ task "test", "test and overage", ->
   fs.unlinkSync(database) if fs.existsSync(database)
   run "NODE_ENV=test coffee add_epub.coffee"
   run "NODE_ENV=test vows --spec --cover-html test/list_test.coffee"
+  # reporter:
+  #   --json            Use JSON reporter
+  #   --spec            Use Spec reporter
+  #   --tap             Use TAP reporter
+  #   --dot-matrix      Use Dot-Matrix reporter
+  #   --xunit           Use xUnit reporter
 
 task "inst", "inst", ->
   runSync "rm -fr #{SRC_INST_DIR}", ->

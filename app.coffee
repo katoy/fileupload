@@ -132,7 +132,7 @@ app.get '/toc.json', (req, res) ->
         parent.child.push(node)
 
     data = JSON.stringify(toc)
-    console.log(data)
+    util.log(data)
     res.send(data)
 
 app.get '/files/upload', (req, res) ->
@@ -140,15 +140,16 @@ app.get '/files/upload', (req, res) ->
 
 app.post '/upload', (req, res) ->
   files.upload req.files.file, (err, dest) ->
+    util.log " start /upload #{dest}"
     if err
       res.render 'err', {message: err}
     else
       res.redirect '/files'
 
-app.get '/upload/url', (req, res) ->
+app.post '/upload/url', (req, res) ->
   url = req.param("q");
-  console.log url
   files.upload_url url, (err, dest) ->
+    util.log " start /upload #{dest}"
     if err
       res.render 'err', {message: err}
     else
@@ -169,8 +170,8 @@ app.get '/unzip', (req, res) ->
 app.get '/meta/:name', (req, res) ->
   name = req.params.name
   files.meta name, (err, attr) ->
-    console.log "--------- /meta/:name"
-    console.log util.inspect(attr, false, null)
+    util.log "--------- /meta/:name"
+    util.log util.inspect(attr, false, null)
     res.contentType('text/plain')
     ans = "<center>" + name + "<table border='1'>"
     for key, val of attr.info.opf.dc
@@ -181,5 +182,5 @@ app.get '/meta/:name', (req, res) ->
 
 module.exports.start = (port) ->
   http.createServer(app).listen port, ->
-    console.log "        Express server listening on port #{port} in #{app.settings.env} mode"
-    console.log "        See logs/log.txt"
+    util.log "        Express server listening on port #{port} in #{app.settings.env} mode"
+    util.log "        See logs/log.txt"

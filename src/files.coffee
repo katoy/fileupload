@@ -6,7 +6,6 @@ fstream = require 'fstream'
 util = require 'util'
 mkdirp = require 'mkdirp'
 path = require 'path'
-wrench = require 'wrench'
 epub3 = require './epub3'
 Books = require "./books"
 wget = require "./wget"
@@ -19,43 +18,24 @@ uploaded_url = "/uploaded/files/"
 books = new Books()
 
 is_epub = (name) ->
-  return false if (!name)
+  return false unless name
   ans = name.match('\.epub$')
   return ans && ans[0] == '.epub'
-
-# module.exports.list = (callback) ->
-  #fs.readdir uploaded_path, (err, files) ->
-  #  ret_files = []
-  #
-  #  if files
-  #    files.forEach (file) ->
-  #      attr = {path: "#{uploaded_url}#{file}", name: file}
-  #      if is_epub(file)
-  #        try
-  #          info = (new epub3()).parseSync(path.normalize("#{uploaded_path}#{file}"))
-  #          attr.info = info
-  #        catch err
-  #          util.log err
-  #
-  #      ret_files.push attr
-  #
-  #  callback err, ret_files
 
 module.exports.list = (callback) ->
   # callback(err, ans)
 
-  books.findAll {}, (err, bs) ->
+  books.findAll {order: 'id DESC'}, (err, bs) ->
     ans = []
     ans.push info for info in bs
-    console.log "-------- list-----------"
-    console.log util.inspect(bs, false, null)
+    util.log util.inspect(bs, false, null)
     callback(err, ans) if callback
 
 module.exports.meta = (name, callback) ->
   # callback(err, info)
   file_path = path.normalize("#{uploaded_path}#{name}")
 
-  books.findAll {where: {file: file_path}}, (err, bs) ->
+  books.findAll {where: {file: file_path}, order: 'id DESC'}, (err, bs) ->
     info = null
     info = attr for attr in bs
     callback(err, info) if callback
@@ -68,35 +48,43 @@ module.exports.toc = (name, callback) ->
     try
       info = (new epub3()).parseSync(path.normalize("#{uploaded_path}#{name}"))
       info.opf_dir = path.dirname(info.container.opf_file)
-      # util.log("----------- info.opf_dir=" + info.opf_dir)
     catch err
-      util.log err
+      util.log "-- toc: err=#{err}"
 
-  callback(null, info)
+  callback(null, info) if callback
 
-local_to_lib = (f_path, f_name, callback) ->
-  # callbacj(err, dest)
+local_to_lib = (f_path, f_name, callback) =>
+  # callback(err, dest)
 
-  # util.log "local_to_lib:" + fs.existsSync(f_path) + ", " + fs.statSync(f_path).size
   unless fs.existsSync(f_path)
-    callback("file is not exist", f_path)
-  else if fs.statSync(f_path).size == 0
-    callback("file is empty.", f_path)
-  else
-    lib_path = path.normalize("#{uploaded_path}#{f_name}")
-    fs.rename f_path, lib_path, (err) ->
-      if err
-        util.log "-- Error Rename #{f_path} - > #{lib_path}: err=" + err
-        callback(err, f_path)
-      else
-        util.log "-- Rename #{f_path} - > #{lib_path}"
+    return callback("file is not exist", f_path) if callback
 
-        # epub なら 解凍もする。
-        if is_epub(f_name)
+  if fs.statSync(f_path).size == 0
+    return callback("file is empty.", f_path) if callback
+
+  lib_path = path.normalize("#{uploaded_path}#{f_name}")
+  if fs.existsSync(lib_path)
+    return callback("Already uploaded #{f_name}", f_path) if callback
+
+  fs.rename f_path, lib_path, (err) =>
+    if err
+      util.log "-- Error Rename #{f_path} - > #{lib_path}: err=#{err}"
+      fs.unlinkSync(lib_path)
+      return callback(err, f_path) if callback
+    else
+      util.log "-- Rename #{f_path} - > #{lib_path}"
+      # epub なら 解凍もする。
+      if is_epub(f_name)
+        try
           books.addInfo lib_path, (new epub3()).parseSync(lib_path)
-          unzip(f_name)
 
-        callback(null, f_path)
+          unziped_path = "#{__dirname}/../public/unziped/files/#{f_name}"
+          @unzip lib_path, unziped_path, null
+          callback(null, f_path) if callback
+        catch ex
+          util.log "-- Error in loca_to_lib #{f_name}"
+          fs.unlinkSync(lib_path)
+          callback(ex, f_path) if callback
 
 module.exports.upload = (file, callback) ->
   # callback(err, dest)
@@ -108,13 +96,12 @@ module.exports.upload_url = (url, callback) ->
   # callback(err, dest)
   wget.wget url, "./tmp", null, (err, dest) ->
     if err
-      util.log "upload_url: err=" + err
-      callback(err, dest)
+      util.log "-- upload_url: err=#{err}"
+      callback(err, dest) if callback
     else
       util.log "Downloaded. " + dest
       f_name = path.basename(dest)
-      local_to_lib dest, f_name, (err) ->
-        callback(err, dest)
+      local_to_lib dest, f_name, callback
 
 module.exports.remove = (name, callback) ->
   # callback(err)
@@ -129,18 +116,40 @@ module.exports.remove = (name, callback) ->
   if (is_epub(name))
     unziped_dir = "#{__dirname}/../public/unziped/files/#{name}"
     if path.existsSync(unziped_dir)
-      wrench.rmdirSyncRecursive  unziped_dir
+      @rmDirSyncRecursive unziped_dir
       util.log "-- Delete dir #{unziped_dir}"
 
-  callback(null)
+  callback(null) if callback
+
+module.exports.rmDirSyncRecursive = (dirPath) ->
+  # fs.lchmodSync dirPath, 0o0700
+  for f in fs.readdirSync(dirPath)
+    filePath ="#{dirPath}/#{f}"
+
+    # fs.lchmodSync filePath, 0o0700
+    if fs.statSync(filePath).isFile()
+      fs.unlinkSync filePath
+    else
+      @rmDirSyncRecursive filePath
+
+  fs.rmdirSync dirPath
+
+module.exports.unzip = (zip_file, unziped_path, callback) ->
+  # callback(error, stdout, stderr)
+  mkdirp.sync(unziped_path) unless fs.existsSync(unziped_path)
+
+  if path.extname(zip_file) == ".epub"
+    util.log "unzipping: #{zip_file}"
+
+    # run "unzip #{zip_file} #"{unziped_path}"
+    exec "unzip #{zip_file} -d #{unziped_path}", null, callback
+  else
+    callback(null, null, null) if callback
 
 module.exports.epubcheck3 = (name, req, res) ->
   file_path = "./public/uploaded/files/#{name}"
   util.log "-- epubcheck3 #{file_path}"
   run res, "#{__dirname}/../public/uploaded/check3.sh '#{file_path}'"
-
-module.exports.unzip = (name, req, res) ->
-  unzip(name)
 
 run = (res, args...) ->
   str = ''
@@ -170,21 +179,3 @@ run = (res, args...) ->
     cmd.kill()
     res.end '\n--- End Checking ---'
     util.log '--- End Checking ---'
-
-unzip = (file_name) ->
-  unziped_path = "#{__dirname}/../public/unziped/files/#{file_name}"
-  zip_file = "#{uploaded_path}#{file_name}"
-
-  mkdirp.sync(unziped_path) unless fs.existsSync(unziped_path)
-
-  if path.extname(file_name) == ".epub"
-    util.log "unzipping: #{zip_file}"
-
-    # run "unzip #{zip_file} #"{unziped_path}"
-    exec "unzip #{zip_file} -d #{unziped_path}", (error, stdout, stderr) ->
-      if (stdout != '')
-        console.log '---------stdout: ---------\n' + stdout
-      if (stderr != '')
-        console.log '---------stderr: ---------\n' + stderr
-      if (error != null)
-        console.log '---------exec error: ---------\n' + error
