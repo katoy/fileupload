@@ -19,8 +19,13 @@ books = new Books()
 
 is_epub = (name) ->
   return false unless name
-  ans = name.match('\.epub$')
+  ans = name.match(/\.epub$/i)
   return ans && ans[0] == '.epub'
+
+is_pdf = (name) ->
+  return false unless name
+  ans = name.match(/\.pdf$/i)
+  return ans && ans[0] == '.pdf'
 
 module.exports.list = (callback) ->
   # callback(err, ans)
@@ -73,18 +78,31 @@ local_to_lib = (f_path, f_name, callback) =>
       return callback(err, f_path) if callback
     else
       util.log "-- Rename #{f_path} - > #{lib_path}"
-      # epub なら 解凍もする。
-      if is_epub(f_name)
-        try
-          books.addInfo lib_path, (new epub3()).parseSync(lib_path)
+      try
+        # epub なら 解凍もする。
+        if is_epub(f_name)
+          books.addInfo_epub lib_path, (new epub3()).parseSync(lib_path)
 
           unziped_path = "#{__dirname}/../public/unziped/files/#{f_name}"
           @unzip lib_path, unziped_path, null
           callback(null, f_path) if callback
-        catch ex
-          util.log "-- Error in loca_to_lib #{f_name}"
-          fs.unlinkSync(lib_path)
-          callback(ex, f_path) if callback
+
+        else if is_pdf(f_name)
+          getPDFMetadata lib_path, (info) ->
+            books.addInfo_pdf lib_path, info
+          callback(null, f_path) if callback
+  
+      catch ex
+        util.log "-- Error in loca_to_lib #{f_name}"
+        fs.unlinkSync(lib_path)
+        callback(ex, f_path) if callback
+
+  getPDFMetadata = (path, callback) ->
+    # callback(info)
+    exec "ruby lib/pdfmetadata.rb #{path}", null, (error, stdout, stderr) ->
+      console.log "---- getPDFMetadata stdout:" + stdout
+      info = JSON.parse(stdout)
+      callback(info)  if callback
 
 module.exports.upload = (file, callback) ->
   # callback(err, dest)

@@ -17,26 +17,37 @@ class Books
 
     @book = @db.define 'books',
       file: Sequelize.STRING
+      title: Sequelize.STRING
+      format: Sequelize.STRING
+      creator: Sequelize.STRING
 
+      # for epub
       opf_file: Sequelize.STRING
       lang: Sequelize.STRING
       version: Sequelize.STRING
 
       identifier: Sequelize.STRING
-      title: Sequelize.STRING
       language: Sequelize.STRING
       contributor: Sequelize.STRING
       coverage: Sequelize.STRING
-      creator: Sequelize.STRING
       date: Sequelize.STRING
       description: Sequelize.TEXT
-      format: Sequelize.STRING
       publisher: Sequelize.STRING
       relation: Sequelize.STRING
       rights: Sequelize.STRING
       source: Sequelize.STRING
       subject: Sequelize.STRING
       type: Sequelize.STRING
+
+      # for PDF
+      DocumentID: Sequelize.STRING
+      InstanceID: Sequelize.STRING
+      CreatorTool: Sequelize.STRING
+      Producer: Sequelize.STRING
+      Trapped: Sequelize.STRING
+      CreateDate: Sequelize.STRING
+      ModifyDate: Sequelize.STRING
+      MetadataDate: Sequelize.STRING
 
     @db.sync().success (errs) ->
       callback(errs, CONFIG.database) if callback
@@ -51,8 +62,8 @@ class Books
     @book.drop().success () ->
       callback(null) if callback
 
-  addInfo: (file, info, callback) ->
-    trace "addInfo"
+  addInfo_epub: (file, info, callback) ->
+    trace "addInfo_epub"
 
     #console.log "-----------------------------"
     #console.log "#{info.opf.dc.description}"
@@ -82,7 +93,29 @@ class Books
     attr.subject = info.opf.dc.subject
     attr.type = info.opf.dc.type
 
-    util.log "Add #{attr}"
+    util.log "Add epub #{attr}"
+    @book.create(attr).success (book) ->
+      callback(null, book) if callback
+
+  addInfo_pdf: (file, info, callback) ->
+    trace "addInfo_pdf"
+
+    attr = {}
+
+    attr.file = file
+    attr.title = info.title
+    attr.DocumentID = info.DocumentID
+    attr.InstanceID = info.InstanceID
+    attr.creator = info.creator 
+    attr.CreatorTool = info.CreatorTool
+    attr.Producer = info.Producer
+    attr.Trapped = info.Trapped
+    attr.format = info.format
+    attr.CreateDate = info.CreateDate
+    attr.ModifyDate = info.ModifyDate
+    attr.MetadataDate = info.MetadataDate
+
+    util.log "Add pdf #{attr}"
     @book.create(attr).success (book) ->
       callback(null, book) if callback
 
@@ -122,7 +155,38 @@ class Books
                         subject: b.subject,
                         type: b.type
                       }
-        ans.push { path: b.file, name: path.basename(b.file), info: info }
+        meta = {
+          # file: b.file
+          title: b.title
+          format: b.format
+          creator: b.creator
+          # --- for epub
+          # opf_file: b.opf_file
+          lang: b.lang
+          identifier: b.identifier
+          language: b.language
+          contributor: b.contributor
+          coverage: b.coverage
+          date: b.date
+          description: b.description
+          publisher: b.publisher
+          relation: b.relation
+          rights: b.rights
+          source: b.source
+          subject: b.subject
+          type: b.type
+          version: b.version
+          # --- for PDF
+          DocumentID: b.DocumentID
+          InstanceID: b.InstanceID
+          CreatorTool: b.CreatorTool
+          Producer: b.Producer
+          Trapped: b.Trapped
+          CreateDate: b.CreateDate
+          ModifyDate: b.ModifyDate
+          MetadataDate: b.MetadataDate
+        }
+        ans.push { path: b.file, name: path.basename(b.file), info: info, meta: meta }
 
       callback(null, ans) if callback
 

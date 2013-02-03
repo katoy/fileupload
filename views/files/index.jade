@@ -5,7 +5,7 @@ block content
   .navbar.navbar-fixed-top.navbar-inverse
     .navbar-inner
       .container-fluid
-        a.brand(href='#') #{"Express ePub Viewer"}
+        a.brand(href='#') #{"Express eBook Viewer"}
         .navbar-content
           ul.nav.nav-pills
             li.active
@@ -20,7 +20,7 @@ block content
     div.modal.hide#myModal(tabindex="-1", role="dialog", ria-hidden="true")
       div.modal-header
         button.close(data-dismiss="modal") #{"x"}
-        h3 #{"Modal Sample"}
+        h3 #{"書籍情報"}
       div.modal-body
         p #{"Description"}
       div.modal-footer
@@ -66,6 +66,25 @@ block content
                   td
                     a(href="/uploaded/files/" + file['name'], rel="tooltip", title="ファイルをダウンロードします。") 
                       span.epub-name #{file['name']}
+                - else if (file["name"].match("\.pdf$") == ".pdf")
+                  td.centered(nowrap="true")
+                    img(src="images/logo-pdf.png", width="32", height="32")
+                    img(src="images/none.png", width="32", height="32")
+                    a(href="/delete?name=" + file["name"], rel="tooltip", title="削除します。")
+                      img(src="images/delete.png", width="32", height="32")
+                    a(data-toggle="modal", role="button", href="#myModal", rel="tooltip", title="詳細情報を表示します。", data-remote="/meta/" + file["name"])
+                      img(src="images/details.png", width="32", height="32")
+
+                  td
+                    a(href="/uploaded/files/" + file['name'], rel="tooltip", title="PDFを開きます。")
+                      span.epub-title  #{file.info.opf.dc.title}
+                  td
+                    a(href="/uploaded/files/" + file['name'], rel="tooltip", title="PDFを開きます。")
+                      span.epub-creator #{file.info.opf.dc.creator}
+                  td
+                    a(href="/uploaded/files/" + file['name'], rel="tooltip", title="ファイルをダウンロードします。") 
+                      span.epub-name #{file['name']}
+
                 - else
                   td
                   td

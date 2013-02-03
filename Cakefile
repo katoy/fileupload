@@ -144,7 +144,7 @@ task "inst", "inst", ->
   runSync "rm -fr #{SRC_INST_DIR}", ->
     run "mkdir #{SRC_INST_DIR}"
 
-  runSync "cake compile; jscoverage #{SRC_DIR} #{SRC_INST_DIR}", ->
+  runSync "cake compile; jscov #{SRC_DIR} #{SRC_INST_DIR}", ->
     run "mv #{SRC_INST_DIR}/*.js #{SRC_DIR}"
 
 task "epubcheck3", "download and unzip epubchekc3", ->

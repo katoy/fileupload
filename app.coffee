@@ -53,7 +53,7 @@ app.configure 'production', ->
   app.use express.errorHandler()
   app.use express.logger()
 
-app.locals title: 'Express ePub Reader', pretty: true
+app.locals title: 'Express eBook Reader', pretty: true
 
 app.get '/help', (req, res) ->
     res.render 'help'
@@ -174,9 +174,8 @@ app.get '/meta/:name', (req, res) ->
     util.log util.inspect(attr, false, null)
     res.contentType('text/plain')
     ans = "<center>" + name + "<table border='1'>"
-    for key, val of attr.info.opf.dc
+    for key, val of attr.meta
       ans += "<tr><td align='right' style='padding:4px;'>" + key + "</td><td align='left' style='padding:4px;'>" + val + "</td></tr>"  if val
-    ans += "<tr><td align='right' style='padding:4px;'>" + "version" + "</td><td align='left' style='padding:4px;'>" + attr.info.opf.package_info.version + "</td></tr>"
     ans += "</table></center>"
     res.send ans
 

@@ -4,13 +4,15 @@ tarvis : [![Build Status](https://travis-ci.org/katoy/fileupload.png?branch=mast
 Usage
 =====
 
-    $ git clone *********
+    $ git clone https://github.com/katoy/fileupload.git
     $ cd fileupload
     
     $ npm install -g express
     $ npm install -g jasmine-node
     $ npm install -g vows
-    
+
+    $ bundle install
+	
     $ cake 
     
     $ cake setup 
