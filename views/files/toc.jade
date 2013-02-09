@@ -41,26 +41,28 @@ block content
     div
       iframe(id="myframe")
 
-  != "<script type='text/javascript'>"
-  != "var toc = [];"
+  != "<script type='text/javascript'>\n"
+  != "var toc = [];\n"
   - if (info.ncx != null)
     - each topic in info.ncx.navPoint
-      - url = "/unziped/files/" + info.epub.epub_name + "/" + info.opf_dir + "/" + topic.content;
-      != "toc.push('" + url + "');"
+      - url = "/unziped/files/" + info.epub.epub_name + "/" + (info.opf_dir + "/" + topic.content.replace(/\%23/g, "#")).replace(/\/_RESOURCE\//g, "/")
+      != "toc.push('" + url + "');\n"
   - else
     - each topic in chap
-      - url = "/unziped/files/" + info.epub.epub_name + "/" + info.opf_dir + "/" + topic;
-      != "toc.push('" + url + "');"
-  != "var chap = [];"
+      - url = "/unziped/files/" + info.epub.epub_name + "/" + (info.opf_dir + "/" + topic.replace(/\%23/g, "#")).replace(/\/_RESOURCE\//g, "/")
+      != "toc.push('" + url + "');\n"
+
+  != "var chap = [];\n"
   - each topic in chap
-    - url = "/unziped/files/" + info.epub.epub_name + "/" + info.opf_dir + "/" + topic;
-    != "chap.push('" + url + "');"
-  != "var pos2chap = [];"
+    - url = "/unziped/files/" + info.epub.epub_name + "/" + (info.opf_dir + "/" + topic.replace(/\%23/g, "#")).replace(/\/_RESOURCE\//g, "/")
+    != "chap.push('" + url + "');\n"
+
+  != "var pos2chap = [];\n"
   - each v in pos2chap
-    != "pos2chap.push(" + v + ");"
-  != "var chap2pos = [];"
+    != "pos2chap.push(" + v + ");\n"
+  != "var chap2pos = [];\n"
   - each v in chap2pos
-    != "chap2pos.push(" + v + ");"
+    != "chap2pos.push(" + v + ");\n"
   != "</script>"
 
   script(type="text/javascript")
@@ -123,6 +125,7 @@ block content
         if (chap_pos) { 
           to_chap_pos = parseInt(chap_pos, 10);
         }
+
         if (move) { to_chap_pos += parseInt(move, 10); }
         if (to_chap_pos < 0) { to_chap_pos = 0; }
         if (to_chap_pos > chap.length - 1) { to_chap_pos = chap.length - 1; }
@@ -148,7 +151,6 @@ block content
         $.cookie("pos:" + document.location, cur_pos, { expires: 7 });
 
         $('#myframe').attr("src", toc[to_pos]);
-
         set_index_pos(cur_pos);
       };
 
@@ -164,13 +166,22 @@ block content
           }
         });
 
-        if (cur_chap_pos == 0) {
-          $(".chap-prev").attr("disabled", true);
-          $(".chap-next").removeAttr("disabled");
+        // $(".chap-prev").removeAttr("disabled");
+        // $(".chap-next").removeAttr("disabled");
+        // if (cur_chap_pos == 0) {
+        //   $(".chap-prev").attr("disabled", true);
+        // }
+        // if (cur_chap_pos == chap.length - 1) {
+        //   $(".chap-next").attr("disabled", true);
+        // }
+
+        $(".pos-prev").removeAttr("disabled");
+        $(".pos-next").removeAttr("disabled");
+        if (cur_pos == 0) {
+          $(".pos-prev").attr("disabled", true);
         }
-        if (cur_chap_pos == chap.length - 1) {
-          $(".chap-prev").removeAttr("disabled");
-          $(".chap-next").attr("disabled", true);
+        if (cur_pos == chap.length - 1) {
+          $(".pos-next").attr("disabled", true);
         }
       }
 

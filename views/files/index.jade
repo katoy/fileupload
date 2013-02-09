@@ -66,6 +66,49 @@ block content
                   td
                     a(href="/uploaded/files/" + file['name'], rel="tooltip", title="ファイルをダウンロードします。") 
                       span.epub-name #{file['name']}
+
+                - else if (file["name"].match("\.mobi$") == ".mobi")
+                  td.centered(nowrap="true")
+                    img(src="images/logo-mobi.png", width="32", height="32")
+                    a(href="/unziped/files/" + file["name"] + ".epub", rel="tooltip", title="ePub 変換した結果の内部ファイルを閲覧します。", target="_blank")
+                      img(src="images/logo-extractor.png", width="32", height="32")
+
+                    a(href="/delete?name=" + file["name"], rel="tooltip", title="削除します。")
+                      img(src="images/delete.png", width="32", height="32")
+                    a(data-toggle="modal", role="button", href="#myModal", rel="tooltip", title="詳細情報を表示します。", data-remote="/meta/" + file["name"])
+                      img(src="images/details.png", width="32", height="32")
+
+                  td
+                    a(href="/toc?name=" + file['name']+".epub", rel="tooltip", title="mobi を開きます。")
+                      span.epub-title  #{file.info.opf.dc.title}
+                  td
+                    a(href="/toc?name=" + file['name']+".epub", rel="tooltip", title="mobi を開きます。")
+                      span.epub-creator #{file.info.opf.dc.creator}
+                  td
+                    a(href="/uploaded/files/" + file['name'], rel="tooltip", title="ファイルをダウンロードします。") 
+                      span.epub-name #{file['name']}
+
+                - else if (file["name"].match("\.chm$") == ".chm")
+                  td.centered(nowrap="true")
+                    img(src="images/logo-chm.png", width="32", height="32")
+                    a(href="/unziped/files/" + file["name"] + ".epub", rel="tooltip", title="ePub 変換した結果の内部ファイルを閲覧します。", target="_blank")
+                      img(src="images/logo-extractor.png", width="32", height="32")
+
+                    a(href="/delete?name=" + file["name"], rel="tooltip", title="削除します。")
+                      img(src="images/delete.png", width="32", height="32")
+                    a(data-toggle="modal", role="button", href="#myModal", rel="tooltip", title="詳細情報を表示します。", data-remote="/meta/" + file["name"])
+                      img(src="images/details.png", width="32", height="32")
+
+                  td
+                    a(href="/toc?name=" + file['name']+".epub", rel="tooltip", title="chm を開きます。")
+                      span.epub-title  #{file.info.opf.dc.title}
+                  td
+                    a(href="/toc?name=" + file['name']+".epub", rel="tooltip", title="chm を開きます。")
+                      span.epub-creator #{file.info.opf.dc.creator}
+                  td
+                    a(href="/uploaded/files/" + file['name'], rel="tooltip", title="ファイルをダウンロードします。") 
+                      span.epub-name #{file['name']}
+
                 - else if (file["name"].match("\.pdf$") == ".pdf")
                   td.centered(nowrap="true")
                     img(src="images/logo-pdf.png", width="32", height="32")
@@ -76,10 +119,10 @@ block content
                       img(src="images/details.png", width="32", height="32")
 
                   td
-                    a(href="/uploaded/files/" + file['name'], rel="tooltip", title="PDFを開きます。")
+                    a(href="/uploaded/files/" + file['name'], rel="tooltip", title="PDF を開きます。")
                       span.epub-title  #{file.info.opf.dc.title}
                   td
-                    a(href="/uploaded/files/" + file['name'], rel="tooltip", title="PDFを開きます。")
+                    a(href="/uploaded/files/" + file['name'], rel="tooltip", title="PDF を開きます。")
                       span.epub-creator #{file.info.opf.dc.creator}
                   td
                     a(href="/uploaded/files/" + file['name'], rel="tooltip", title="ファイルをダウンロードします。") 

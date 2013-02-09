@@ -33,6 +33,7 @@ Usage
     $ cake test
     // vows と zombie  で brouser からのアクセスでテストを行い、coverge計測も行う。
 
+
 <a href="https://github.com/katoy/fileupload/raw/master/docs/screen-00.png"><img src="https://github.com/katoy/fileupload/raw/master/docs/screen-00.png" width="230" height="170"/></a>
 <a href="https://github.com/katoy/fileupload/raw/master/docs/screen-01.png"><img src="https://github.com/katoy/fileupload/raw/master/docs/screen-01.png" width="230" height="170"/></a>
 <a href="https://github.com/katoy/fileupload/raw/master/docs/screen-02.png"><img src="https://github.com/katoy/fileupload/raw/master/docs/screen-02.png" width="230" height="170"/></a>
@@ -53,6 +54,39 @@ Description
 express + coffeescript + connect_form で　ファイルのアップロードを実装しています。
 拡張子が .epub のファイルをアップロードした場合、アップロードしたファイル一覧ページから
 epub としての妥当性チェックをしたり、epub 中のファイルを閲覧することができます。
+
+
+mobi ファイルを扱う場合は ebook-convert をインストールする必要があります。  
+ebook-convert: [http://manual.calibre-ebook.com/cli/ebook-convert.html#](http://manual.calibre-ebook.com/cli/ebook-convert.html#)  
+これは [calibre](http://calibre-ebook.com/) のコマンドラインツールです。   
+[ここ](http://manual.calibre-ebook.com/cli/cli-index.html) を参照してインストールしてください。  
+
+epub, movi, chm のファイル名に日本語が含まれている場合、express の middleware に patch を当てる必要があります。  
+
+ ```diff
+ntsitm229197:middleware youichikato$ pwd
+/Users/youichikato/github/fileupload/node_modules/express/node_modules/connect/lib/middleware
+ntsitm229197:middleware youichikato$ diff -c directory.js~ directory.js
+*** directory.js~	2012-11-10 01:31:28.000000000 +0900
+--- directory.js	2013-02-10 00:49:14.000000000 +0900
+***************
+*** 117,123 ****
+          .replace('{files}', html(files, dir, icons))
+          .replace('{directory}', dir)
+          .replace('{linked-path}', htmlPath(dir));
+!       res.setHeader('Content-Type', 'text/html');
+        res.setHeader('Content-Length', str.length);
+        res.end(str);
+      });
+--- 117,123 ----
+          .replace('{files}', html(files, dir, icons))
+          .replace('{directory}', dir)
+          .replace('{linked-path}', htmlPath(dir));
+!       res.setHeader('Content-Type', 'text/html; charset=UTF-8');
+        res.setHeader('Content-Length', str.length);
+        res.end(str);
+      });
+ ```
 
 TODO
 ====
